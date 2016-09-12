@@ -3,6 +3,6 @@
     "csstree": "csstree/parser"
   },
   "scripts": {
-    "build": "cd node_modules/css-tree && npm run build && cd ../.. && cp -R -f node_modules/css-tree/docs/*.html ./docs && cp -f node_modules/css-tree/dist/csstree.js ./docs/dist"
+    "build": "cd node_modules/css-tree && npm run build && cd ../.. && cp -R -f node_modules/css-tree/docs/*.html ./docs && cp -f node_modules/css-tree/dist/csstree.js ./docs && sed -i '' -e 's/\\.\\.\\/dist\\///g' docs/*.html"
   }
 }
