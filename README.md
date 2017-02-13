@@ -1,8 +1,8 @@
 # CSSTree docs & tools
 
 ## [CSS syntax reference](https://csstree.github.io/docs/syntax.html)
-![CSS syntax reference](https://cloud.githubusercontent.com/assets/270491/22908366/107405e6-f25f-11e6-95eb-ddb44ed246f9.png)
+![CSS syntax reference](https://cloud.githubusercontent.com/assets/270491/22908738/3120554a-f261-11e6-80bf-ee347a0d04e7.png)
 
 
 ## [CSS syntax validator](https://csstree.github.io/docs/validator.html)
-![CSS syntax validator](https://cloud.githubusercontent.com/assets/270491/22908546/41d8b8c4-f260-11e6-97b1-910e6de9a264.png)
+![CSS syntax validator](https://cloud.githubusercontent.com/assets/270491/22908739/32d137f6-f261-11e6-8bff-7207460510ee.png)
