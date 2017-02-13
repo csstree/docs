@@ -27,33 +27,116 @@
         {
             color: #0077BB;
         }
+
         aside
         {
-            width: 260px;
-            overflow: auto;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            width: 280px;
             background: #f0f0f0;
-            padding: 16px;
-            box-shadow: inset -4px 0 4px -2px rgba(0, 0, 0, .1);
         }
-        aside section
+        #filter
         {
-            margin-bottom: 24px;
+            border-bottom: 1px solid #DDD;
+            box-shadow: 0 0 6px 0 rgba(0, 0, 0, .05);
+            position: relative;
+            z-index: 9;
+            background: white;
+            line-height: 1;
+            margin-bottom: -1px;
         }
-        aside h2
+        #filter input
         {
-            text-transform: capitalize;
-            margin: 0 0 16px;
-        }
-        aside ul
-        {
+            width: 100%;
+            box-sizing: border-box;
+            border: none;
+            background-color: white;
             margin: 0;
-            padding: 0 0 0 24px;
+            outline: none;
+            padding: 8px 12px;
+            font-size: 14px;
+            line-height: 1.2;
         }
+        #toc
+        {
+            overflow: auto;
+            flex: 1;
+        }
+        #toc section
+        {
+        }
+        #toc h2
+        {
+            top: 0px;
+            position: sticky;
+            padding: 9px 12px;
+            line-height: 1;
+            font-size: 14px;
+            border: 1px solid #DDD;
+            border-width: 1px 0;
+            background: #F8F8F8;
+            opacity: .95;
+            text-transform: capitalize;
+            margin: 0;
+        }
+        #toc .count
+        {
+            background: #E4E4E4;
+            font-weight: normal;
+            font-size: 85%;
+            padding: 2px 4px;
+            border-radius: 5px;
+        }
+        #toc ul
+        {
+            margin: 8px 0;
+            padding: 0 0 0 30px;
+        }
+        #toc ul.no-matches::after
+        {
+            content: 'No matches';
+            font-size: 12px;
+            color: #AAA;
+            margin-left: -16px;
+        }
+        #toc li
+        {
+            /*transition: max-height .25s, opacity .25s .25s;
+            transition-timing-function: ease-out;
+            max-height: auto;
+            position: relative;*/
+        }
+        #toc li.mismatch
+        {
+            /*transition: max-height .25s .1s, opacity .2s, visibility .25s;
+            transition-timing-function: ease-out;
+            opacity: 0;
+            max-height: 0;
+            visibility: hidden;*/
+            display: none;
+        }
+        #toc .match-entry
+        {
+            background: white;#4faada;
+            /*color: white;#FFFFBB;*/
+            background: white;
+            border-bottom: 2px solid orange;
+            line-height: 1.2;
+            display: inline-block;
+            border-radius: 3px;
+            padding: 0 1px;
+            /*margin: 0 1px;*/
+        }
+
         article
         {
             flex: 1;
             overflow: auto;
             padding: 16px;
+            box-shadow: inset 2px 0 5px -3px rgba(0, 0, 0, .26);
+            border-left: 1px solid #DDD;
+            z-index: 10;
         }
         article h1
         {
@@ -106,6 +189,11 @@
 </head>
 <body>
     <aside>
+        <div id="filter">
+            <input type="text" placeholder="Filter" oninput="updateFilter()"/>
+        </div>
+        <div id="toc">
+        </div>
     </aside>
     <article style="display: none">
         <h1>Name</h1>
@@ -253,13 +341,52 @@
             }
         }
 
+        function updateFilter() {
+            if (currentFilter === filterInput.value.trim()) {
+                return;
+            }
+
+            currentFilter = filterInput.value.trim();
+            var filterRx = new RegExp('(' + currentFilter.replace(/[\('\)]/g, '\\$&') + ')', 'g');
+
+            Array.prototype.forEach.call(document.querySelectorAll('#toc li a'), function(link) {
+                if (currentFilter !== '') {
+                    if (filterRx.test(link.rawText)) {
+                        link.innerHTML = link.rawText.split(filterRx).map(function(text, idx) {
+                            return idx % 2
+                                ? '<span class="match-entry">' + escapeHtml(text) + '</span>'
+                                : escapeHtml(text);
+                        }).join('');
+                        link.parentNode.classList.remove('mismatch');
+                    } else {
+                        link.parentNode.classList.add('mismatch');
+                    }
+                } else {
+                    link.innerText = link.rawText;
+                    link.parentNode.classList.remove('mismatch');
+                }
+            });
+
+            Array.prototype.forEach.call(document.querySelectorAll('#toc h2 .count'), function(counter) {
+                var list = counter.parentNode.nextSibling;
+                var count = list.querySelectorAll('li:not(.mismatch)').length;
+
+                counter.innerText = count;
+                counter.style.visibility = count ? 'visible' : 'hidden';
+                list.classList.toggle('no-matches', !count);
+            });
+        }
+
         var PROPERTY = 'properties';
         var TYPE = 'types';
         var cssSyntax = csstree.syntax;
         var defaultSyntax = cssSyntax.defaultSyntax;
         var brokenMap = defaultSyntax.validate();
+        var tocEl = document.querySelector('#toc');
         var valueInput = document.getElementById('value-input');
         var valueInputError = document.getElementById('value-input-result');
+        var filterInput = document.querySelector('#filter > input');
+        var currentFilter = '';
         var currentProperty;
         var currentType;
 
@@ -277,12 +404,14 @@
                 var broken = brokenMap ? brokenMap[section].indexOf(name) !== -1 : false;
                 var itemEl = document.createElement('li');
                 var linkEl = document.createElement('a');
+                var caption = section === PROPERTY ? '<\'' + name + '\'>' : '<' + name + '>';
 
                 brokenCount += broken;
                 linkEl.href = '#' + section + ':' + name;
                 linkEl.className = broken ? 'error' : '';
+                linkEl.rawText = caption;
                 linkEl.appendChild(document.createTextNode(
-                    section === PROPERTY ? '<\'' + name + '\'>' : '<' + name + '>'
+                    caption
                 ));
 
                 itemEl.appendChild(linkEl);
@@ -291,16 +420,17 @@
 
             headerEl.innerHTML =
                 section +
-                ' (' + listEl.childNodes.length + ')' +
+                ' <span class="count">' + listEl.childNodes.length + '</span>' +
                 (brokenCount ? ' <span class="error"><small>[broken:' + brokenCount + ']</small></span>' : '');
             sectionEl.appendChild(headerEl);
             sectionEl.appendChild(listEl);
 
-            document.querySelector('aside').appendChild(sectionEl);
+            tocEl.appendChild(sectionEl);
         });
 
         window.addEventListener('hashchange', updateContent, false);
         updateContent();
+        updateFilter();
     </script>
 
     <script>
