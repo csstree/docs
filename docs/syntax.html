@@ -347,7 +347,7 @@
             }
 
             currentFilter = filterInput.value.trim();
-            var filterRx = new RegExp('(' + currentFilter.replace(/[\('\)]/g, '\\$&') + ')', 'gi');
+            var filterRx = new RegExp('(' + currentFilter.replace(/[\('\)]/g, '\\$&') + ')', 'i');
 
             Array.prototype.forEach.call(document.querySelectorAll('#toc li a'), function(link) {
                 if (currentFilter !== '') {
