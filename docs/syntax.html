@@ -379,8 +379,8 @@
 
         var PROPERTY = 'properties';
         var TYPE = 'types';
-        var cssSyntax = csstree.syntax;
-        var defaultSyntax = cssSyntax.defaultSyntax;
+        var cssSyntax = csstree.syntax.grammar;
+        var defaultSyntax = csstree.lexer;
         var brokenMap = defaultSyntax.validate();
         var tocEl = document.querySelector('#toc');
         var valueInput = document.getElementById('value-input');
