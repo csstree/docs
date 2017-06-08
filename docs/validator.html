@@ -318,6 +318,48 @@
             }
         }, false);
         validate();
+
+        if (window.FileReader && window.DataTransfer) {
+            sourceInput.placeholder += ' or drop CSS file';
+            document.addEventListener('dragover', function(e) {
+                if (e.dataTransfer.items && e.dataTransfer.items[0]) {
+                    if (e.dataTransfer.items[0].kind == 'file') {
+                        e.preventDefault();
+                    }
+                }
+            });
+            document.addEventListener('drop', function(e) {
+                if (e.dataTransfer.items && e.dataTransfer.items[0]) {
+                    if (e.dataTransfer.items[0].kind == 'file') {
+                        e.preventDefault();
+
+                        var file = e.dataTransfer.items[0].getAsFile();
+
+                        if (!/\.css$/.test(file.name)) {
+                            alert('Only CSS files may be loaded.');
+                            return;
+                        }
+
+                        var reader = new FileReader();
+
+                        reader.readAsText(file);
+                        reader.addEventListener('load', function() {
+                            sourceInput.value = this.result;
+                            validate();
+                        });
+                    }
+                }
+            });
+            document.addEventListener('dragend', function(e) {
+                if (e.dataTransfer.items) {
+                    for (var i = 0; i < e.dataTransfer.items.length; i++) {
+                        e.dataTransfer.items.remove(i);
+                    }
+                } else {
+                    e.dataTransfer.clearData();
+                }
+            });
+        }
     </script>
 
     <script>
