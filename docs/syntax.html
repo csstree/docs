@@ -19,11 +19,11 @@
         {
             display: flex;
         }
-        A
+        a
         {
             color: #0099DD;
         }
-        A:hover
+        a:hover
         {
             color: #0077BB;
         }
@@ -137,7 +137,7 @@
             box-sizing: border-box;
             width: 100%;
             font: inherit;
-            transition: opacity .25s .25s;
+            transition: opacity .4s .15s;
         }
         #syntax-tree
         {
@@ -346,13 +346,20 @@
             border: solid #e5e6b5;
             border-width: 0 1px 2px;
         }
-        #value-match-hover-syntax .match
+        #value-match-hover-syntax .match,
+        #value-match-hover-syntax .children-match
         {
             display: inline-block;
             background: #FF9;
             white-space: nowrap;
             outline: 2px solid #FF9;
+            outline-width: 2px 1px;
             text-align: center;
+        }
+        #value-match-hover-syntax .children-match
+        {
+            background-color: #CCF;
+            outline-color: #CCF;
         }
         #value-match-hover-syntax .match > .tail
         {
@@ -456,21 +463,21 @@
                     case 'Function':
                         result = createMatchBlock('', '');
                         result.children.appendChild(
-                            createMatchBlock('ASTNode', match.node.name + '(', stack.concat(syntax)).node
+                            createMatchBlock('ASTNode', match.node.name + '(', stack.concat(match)).node
                         );
                         buildNested(match.childrenMatch, result.children);
                         result.children.appendChild(
-                            createMatchBlock('ASTNode', ')', stack.concat(syntax)).node
+                            createMatchBlock('ASTNode', ')', stack.concat(match)).node
                         );
                         break;
                     default:
-                        result = createMatchBlock('ASTNode', csstree.translate(match.node), stack.concat(syntax));
+                        result = createMatchBlock('ASTNode', csstree.translate(match.node), stack.concat(match));
                 }
             } else {
                 result = createMatchBlock(syntax.type, syntax.name ? syntax.type + ':' + syntax.name : '');
 
                 if (match.match) {
-                    stack.push(syntax);
+                    stack.push(match);
                     buildNested(match.match, result.children);
                     stack.pop();
                 }
@@ -686,41 +693,74 @@
             }
         }
 
+        function buildMatchTrace(hoverSyntax) {
+            var mainMatch = hoverSyntax[hoverSyntax.length - 1];
+            var matchNode = mainMatch.node;
+            var childrenSyntaxes = (mainMatch.childrenMatch || []).map(function(match) {
+                return match.syntax;
+            });
+            var matches = hoverSyntax.slice(0, -1).reverse().map(function(match, idx, array) {
+                var syntax = match.syntax;
+                var prevSyntax = idx > 0 ? array[idx - 1].syntax : null;
+
+                switch (syntax.type) {
+                    case 'Type':
+                        syntax = csstree.lexer.getType(syntax.name).syntax || syntax;
+                        break;
+                    case 'Property':
+                        syntax = csstree.lexer.getProperty(syntax.name).syntax || syntax;
+                        break;
+                }
+
+                
+
+                var syntaxStr = csstree.syntax.grammar.translate(syntax, false, function(str, node) {
+                    if (node.type === 'Type' || node.type === 'Property') {
+                        str = '<span style="white-space: nowrap">' + escapeHtml(str) + '</span>';
+                    }
+                    if (node === prevSyntax) {
+                        str = '<span class="match"><span class="tail"></span>' + str + '</span>';
+                    } else if (childrenSyntaxes.indexOf(node) !== -1) {
+                        str = '<span class="children-match">' + str + '</span>';
+                    }
+                    return str;
+                });
+
+                // ignore Group node with single Function node match
+                // since it always matched and duplicates following
+                if (syntax.type === 'Group' &&
+                    syntax.terms.length === 1 &&
+                    syntax.terms[0].type === 'Function') {
+                    return;
+                }
+
+                if (idx === 0) {
+                    if (syntax.multiplier && syntax.multiplier.comma && matchNode.type === 'Operator' && matchNode.value === ',') {
+                        syntaxStr = syntaxStr.replace(/#({[\d,]+})?$/, '<span class="match">#</span>$1');
+                    }
+                }
+
+                return (
+                    '<li>' +
+                        '<span class="syntax">' +
+                            '<span class="lines">' +
+                                syntaxStr +
+                            '</span>' +
+                        '</span>' +
+                    '</li>'
+                );
+            });
+            
+            return '<ul>' + matches.join('') + '</ul>';
+        }
+
         function setHoverMatchSyntax(hoverSyntax) {
             if (valueInputMatchHoverSyntax !== hoverSyntax) {
                 valueInputMatchHoverSyntax = hoverSyntax;
                 if (hoverSyntax) {
                     clearTimeout(valueInputMatchHoverTimer);
                     mainEl.classList.add('match-syntax-visible');
-                    valueInputMatchHoverPopupEl.querySelector('.trace').innerHTML =
-                        '<ul>' + hoverSyntax.slice(0, -1).map(function(syntax, idx, array) {
-                            switch (syntax.type) {
-                                case 'Type':
-                                    syntax = csstree.lexer.getType(syntax.name).syntax || syntax;
-                                    break;
-                                case 'Property':
-                                    syntax = csstree.lexer.getProperty(syntax.name).syntax || syntax;
-                                    break;
-                            }
-
-                            // ignore Group node with single Function node match
-                            // since it always matched and duplicates following
-                            if (syntax.type === 'Group' &&
-                                syntax.terms.length === 1 &&
-                                syntax.terms[0].type === 'Function') {
-                                return;
-                            }
-
-                            return '<li><span class="syntax"><span class="lines">' + csstree.syntax.grammar.translate(syntax, false, function(str, node) {
-                                if (node.type === 'Type' || node.type === 'Property') {
-                                    str = '<span style="white-space: nowrap">' + escapeHtml(str) + '</span>';
-                                }
-                                if (node === array[idx + 1]) {
-                                    str = '<span class="match"><span class="tail"></span>' + str + '</span>';
-                                }
-                                return str;
-                            }) + '</span></span></li>';
-                        }).reverse().join('') + '</ul>';
+                    valueInputMatchHoverPopupEl.querySelector('.trace').innerHTML = buildMatchTrace(hoverSyntax);
                 } else {
                     mainEl.classList.remove('match-syntax-visible');
                 }
