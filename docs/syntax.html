@@ -102,33 +102,18 @@
             color: #AAA;
             margin-left: -16px;
         }
-        #toc li
-        {
-            /*transition: max-height .25s, opacity .25s .25s;
-            transition-timing-function: ease-out;
-            max-height: auto;
-            position: relative;*/
-        }
         #toc li.mismatch
         {
-            /*transition: max-height .25s .1s, opacity .2s, visibility .25s;
-            transition-timing-function: ease-out;
-            opacity: 0;
-            max-height: 0;
-            visibility: hidden;*/
             display: none;
         }
         #toc .match-entry
         {
-            background: white;#4faada;
-            /*color: white;#FFFFBB;*/
             background: white;
             border-bottom: 2px solid orange;
             line-height: 1.2;
             display: inline-block;
             border-radius: 3px;
             padding: 0 1px;
-            /*margin: 0 1px;*/
         }
 
         article
@@ -142,11 +127,26 @@
         {
             margin: 0 0 16px;
         }
-        article section
+        #syntax,
+        #syntax-tree
         {
             background: #f8f8f8;
             padding: 10px;
             margin-bottom: 1em;
+            border: none;
+            box-sizing: border-box;
+            width: 100%;
+            font: inherit;
+            transition: opacity .25s .25s;
+        }
+        #syntax-tree
+        {
+            margin-bottom: 0;
+        }
+        .match-syntax-visible #syntax,
+        .match-syntax-visible #syntax-tree
+        {
+            opacity: .1;
         }
         .error
         {
@@ -175,15 +175,211 @@
             overflow: hidden;
             text-overflow: ellipsis;
         }
-        #value-input-result.valid:before
+        /*#value-input-result.valid:before
         {
             content: 'Value is valid';
             color: #00AA00;
+        }*/
+        #value-input-result.valid:not(.empty)
+        {
+            display: none;
         }
         #value-input-result.empty:before
         {
             content: 'Enter a value to test';
             color: #666;
+        }
+
+        #value-match-wrapper
+        {
+            display: none;
+            position: relative;
+        }
+        #value-input-result.valid:not(.empty) + #value-match-wrapper
+        {
+            display: block;
+        }
+        #value-match
+        {
+            font-family: Consolas, Courier New, monospace;
+            font-size: 10px;
+            white-space: pre;
+            max-height: 300px;
+            border: 1px solid #E0E0E0;
+            border-width: 1px 0;
+            overflow: auto;
+        }
+
+        #value-match-tree
+        {
+            overflow: auto;
+        }
+        #value-match-tree .label:empty
+        {
+            display: none;
+        }
+        #value-match-tree:hover .label,
+        #value-match-tree.pinned .label
+        {
+            opacity: .35;
+        }
+        .match-tree-node
+        {
+            font-size: 11px;
+            display: inline-block;
+            flex: 1;
+            cursor: default;
+        }
+        .match-tree-node + .match-tree-node
+        {
+            margin-left: 2px;
+        }
+        .match-tree-node > .label
+        {
+            display: block;
+            text-align: center;
+            border-top: 1px solid green;
+            padding: 1px 6px 4px;
+            line-height: 1;
+            white-space: nowrap;
+        }
+        .match-tree-node:hover > .label,
+        .match-tree-node.pinned > .label
+        {
+            opacity: 1 !important;
+            background: linear-gradient(to bottom, rgba(0, 255, 0, .1), transparent 75%);
+        }
+        .match-tree-node > .children
+        {
+            display: flex;
+            align-items: stretch;
+        }
+        .match-tree-node_ASTNode
+        {
+            display: block;
+        }
+        .match-tree-node_ASTNode > .label
+        {
+            opacity: 1;
+            font-size: 14px;
+            background: #E0FFE0;
+            margin-bottom: 2px;
+            margin-left: -2px;
+            border: none;
+            border-left: 2px solid white;
+            padding: 2px 6px;
+            line-height: 1.2;
+        }
+        .match-tree-node_ASTNode:hover > .label,
+        .match-tree-node_ASTNode.pinned > .label
+        {
+            background-color: #D0FFD0;
+        }
+
+        #value-match-hover-syntax
+        {
+            display: none;
+            position: absolute;
+            margin-top: 22px;
+            left: 0;
+            right: 0;
+            background: white;
+            padding: 12px;
+            border: 1px solid #CCC;
+            box-shadow: 1px 1px 5px rgba(0, 0, 0, .25);
+            z-index: 100;
+        }
+        .match-syntax-visible #value-match-hover-syntax
+        {
+            display: block;
+        }
+        #value-match-hover-syntax .header
+        {
+            font-size: 12px;
+            text-align: center;
+            color: #666;
+            margin-top: -8px;
+        }
+        #value-match-hover-syntax .instruction
+        {
+            opacity: .75;
+        }
+        #value-match-hover-syntax ul
+        {
+            margin: 0;
+            padding: 0;
+            list-style: none;
+        }
+        #value-match-hover-syntax li
+        {
+            overflow: hidden;
+            line-height: 1.5;
+            margin-bottom: -7px;
+        }
+        #value-match-hover-syntax li + li
+        {
+            z-index: -1;
+        }
+        #value-match-hover-syntax .syntax
+        {
+            display: inline-block;
+            padding: 15px 6px 6px;
+            position: relative;
+            overflow: hidden;
+        }
+        #value-match-hover-syntax li:first-child .syntax
+        {
+            padding-top: 0;
+        }
+        #value-match-hover-syntax .lines
+        {
+            background-color: rgba(255, 255, 255, .65);
+        }
+        #value-match-hover-syntax li:not(:last-child) .syntax::before
+        {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            border: solid #e5e6b5;
+            border-width: 0 1px 2px;
+        }
+        #value-match-hover-syntax .match
+        {
+            display: inline-block;
+            background: #FF9;
+            white-space: nowrap;
+            outline: 2px solid #FF9;
+            text-align: center;
+        }
+        #value-match-hover-syntax .match > .tail
+        {
+            display: block;
+        }
+        #value-match-hover-syntax .match::before
+        {
+            content: '';
+            position: absolute;
+            height: 500px;
+            width: 2000px;
+            transform: translateX(-100%);
+            border: solid #e5e6b5;
+            border-width: 2px 2px 0 0;
+            top: 0;
+            z-index: -1;
+        }
+        #value-match-hover-syntax .match::after
+        {
+            content: '';
+            position: absolute;
+            margin-bottom: -500px;
+            margin-left: -200px;
+            width: 400px;
+            z-index: -1;
+            background: white;
+            height: 500px;
         }
     </style>
 </head>
@@ -195,16 +391,25 @@
         <div id="toc">
         </div>
     </aside>
-    <article style="display: none">
+    <article id="main" style="display: none">
         <h1>Name</h1>
         Test value:
         <div class="value-input-wrapper">
-            <input id="value-input" autofocus/>
+            <input id="value-input" autofocus value="1px 2px linear-gradient(to top, red 1px, rgb(1,2,3))"/>
             <div id="value-input-result"></div>
+            <div id="value-match-wrapper">
+                Match:
+                <div id="value-match-hover-syntax" hidden>
+                    <div class="header">Match trace <span class="instruction"></span></div>
+                    <div class="trace"></div>
+                </div>
+                <div id="value-match-tree"></div>
+                <div id="value-match" hidden></div>
+            </div>
         </div>
         Formal syntax:
-        <section class="output"></section>
-        <section class="nested"></section>
+        <input id="syntax" placeholder="Syntax is missed">
+        <section id="syntax-tree"></section>
     </article>
 
     <script src="csstree.js"></script>
@@ -218,9 +423,66 @@
                 .replace(/>/g, '&gt;');
         }
 
+        function buildMatchTree(match, stack) {
+            function createMatchBlock(type, content, syntaxMatch) {
+                var node = document.createElement('div');
+                var caption = content || type;
+
+                node.className = 'match-tree-node' + (type ? ' match-tree-node_' + type : '');
+                node.innerHTML =
+                    '<span class="children"></span>' +
+                    '<span class="label">' + caption + '</span>';
+
+                node.querySelector('.label').syntaxMatch = syntaxMatch || null;
+
+                return {
+                    node: node,
+                    children: node.querySelector('.children')
+                };
+            }
+
+            function buildNested(items, container) {
+                items.forEach(function(item) {
+                    this.appendChild(buildMatchTree(item, stack), this.firstChild);
+                }, container);
+            }
+
+            var syntax = match.syntax || match;
+            var children;
+            var result;
+
+            if (match.type === 'ASTNode') {
+                switch (match.node.type) {
+                    case 'Function':
+                        result = createMatchBlock('', '');
+                        result.children.appendChild(
+                            createMatchBlock('ASTNode', match.node.name + '(', stack.concat(syntax)).node
+                        );
+                        buildNested(match.childrenMatch, result.children);
+                        result.children.appendChild(
+                            createMatchBlock('ASTNode', ')', stack.concat(syntax)).node
+                        );
+                        break;
+                    default:
+                        result = createMatchBlock('ASTNode', csstree.translate(match.node), stack.concat(syntax));
+                }
+            } else {
+                result = createMatchBlock(syntax.type, syntax.name ? syntax.type + ':' + syntax.name : '');
+
+                if (match.match) {
+                    stack.push(syntax);
+                    buildNested(match.match, result.children);
+                    stack.pop();
+                }
+            }
+
+            return result.node;
+        }
+
         function validateValue() {
             var value = valueInput.value;
             var isEmpty = !/\S/.test(value);
+            var match;
             var error;
 
             try {
@@ -233,38 +495,53 @@
 
             if (!error && !isEmpty) {
                 if (currentProperty) {
-                    if (!defaultSyntax.matchProperty(currentProperty, ast)) {
-                        error = defaultSyntax.lastMatchError.message;
-                    }
+                    match = defaultSyntax.matchProperty(currentProperty, ast);
                 } else if (currentType) {
-                    if (!defaultSyntax.matchType(currentType, ast)) {
-                        error = defaultSyntax.lastMatchError.message;
-                    }
+                    match = defaultSyntax.matchType(currentType, ast);
                 }
             }
+            if (match !== undefined && !match) {
+                error = defaultSyntax.lastMatchError.message;
+            }
 
-            valueInputError.classList.toggle('valid', !error);
-            valueInputError.classList.toggle('empty', isEmpty);
-            valueInputError.innerText = error || '';
+            valueInputResultEl.classList.toggle('valid', !error);
+            valueInputResultEl.classList.toggle('empty', isEmpty);
+            valueInputResultEl.innerText = error || '';
+
+            valueInputMatchTreeEl.innerHTML = '';
+            valueInputMatchEl.innerHTML = '';
+            if (!error && match) {
+                lastMatch = match;
+                valueInputMatchEl.innerText = JSON.stringify(match, null, 2);
+                valueInputMatchTreeEl.appendChild(buildMatchTree(match, []));
+            } else {
+                lastMatch = null;
+            }
         }
 
-        function updateContent() {
+        function updateContent(focusValueInput) {
             var ref = location.hash.substr(1);
             var section = ref.split(':')[0];
             var name = ref.split(':')[1];
             var contentEl = document.querySelector('article');
-            var nestedEl = document.querySelector('.nested');
+            var nestedEl = document.querySelector('#syntax-tree');
             var info = defaultSyntax[section] && defaultSyntax[section][name];
 
             currentProperty = info && section === PROPERTY ? name : '';
             currentType = info && section === TYPE ? name : '';
             contentEl.style.display = info ? '' : 'none';
             nestedEl.style.display = 'none';
-            valueInput.focus();
-            valueInput.select();
+
             validateValue();
+            if (focusValueInput) {
+                valueInput.focus();
+                valueInput.select();
+            }
 
             if (!name || !info) {
+                try {
+                    localStorage.removeItem('csstree-syntax');
+                } catch(e) {}
                 return;
             }
 
@@ -272,7 +549,20 @@
                 ? '<\'' + name + '\'>'
                 : '<' + name + '>';
 
-            document.querySelector('.output').innerText = info.syntax ? cssSyntax.translate(info.syntax) : info.match ? 'generic' : 'Syntax is missed';
+            var syntax = '';
+            var editingEnabled = true;
+
+            if (info.syntax) {
+                syntax = cssSyntax.translate(info.syntax);
+            } else if (info.match) {
+                syntax = 'generic';
+                editingEnabled = false;
+            }
+
+            syntaxInput.disabled = !editingEnabled;
+            if (syntaxInput.value !== syntax) {
+                syntaxInput.value = syntax;
+            }
 
             if (info.syntax) {
                 var nested = {};
@@ -377,22 +667,156 @@
             });
         }
 
+        function updatePinnedMatchSyntax(pinnedEl) {
+            [].slice.call(valueInputMatchTreeEl.parentNode.querySelectorAll('.pinned'))
+                .forEach(function(el) {
+                    el.classList.remove('pinned');
+                });
+
+            valueInputMatchHoverPopupEl.querySelector('.instruction').innerHTML = valueInputMatchHoverPinned
+                ? '(click outside trace block to unpin)'
+                : '(click to pin trace block)';
+
+            if (valueInputMatchHoverPinned && pinnedEl) {
+                var cursor = pinnedEl;
+                while (cursor !== valueInputMatchTreeEl.parentNode) {
+                    cursor.classList.add('pinned');
+                    cursor = cursor.parentNode;
+                }
+            }
+        }
+
+        function setHoverMatchSyntax(hoverSyntax) {
+            if (valueInputMatchHoverSyntax !== hoverSyntax) {
+                valueInputMatchHoverSyntax = hoverSyntax;
+                if (hoverSyntax) {
+                    clearTimeout(valueInputMatchHoverTimer);
+                    mainEl.classList.add('match-syntax-visible');
+                    valueInputMatchHoverPopupEl.querySelector('.trace').innerHTML =
+                        '<ul>' + hoverSyntax.slice(0, -1).map(function(syntax, idx, array) {
+                            switch (syntax.type) {
+                                case 'Type':
+                                    syntax = csstree.lexer.getType(syntax.name).syntax || syntax;
+                                    break;
+                                case 'Property':
+                                    syntax = csstree.lexer.getProperty(syntax.name).syntax || syntax;
+                                    break;
+                            }
+
+                            // ignore Group node with single Function node match
+                            // since it always matched and duplicates following
+                            if (syntax.type === 'Group' &&
+                                syntax.terms.length === 1 &&
+                                syntax.terms[0].type === 'Function') {
+                                return;
+                            }
+
+                            return '<li><span class="syntax"><span class="lines">' + csstree.syntax.grammar.translate(syntax, false, function(str, node) {
+                                if (node.type === 'Type' || node.type === 'Property') {
+                                    str = '<span style="white-space: nowrap">' + escapeHtml(str) + '</span>';
+                                }
+                                if (node === array[idx + 1]) {
+                                    str = '<span class="match"><span class="tail"></span>' + str + '</span>';
+                                }
+                                return str;
+                            }) + '</span></span></li>';
+                        }).reverse().join('') + '</ul>';
+                } else {
+                    mainEl.classList.remove('match-syntax-visible');
+                }
+            }
+        }
+
+        function findHoverMatchSyntax(cursor) {
+            var hoverSyntax = null;
+
+            while (cursor !== null) {
+                if (cursor.syntaxMatch) {
+                    hoverSyntax = cursor.syntaxMatch;
+                    break;
+                }
+                cursor = cursor.parentNode;
+            }
+
+            return hoverSyntax;
+        }
+
         var PROPERTY = 'properties';
         var TYPE = 'types';
         var cssSyntax = csstree.syntax.grammar;
         var defaultSyntax = csstree.lexer;
         var brokenMap = defaultSyntax.validate();
         var tocEl = document.querySelector('#toc');
+        var mainEl = document.querySelector('#main');
         var valueInput = document.getElementById('value-input');
-        var valueInputError = document.getElementById('value-input-result');
+        var valueInputResultEl = document.getElementById('value-input-result');
+        var valueInputMatchEl = document.getElementById('value-match');
+        var valueInputMatchTreeEl = document.getElementById('value-match-tree');
+        var valueInputMatchHoverPopupEl = document.getElementById('value-match-hover-syntax');
+        var valueInputMatchHoverTimer = null;
+        var valueInputMatchHoverSyntax = null;
+        var valueInputMatchHoverPinned = false;
         var filterInput = document.querySelector('#filter > input');
+        var syntaxInput = document.querySelector('#syntax');
+        var lastMatch = null;
         var currentFilter = '';
         var currentProperty;
         var currentType;
 
         valueInput.addEventListener('input', function() {
+            valueInputMatchHoverPinned = false;
             validateValue();
+            setHoverMatchSyntax(null);
+            updatePinnedMatchSyntax();
+            localStorage.setItem('csstree-syntax', JSON.stringify({
+                hash: location.hash,
+                value: valueInput.value
+            }));
         });
+        syntaxInput.addEventListener('input', function() {
+            var ref = location.hash.substr(1);
+            var section = ref.split(':')[0];
+            var name = ref.split(':')[1];
+
+            switch (section) {
+                case PROPERTY:
+                    defaultSyntax.addProperty_(name, syntaxInput.value);
+                    updateContent();
+                    break;
+                case TYPE:
+                    defaultSyntax.addType_(name, syntaxInput.value);
+                    updateContent();
+                    break;
+            }
+        });
+        valueInputMatchTreeEl.addEventListener('mouseenter', function(e) {
+            setHoverMatchSyntax(findHoverMatchSyntax(e.target));
+            updatePinnedMatchSyntax(e.target);
+        }, true);
+        valueInputMatchTreeEl.addEventListener('mouseleave', function(e) {
+            clearTimeout(valueInputMatchHoverTimer);
+            if (!valueInputMatchHoverPinned) {
+                valueInputMatchHoverTimer = setTimeout(function() {
+                    setHoverMatchSyntax(null);
+                }, 100);
+            }
+        }, true);
+        document.addEventListener('click', function(e) {
+            if (valueInputMatchHoverPopupEl.contains(e.target)) {
+                return;
+            }
+
+            var matchSyntax = findHoverMatchSyntax(e.target);
+
+            if (matchSyntax) {
+                valueInputMatchHoverPinned = !valueInputMatchHoverPinned;
+            } else {
+                valueInputMatchHoverPinned = false;
+            }
+
+            setHoverMatchSyntax(matchSyntax);
+            updatePinnedMatchSyntax(e.target);
+        }, true);
 
         [PROPERTY, TYPE].forEach(function(section) {
             var sectionEl = document.createElement('section');
@@ -428,8 +852,19 @@
             tocEl.appendChild(sectionEl);
         });
 
-        window.addEventListener('hashchange', updateContent, false);
-        updateContent();
+        (function() {
+            try {
+                var last = JSON.parse(localStorage.getItem('csstree-syntax'));
+                if (last.hash === location.hash) {
+                    valueInput.value = last.value;
+                }
+            } catch(e) {
+                localStorage.removeItem('csstree-syntax');
+            }
+        })();
+
+        window.addEventListener('hashchange', updateContent.bind(null, true), false);
+        updateContent(true);
         updateFilter();
     </script>
 
