@@ -507,8 +507,8 @@
                     match = defaultSyntax.matchType(currentType, ast);
                 }
             }
-            if (match !== undefined && !match) {
-                error = defaultSyntax.lastMatchError.message;
+            if (match) {
+                error = match.error;
             }
 
             valueInputResultEl.classList.toggle('valid', !error);
@@ -517,12 +517,9 @@
 
             valueInputMatchTreeEl.innerHTML = '';
             valueInputMatchEl.innerHTML = '';
-            if (!error && match) {
-                lastMatch = match;
-                valueInputMatchEl.innerText = JSON.stringify(match, null, 2);
-                valueInputMatchTreeEl.appendChild(buildMatchTree(match, []));
-            } else {
-                lastMatch = null;
+            if (!error && match.matched) {
+                valueInputMatchEl.innerText = JSON.stringify(match.matched, null, 2);
+                valueInputMatchTreeEl.appendChild(buildMatchTree(match.matched, []));
             }
         }
 
@@ -798,7 +795,6 @@
         var valueInputMatchHoverPinned = false;
         var filterInput = document.querySelector('#filter > input');
         var syntaxInput = document.querySelector('#syntax');
-        var lastMatch = null;
         var currentFilter = '';
         var currentProperty;
         var currentType;
