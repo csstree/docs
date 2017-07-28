@@ -127,7 +127,17 @@
         {
             margin: 0 0 16px;
         }
+        article h2
+        {
+            font-size: 110%;
+            font-weight: normal;
+        }
+        article section:not(.dont-hide-on-match-hover)
+        {
+            transition: opacity .4s .15s;
+        }
         #syntax,
+        #syntax-input,
         #syntax-tree
         {
             background: #f8f8f8;
@@ -137,14 +147,18 @@
             box-sizing: border-box;
             width: 100%;
             font: inherit;
-            transition: opacity .4s .15s;
+        }
+        #syntax .match
+        {
+            background: #FF9;
+            white-space: nowrap;
+            padding: 2px;
         }
         #syntax-tree
         {
             margin-bottom: 0;
         }
-        .match-syntax-visible #syntax,
-        .match-syntax-visible #syntax-tree
+        .match-syntax-visible section:not(.dont-hide-on-match-hover)
         {
             opacity: .1;
         }
@@ -388,6 +402,11 @@
             background: white;
             height: 500px;
         }
+
+        #usedBy ul
+        {
+            margin: 0;
+        }
     </style>
 </head>
 <body>
@@ -400,12 +419,16 @@
     </aside>
     <article id="main" style="display: none">
         <h1>Name</h1>
-        Test value:
-        <div class="value-input-wrapper">
-            <input id="value-input" autofocus value="1px 2px linear-gradient(to top, red 1px, rgb(1,2,3))"/>
+        <section class="dont-hide-on-match-hover">
+            <h2>Test value:</h2>
+            <div class="value-input-wrapper">
+                <input id="value-input" autofocus value="1px 2px linear-gradient(to top, red 1px, rgb(1,2,3))"/>
+            </div>
+        </section>
+        <section class="dont-hide-on-match-hover">
             <div id="value-input-result"></div>
             <div id="value-match-wrapper">
-                Match:
+                <h2>Match:</h2>
                 <div id="value-match-hover-syntax" hidden>
                     <div class="header">Match trace <span class="instruction"></span></div>
                     <div class="trace"></div>
@@ -413,10 +436,17 @@
                 <div id="value-match-tree"></div>
                 <div id="value-match" hidden></div>
             </div>
-        </div>
-        Formal syntax:
-        <input id="syntax" placeholder="Syntax is missed">
-        <section id="syntax-tree"></section>
+        </section>
+        <section>
+            <h2>Formal syntax:</h2>
+            <input id="syntax-input" placeholder="Syntax is missed" hidden>
+            <div id="syntax"></div>
+            <div id="syntax-tree"></div>
+        </section>
+        <section>
+            <h2>Used by:</h2>
+            <div id="usedBy"></div>
+        </section>
     </article>
 
     <script src="csstree.js"></script>
@@ -465,7 +495,9 @@
                         result.children.appendChild(
                             createMatchBlock('ASTNode', match.node.name + '(', stack.concat(match)).node
                         );
-                        buildNested(match.childrenMatch, result.children);
+                        if (match.childrenMatch) {
+                            buildNested(match.childrenMatch, result.children);
+                        }
                         result.children.appendChild(
                             createMatchBlock('ASTNode', ')', stack.concat(match)).node
                         );
@@ -517,19 +549,44 @@
 
             valueInputMatchTreeEl.innerHTML = '';
             valueInputMatchEl.innerHTML = '';
-            if (!error && match.matched) {
+            if (!error && match && match.matched) {
                 valueInputMatchEl.innerText = JSON.stringify(match.matched, null, 2);
                 valueInputMatchTreeEl.appendChild(buildMatchTree(match.matched, []));
             }
         }
 
-        function updateContent(focusValueInput) {
-            var ref = location.hash.substr(1);
-            var section = ref.split(':')[0];
+        function decodeParams() {
+            var hash = location.hash.substr(1);
+            var parts = hash.split('&');
+            var ref = parts[0] || '';
+            var section = SECTION_MAP[ref.split(':')[0]];
             var name = ref.split(':')[1];
+            var from = parts[1] || '';
+
+            return {
+                section: section,
+                name: name,
+                matchType: from.split(':')[0],
+                matchName: from.split(':')[1]
+            };
+        }
+
+        function updateContent(focusValueInput) {
+            var params = decodeParams();
+            var section = params.section;
+            var name = params.name;
             var contentEl = document.querySelector('article');
             var nestedEl = document.querySelector('#syntax-tree');
-            var info = defaultSyntax[section] && defaultSyntax[section][name];
+            var info;
+
+            switch (section) {
+                case PROPERTY:
+                    info = defaultSyntax.getProperty(name);
+                    break;
+                case TYPE:
+                    info = defaultSyntax.getType(name);
+                    break;
+            }
 
             currentProperty = info && section === PROPERTY ? name : '';
             currentType = info && section === TYPE ? name : '';
@@ -554,12 +611,23 @@
                 : '<' + name + '>';
 
             var syntax = '';
+            var syntaxHtml = '';
             var editingEnabled = true;
 
             if (info.syntax) {
                 syntax = cssSyntax.translate(info.syntax);
+                syntaxHtml = cssSyntax.translate(info.syntax, false, function(str, node) {
+                    if (node.type === 'Type' || node.type === 'Property') {
+                        str = '<span style="white-space: nowrap">' + escapeHtml(str) + '</span>';
+                    }
+                    if (node.type === params.matchType && node.name === params.matchName) {
+                        str = '<span class="match">' + str + '</span>';
+                    }
+                    return str;
+                });
             } else if (info.match) {
                 syntax = 'generic';
+                syntaxHtml = syntax;
                 editingEnabled = false;
             }
 
@@ -567,9 +635,11 @@
             if (syntaxInput.value !== syntax) {
                 syntaxInput.value = syntax;
             }
+            syntaxString.innerHTML = syntaxHtml;
 
             if (info.syntax) {
                 var nested = {};
+
                 cssSyntax.walk(info.syntax, function walk(node) {
                     var nestedSection;
                     var nestedName;
@@ -578,13 +648,13 @@
                         case 'Type':
                             nestedName = node.name;
                             ref = nestedName;
-                            nestedSection = TYPE;
+                            nestedSection = 'types';
                             break;
 
                         case 'Property':
                             nestedName = node.name;
                             ref = '\'' + node.name + '\'';
-                            nestedSection = PROPERTY;
+                            nestedSection = 'properties';
                             break;
 
                         default:
@@ -632,7 +702,41 @@
                 if (nestedEl.firstChild) {
                     nestedEl.style.display = '';
                 }
+
             }
+
+            // used by
+            var usedBy = syntaxUsage[info.type + ':' + info.name] || {};
+            var usedByKeys = Object.keys(usedBy).sort(function(a, b) {
+                a = usedBy[a].name;
+                b = usedBy[b].name;
+                return a > b ? 1 : a < b ? -1 : 0;
+            });
+            document.getElementById('usedBy').innerHTML =
+                usedByKeys.length
+                    ?   '<ul>' +
+                            usedByKeys.map(function(key) {
+                                var usage = usedBy[key];
+
+                                switch (usage.type) {
+                                    case 'Type':
+                                        content =
+                                            '<a href="#Type:' + usage.name + '&' + section + ':' + name + '">' +
+                                                '&lt;' + usage.name + '&gt;' +
+                                            '</a>';
+                                        break;
+                                    case 'Property':
+                                        content =
+                                            '<a href="#Property:' + usage.name + '&' + section + ':' + name + '">' +
+                                                '&lt;\'' + usage.name + '\'&gt;' +
+                                            '</a>';
+                                        break;
+                                }
+
+                                return '<li>' + content + '</li>';
+                            }).join('') +
+                        '</ul>'
+                    : '<span style="color: #888">No syntaxes</span>';
         }
 
         function updateFilter() {
@@ -709,9 +813,7 @@
                         break;
                 }
 
-                
-
-                var syntaxStr = csstree.syntax.grammar.translate(syntax, false, function(str, node) {
+                var syntaxStr = cssSyntax.translate(syntax, false, function(str, node) {
                     if (node.type === 'Type' || node.type === 'Property') {
                         str = '<span style="white-space: nowrap">' + escapeHtml(str) + '</span>';
                     }
@@ -778,8 +880,56 @@
             return hoverSyntax;
         }
 
-        var PROPERTY = 'properties';
-        var TYPE = 'types';
+        function collectUsage(type, dict) {
+            function processDescriptor(descriptor, isRoot) {
+                if (descriptor.syntax !== null) {
+                    cssSyntax.walk(descriptor.syntax, function(node, stack) {
+                        if (node.type === 'Type' || node.type === 'Property') {
+                            var id = node.type + ':' + node.name;
+
+                            if (!syntaxUsage.hasOwnProperty(id)) {
+                                syntaxUsage[id] = Object.create(null);
+                            }
+
+                            if (isRoot) {
+                                syntaxUsage[id][descriptor.type + ':' + descriptor.name] = {
+                                    type: descriptor.type,
+                                    name: descriptor.name
+                                };
+                            }
+
+                            if (id in visited === false) {
+                                visited[id] = true;
+                                switch (node.type) {
+                                    case 'Type':
+                                        processDescriptor(defaultSyntax.getType(node.name), false);
+                                        break;
+                                    case 'Property':
+                                        processDescriptor(defaultSyntax.getProperty(node.name), false);
+                                        break;
+                                }
+                            }
+                        }
+                    });
+                }
+            }
+
+            // helps to avoid recursion
+            var visited = Object.create(null);
+
+            for (var name in dict) {
+                processDescriptor(dict[name], true);
+            }
+        }
+
+        var PROPERTY = 'Property';
+        var TYPE = 'Type';
+        var SECTION_MAP = {
+            Property: 'Property',
+            Type: 'Type',
+            properties: 'Property',
+            types: 'Type'
+        };
         var cssSyntax = csstree.syntax.grammar;
         var defaultSyntax = csstree.lexer;
         var brokenMap = defaultSyntax.validate();
@@ -794,10 +944,15 @@
         var valueInputMatchHoverSyntax = null;
         var valueInputMatchHoverPinned = false;
         var filterInput = document.querySelector('#filter > input');
-        var syntaxInput = document.querySelector('#syntax');
+        var syntaxInput = document.querySelector('#syntax-input');
+        var syntaxString = document.querySelector('#syntax');
         var currentFilter = '';
         var currentProperty;
         var currentType;
+        var syntaxUsage = {};
+
+        collectUsage('Property', csstree.lexer.properties);
+        collectUsage('Type', csstree.lexer.types);
 
         valueInput.addEventListener('input', function() {
             valueInputMatchHoverPinned = false;
@@ -854,7 +1009,7 @@
             updatePinnedMatchSyntax(e.target);
         }, true);
 
-        [PROPERTY, TYPE].forEach(function(section) {
+        ['properties', 'types'].forEach(function(section) {
             var sectionEl = document.createElement('section');
             var headerEl = document.createElement('h2');
             var listEl = document.createElement('ul');
@@ -867,7 +1022,7 @@
                 var caption = section === PROPERTY ? '<\'' + name + '\'>' : '<' + name + '>';
 
                 brokenCount += broken;
-                linkEl.href = '#' + section + ':' + name;
+                linkEl.href = '#' + SECTION_MAP[section] + ':' + name;
                 linkEl.className = broken ? 'error' : '';
                 linkEl.rawText = caption;
                 linkEl.appendChild(document.createTextNode(
