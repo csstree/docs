@@ -244,11 +244,12 @@
             var warns = [];
             decls.forEach(function(decl) {
                 var node = decl.value;
+                var match = syntax.matchProperty(decl.property, node);
+                var error = match.error;
 
-                if (!syntax.matchProperty(decl.property, node)) {
-                    var e = syntax.lastMatchError;
-                    var type = e.rawMessage || e.message;
-                    var message = e.message;
+                if (error !== null) {
+                    var type = error.rawMessage || error.message;
+                    var message = error.message;
 
                     if (/^Unknown property/.test(message)) {
                         type = 'Unknown property';
