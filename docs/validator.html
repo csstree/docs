@@ -256,6 +256,9 @@
                         message =
                             message.replace(/:.*/, '') +
                             '\n   value: ' + csstree.translate(node) + '\n  ^';
+                    } else if (error.name !== 'SyntaxMatchError') {
+                        // ignore non-match errors
+                        return;
                     }
 
                     errors[type] = (errors[type] || 0) + 1;
