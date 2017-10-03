@@ -93,6 +93,16 @@
         {
             margin-bottom: 10px;
         }
+        #result-output .error
+        {
+            overflow: hidden;
+            overflow-x: auto;
+            background: #FFF0F0;
+            padding: 6px 8px;
+            border-left: 4px solid #FF9999;
+            padding-bottom: .5em;
+            margin-bottom: .5em;
+        }
         .warn
         {
             padding: 4px;
@@ -136,6 +146,11 @@
             padding: 8px 12px;
             background: #EFD;
         }
+
+        /*@media (foo: 1) {top:1px;}
+        * {
+            color: red;
+        }*/
     </style>
 </head>
 <body>
@@ -183,6 +198,7 @@
 
         function validate() {
             var css = sourceInput.value.trim();
+            var parseErrors = [];
             var ast;
 
             document.getElementById('intro').style.display = css ? 'none' : '';
@@ -196,7 +212,14 @@
 
             try {
                 ast = csstree.parse(css, {
-                    positions: true
+                    positions: true,
+                    tolerant: true,
+                    onParseError: function(e, fallbackNode) {
+                        console.log(arguments);
+                        console.log(e.formattedMessage || e.message || e);
+                        console.log(fallbackNode.value, fallbackNode.loc.start);
+                        parseErrors.push(e);
+                    }
                 });
             } catch (e) {
                 result.classList.add('error');
@@ -274,6 +297,19 @@
                 return errors[k];
             }))).length;
 
+            // clean results
+            resultBlock.innerHTML = '';
+
+            // parse errors
+            parseErrors.forEach(function(error) {
+                var errorBlock = document.createElement('div');
+                errorBlock.innerHTML = escapeHtml(error.formattedMessage)
+                    .replace(/^[^\r\n]+/, '<span class="warn-type">$&</span>');
+                errorBlock.className = 'error';
+                resultBlock.appendChild(errorBlock);
+            });
+
+            // warn summary
             var summaryBlock = document.createElement('div');
             summaryBlock.innerHTML = [
                 'Unique properties: ' + Object.keys(props).length,
@@ -284,24 +320,24 @@
                     return repeat(' ', maxErrorCountLength - String(errors[key]).length) + errors[key] + ' \u00d7 ' + key;
                 }).join('\n      ')
             ].join('\n');
-
-            resultBlock.innerHTML = '';
             resultBlock.appendChild(summaryBlock);
 
+            // warn list
+            warns.forEach(function(warn) {
+                var warnBlock = document.createElement('div');
+                var count = uniqueDecls[warn.decl.id];
+                warnBlock.innerHTML = escapeHtml(warn.message)
+                    .replace(/^[^\r\n]+/, '<span class="warn-type">$&</span>' + (count > 1 ? ' \u00d7 ' + count : ''))
+                    .replace(/ value(:[^\r\n]*)/, createSourceLink(warn.decl.property, warn.decl.node.loc.start.offset) + '$1')
+                    .replace(/(Unknown property: )\S+/, '$1' + createSourceLink(warn.decl.property, warn.decl.node.loc.start.offset))
+                    .replace('------^', repeat('-', warn.decl.property.length) + '^');
+                warnBlock.className = 'warn';
+                resultBlock.appendChild(warnBlock);
+            });
+
             if (warns.length) {
-                warns.forEach(function(warn) {
-                    var warnBlock = document.createElement('div');
-                    var count = uniqueDecls[warn.decl.id];
-                    warnBlock.innerHTML = escapeHtml(warn.message)
-                        .replace(/^[^\r\n]+/, '<span class="warn-type">$&</span>' + (count > 1 ? ' \u00d7 ' + count : ''))
-                        .replace(/ value(:[^\r\n]*)/, createSourceLink(warn.decl.property, warn.decl.node.loc.start.offset) + '$1')
-                        .replace(/(Unknown property: )\S+/, '$1' + createSourceLink(warn.decl.property, warn.decl.node.loc.start.offset))
-                        .replace('------^', repeat('-', warn.decl.property.length) + '^');
-                    warnBlock.className = 'warn';
-                    resultBlock.appendChild(warnBlock);
-                });
                 fillIssueBlock.style.display = '';
-            } else {
+            } else if (!parseErrors.length) {
                 wellDoneBlock.style.display = '';
             }
         }
