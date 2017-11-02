@@ -11,7 +11,7 @@
             margin: 0;
             padding: 0;
             border: none;
-            font-family: tahoma, verdana, arial, sans-serif;
+            font-family: Tahoma, Verdana, Arial, sans-serif;
             font-size: 14px;
             line-height: 1.6;
         }
@@ -126,6 +126,8 @@
         article h1
         {
             margin: 0 0 16px;
+            font-weight: normal;
+            font-size: 32px;
         }
         article h2
         {
@@ -302,6 +304,7 @@
             border: 1px solid #CCC;
             box-shadow: 1px 1px 5px rgba(0, 0, 0, .25);
             z-index: 100;
+            line-height: 30px;
         }
         .match-syntax-visible #value-match-hover-syntax
         {
@@ -327,7 +330,7 @@
         #value-match-hover-syntax li
         {
             overflow: hidden;
-            line-height: 1.5;
+            line-height: 20px;
             margin-bottom: -7px;
         }
         #value-match-hover-syntax li + li
@@ -403,8 +406,22 @@
             height: 500px;
         }
 
+        #usedBy
+        {
+            overflow: hidden;
+        }
+        #usedBy .section
+        {
+            float: left;
+            margin-right: 50px;
+        }
+        #usedBy h4
+        {
+            margin: 0 0 10px;
+        }
         #usedBy ul
         {
+            padding-left: 18px;
             margin: 0;
         }
     </style>
@@ -420,7 +437,7 @@
     <article id="main" style="display: none">
         <h1>Name</h1>
         <section class="dont-hide-on-match-hover">
-            <h2>Test value:</h2>
+            <h2>Test a value:</h2>
             <div class="value-input-wrapper">
                 <input id="value-input" autofocus value="1px 2px linear-gradient(to top, red 1px, rgb(1,2,3))"/>
             </div>
@@ -712,30 +729,56 @@
                 b = usedBy[b].name;
                 return a > b ? 1 : a < b ? -1 : 0;
             });
+            var lists = usedByKeys.reduce(function(result, key) {
+                var usage = usedBy[key];
+
+                switch (usage.type) {
+                    case 'Type':
+                        result.Types.push(
+                            '<a href="#Type:' + usage.name + '&' + section + ':' + name + '">' +
+                                '&lt;' + usage.name + '&gt;' +
+                            '</a>'
+                        );
+                        break;
+                    case 'Property':
+                        result.Properties.push(
+                            '<a href="#Property:' + usage.name + '&' + section + ':' + name + '">' +
+                                '&lt;\'' + usage.name + '\'&gt;' +
+                            '</a>'
+                        );
+                        break;
+                    case 'Function':
+                        result.Functions.push(
+                            usage.name + '()'
+                        );
+                        break;
+                }
+
+                return result;
+            }, {
+                Properties: [],
+                Types: [],
+                Functions: []
+            });
+
             document.getElementById('usedBy').innerHTML =
-                usedByKeys.length
-                    ?   '<ul>' +
-                            usedByKeys.map(function(key) {
-                                var usage = usedBy[key];
-
-                                switch (usage.type) {
-                                    case 'Type':
-                                        content =
-                                            '<a href="#Type:' + usage.name + '&' + section + ':' + name + '">' +
-                                                '&lt;' + usage.name + '&gt;' +
-                                            '</a>';
-                                        break;
-                                    case 'Property':
-                                        content =
-                                            '<a href="#Property:' + usage.name + '&' + section + ':' + name + '">' +
-                                                '&lt;\'' + usage.name + '\'&gt;' +
-                                            '</a>';
-                                        break;
-                                }
-
-                                return '<li>' + content + '</li>';
-                            }).join('') +
-                        '</ul>'
+                Object.keys(lists).some(function(name) {
+                    return lists[name].length > 0;
+                })
+                    ? Object.keys(lists).map(function(name) {
+                        if (lists[name].length) {
+                            return (
+                                '<div class="section">' +
+                                    '<h4>' + name + ' (' + lists[name].length + ')</h4>' +
+                                    '<ul>' +
+                                        lists[name].sort().map(function(item) {
+                                            return '<li>' + item + '</li>';
+                                        }).join('') +
+                                    '</ul>' +
+                                '</div>'
+                            );
+                        }
+                      }).join('')
                     : '<span style="color: #888">No syntaxes</span>';
         }
 
@@ -881,33 +924,38 @@
         }
 
         function collectUsage(type, dict) {
-            function processDescriptor(descriptor, isRoot) {
+            function processDescriptor(descriptor) {
                 if (descriptor.syntax !== null) {
-                    cssSyntax.walk(descriptor.syntax, function(node, stack) {
-                        if (node.type === 'Type' || node.type === 'Property') {
+                    cssSyntax.walk(descriptor.syntax, {
+                        enter: function(node) {
                             var id = node.type + ':' + node.name;
 
-                            if (!syntaxUsage.hasOwnProperty(id)) {
-                                syntaxUsage[id] = Object.create(null);
-                            }
-
-                            if (isRoot) {
-                                syntaxUsage[id][descriptor.type + ':' + descriptor.name] = {
-                                    type: descriptor.type,
-                                    name: descriptor.name
-                                };
-                            }
-
-                            if (id in visited === false) {
-                                visited[id] = true;
-                                switch (node.type) {
-                                    case 'Type':
-                                        processDescriptor(defaultSyntax.getType(node.name), false);
-                                        break;
-                                    case 'Property':
-                                        processDescriptor(defaultSyntax.getProperty(node.name), false);
-                                        break;
+                            if (node.type === 'Function') {
+                                host = node;
+                                hostStack.push(host);
+                            } if (node.type === 'Type' || node.type === 'Property') {
+                                if (!syntaxUsage.hasOwnProperty(id)) {
+                                    syntaxUsage[id] = Object.create(null);
                                 }
+                                
+                                syntaxUsage[id][host.type + ':' + host.name] = host;
+
+                                if (id in visited === false) {
+                                    visited[id] = true;
+                                    switch (node.type) {
+                                        case 'Type':
+                                            processDescriptor(defaultSyntax.getType(node.name), false);
+                                            break;
+                                        case 'Property':
+                                            processDescriptor(defaultSyntax.getProperty(node.name), false);
+                                            break;
+                                    }
+                                }
+                            }
+                        },
+                        leave: function(node) {
+                            if (node.type === 'Function') {
+                                host = hostStack.pop();
                             }
                         }
                     });
@@ -915,10 +963,16 @@
             }
 
             // helps to avoid recursion
-            var visited = Object.create(null);
+            var visited;
+            var host;
+            var hostStack = [];
 
             for (var name in dict) {
-                processDescriptor(dict[name], true);
+                visited = Object.create(null);
+                host = dict[name];
+                hostStack.push(host);
+                processDescriptor(host, true);
+                hostStack.pop();
             }
         }
 
