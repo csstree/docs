@@ -423,6 +423,7 @@
         {
             padding-left: 18px;
             margin: 0;
+            min-width: 160px;
         }
     </style>
 </head>
@@ -502,7 +503,6 @@
             }
 
             var syntax = match.syntax || match;
-            var children;
             var result;
 
             if (match.type === 'ASTNode') {
@@ -660,6 +660,7 @@
                 cssSyntax.walk(info.syntax, function walk(node) {
                     var nestedSection;
                     var nestedName;
+                    var ref;
 
                     switch (node.type) {
                         case 'Type':
@@ -892,7 +893,7 @@
                     '</li>'
                 );
             });
-            
+
             return '<ul>' + matches.join('') + '</ul>';
         }
 
@@ -931,13 +932,13 @@
                             var id = node.type + ':' + node.name;
 
                             if (node.type === 'Function') {
-                                host = node;
                                 hostStack.push(host);
-                            } if (node.type === 'Type' || node.type === 'Property') {
+                                host = node;
+                            } else if (node.type === 'Type' || node.type === 'Property') {
                                 if (!syntaxUsage.hasOwnProperty(id)) {
                                     syntaxUsage[id] = Object.create(null);
                                 }
-                                
+
                                 syntaxUsage[id][host.type + ':' + host.name] = host;
 
                                 if (id in visited === false) {
