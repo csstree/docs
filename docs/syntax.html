@@ -172,12 +172,25 @@
         .value-input-wrapper
         {
             margin: 2px 0 16px;
+            display: flex;
+            align-items: baseline;
+        }
+        .value-input-hint
+        {
+            display: none;
+            font-size: 16px;
+            padding: 4px;
+            white-space: nowrap;
+        }
+        .value-is-function-children .value-input-hint
+        {
+            display: inline-block;
         }
         #value-input
         {
             box-sizing: border-box;
             width: 100%;
-            font-family: arial, sans-serif;
+            font-family: Tahoma, Verdana, Arial, sans-serif;
             font-size: 16px;
             padding: 4px 2px;
         }
@@ -440,7 +453,9 @@
         <section class="dont-hide-on-match-hover">
             <h2>Test a value:</h2>
             <div class="value-input-wrapper">
+                <span class="value-input-hint" id="value-function-name">fn(</span>
                 <input id="value-input" autofocus value="1px 2px linear-gradient(to top, red 1px, rgb(1,2,3))"/>
+                <span class="value-input-hint">)</span>
             </div>
         </section>
         <section class="dont-hide-on-match-hover">
@@ -476,6 +491,22 @@
                 .replace(/&/g, '&amp;')
                 .replace(/</g, '&lt;')
                 .replace(/>/g, '&gt;');
+        }
+
+        function formatName(type, name) {
+            switch (SECTION_MAP[type]) {
+                case 'Property':
+                    return '<\'' + name + '\'>';
+
+                case 'Type':
+                    return '<' + name + '>';
+
+                case 'Function':
+                    return name + '()';
+
+                default:
+                    return name;
+            }
         }
 
         function buildMatchTree(match, stack) {
@@ -545,17 +576,14 @@
                 var ast = csstree.parse(value, {
                     context: 'value'
                 });
+
+                if (!isEmpty) {
+                    match = defaultSyntax.match(currentSyntax, ast);
+                }
             } catch (e) {
                 error = e.message + (e.sourceFragment ? '\n' + e.sourceFragment() : '');
             }
 
-            if (!error && !isEmpty) {
-                if (currentProperty) {
-                    match = defaultSyntax.matchProperty(currentProperty, ast);
-                } else if (currentType) {
-                    match = defaultSyntax.matchType(currentType, ast);
-                }
-            }
             if (match) {
                 error = match.error;
             }
@@ -597,18 +625,24 @@
             var info;
 
             switch (section) {
-                case PROPERTY:
+                case 'Property':
                     info = defaultSyntax.getProperty(name);
+                    currentSyntax = info;
                     break;
-                case TYPE:
+                case 'Type':
                     info = defaultSyntax.getType(name);
+                    currentSyntax = info;
+                    break;
+                case 'Function':
+                    info = defaultSyntax.functions[name];
+                    currentSyntax = info.syntax.children;
+                    document.getElementById('value-function-name').innerHTML = info.name + '(';
                     break;
             }
 
-            currentProperty = info && section === PROPERTY ? name : '';
-            currentType = info && section === TYPE ? name : '';
             contentEl.style.display = info ? '' : 'none';
             nestedEl.style.display = 'none';
+            valueInput.parentNode.classList.toggle('value-is-function-children', section === 'Function');
 
             validateValue();
             if (focusValueInput) {
@@ -623,9 +657,7 @@
                 return;
             }
 
-            document.querySelector('h1').innerText = section === PROPERTY
-                ? '<\'' + name + '\'>'
-                : '<' + name + '>';
+            document.querySelector('h1').innerText = formatName(section, name);
 
             var syntax = '';
             var syntaxHtml = '';
@@ -732,26 +764,20 @@
             });
             var lists = usedByKeys.reduce(function(result, key) {
                 var usage = usedBy[key];
+                var html =
+                    '<a href="#' + usage.type + ':' + usage.name + '&' + section + ':' + name + '">' +
+                        escapeHtml(formatName(usage.type, usage.name)) +
+                    '</a>';
 
                 switch (usage.type) {
                     case 'Type':
-                        result.Types.push(
-                            '<a href="#Type:' + usage.name + '&' + section + ':' + name + '">' +
-                                '&lt;' + usage.name + '&gt;' +
-                            '</a>'
-                        );
+                        result.Types.push(html);
                         break;
                     case 'Property':
-                        result.Properties.push(
-                            '<a href="#Property:' + usage.name + '&' + section + ':' + name + '">' +
-                                '&lt;\'' + usage.name + '\'&gt;' +
-                            '</a>'
-                        );
+                        result.Properties.push(html);
                         break;
                     case 'Function':
-                        result.Functions.push(
-                            usage.name + '()'
-                        );
+                        result.Functions.push(html);
                         break;
                 }
 
@@ -792,9 +818,11 @@
             var filterRx = new RegExp('(' + currentFilter.replace(/[\('\)]/g, '\\$&') + ')', 'i');
 
             Array.prototype.forEach.call(document.querySelectorAll('#toc li a'), function(link) {
+                var name = link.dataset.name;
+
                 if (currentFilter !== '') {
-                    if (filterRx.test(link.rawText)) {
-                        link.innerHTML = link.rawText.split(filterRx).map(function(text, idx) {
+                    if (filterRx.test(name)) {
+                        link.innerHTML = name.split(filterRx).map(function(text, idx) {
                             return idx % 2
                                 ? '<span class="match-entry">' + escapeHtml(text) + '</span>'
                                 : escapeHtml(text);
@@ -804,7 +832,7 @@
                         link.parentNode.classList.add('mismatch');
                     }
                 } else {
-                    link.innerText = link.rawText;
+                    link.innerText = name;
                     link.parentNode.classList.remove('mismatch');
                 }
             });
@@ -845,15 +873,15 @@
                 return match.syntax;
             });
             var matches = hoverSyntax.slice(0, -1).reverse().map(function(match, idx, array) {
-                var syntax = match.syntax;
+                var syntax = match.syntax || currentSyntax;
                 var prevSyntax = idx > 0 ? array[idx - 1].syntax : null;
 
                 switch (syntax.type) {
                     case 'Type':
-                        syntax = csstree.lexer.getType(syntax.name).syntax || syntax;
+                        syntax = defaultSyntax.getType(syntax.name).syntax || syntax;
                         break;
                     case 'Property':
-                        syntax = csstree.lexer.getProperty(syntax.name).syntax || syntax;
+                        syntax = defaultSyntax.getProperty(syntax.name).syntax || syntax;
                         break;
                 }
 
@@ -929,17 +957,38 @@
                 if (descriptor.syntax !== null) {
                     cssSyntax.walk(descriptor.syntax, {
                         enter: function(node) {
-                            var id = node.type + ':' + node.name;
+                            if (node.type === 'Type' ||
+                                node.type === 'Property' ||
+                                node.type === 'Function') {
+                                var id = node.type + ':' + node.name;
 
-                            if (node.type === 'Function') {
-                                hostStack.push(host);
-                                host = node;
-                            } else if (node.type === 'Type' || node.type === 'Property') {
                                 if (!syntaxUsage.hasOwnProperty(id)) {
                                     syntaxUsage[id] = Object.create(null);
                                 }
 
                                 syntaxUsage[id][host.type + ':' + host.name] = host;
+
+                                if (node.type === 'Function') {
+                                    hostStack.push(host);
+                                    host = node;
+                                    if (!functionX.has(node) && host.name in defaultSyntax.functions) {
+                                        var curSyntax = cssSyntax.translate(defaultSyntax.functions[host.name].syntax);
+                                        var newSyntax = cssSyntax.translate(node)
+
+                                        if (curSyntax !== newSyntax) {
+                                            console.log([
+                                                cssSyntax.translate(defaultSyntax.functions[host.name].syntax),
+                                                cssSyntax.translate(node)
+                                            ].join('\n'));
+                                        }
+                                    }
+                                    functionX.add(node);
+                                    defaultSyntax.functions[host.name] = {
+                                        type: node.type,
+                                        name: node.name,
+                                        syntax: node
+                                    };
+                                }
 
                                 if (id in visited === false) {
                                     visited[id] = true;
@@ -977,13 +1026,13 @@
             }
         }
 
-        var PROPERTY = 'Property';
-        var TYPE = 'Type';
         var SECTION_MAP = {
             Property: 'Property',
             Type: 'Type',
+            Function: 'Function',
             properties: 'Property',
-            types: 'Type'
+            types: 'Type',
+            functions: 'Function'
         };
         var cssSyntax = csstree.grammar;
         var defaultSyntax = csstree.lexer;
@@ -1002,12 +1051,14 @@
         var syntaxInput = document.querySelector('#syntax-input');
         var syntaxString = document.querySelector('#syntax');
         var currentFilter = '';
-        var currentProperty;
-        var currentType;
+        var currentSyntax;
         var syntaxUsage = {};
+        var functionX = new Set();
 
-        collectUsage('Property', csstree.lexer.properties);
-        collectUsage('Type', csstree.lexer.types);
+        defaultSyntax.functions = {};
+
+        collectUsage('Property', defaultSyntax.properties);
+        collectUsage('Type', defaultSyntax.types);
 
         valueInput.addEventListener('input', function() {
             valueInputMatchHoverPinned = false;
@@ -1025,11 +1076,11 @@
             var name = ref.split(':')[1];
 
             switch (section) {
-                case PROPERTY:
+                case 'Property':
                     defaultSyntax.addProperty_(name, syntaxInput.value);
                     updateContent();
                     break;
-                case TYPE:
+                case 'Type':
                     defaultSyntax.addType_(name, syntaxInput.value);
                     updateContent();
                     break;
@@ -1064,22 +1115,22 @@
             updatePinnedMatchSyntax(e.target);
         }, true);
 
-        ['properties', 'types'].forEach(function(section) {
+        ['properties', 'types', 'functions'].forEach(function(section) {
             var sectionEl = document.createElement('section');
             var headerEl = document.createElement('h2');
             var listEl = document.createElement('ul');
             var brokenCount = 0;
 
             Object.keys(defaultSyntax[section]).sort().forEach(function(name) {
-                var broken = brokenMap ? brokenMap[section].indexOf(name) !== -1 : false;
+                var broken = brokenMap && brokenMap[section] ? brokenMap[section].indexOf(name) !== -1 : false;
                 var itemEl = document.createElement('li');
                 var linkEl = document.createElement('a');
-                var caption = section === PROPERTY ? '<\'' + name + '\'>' : '<' + name + '>';
+                var caption = formatName(section, name);
 
                 brokenCount += broken;
                 linkEl.href = '#' + SECTION_MAP[section] + ':' + name;
                 linkEl.className = broken ? 'error' : '';
-                linkEl.rawText = caption;
+                linkEl.setAttribute('data-name', caption);
                 linkEl.appendChild(document.createTextNode(
                     caption
                 ));
