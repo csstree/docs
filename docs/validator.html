@@ -215,9 +215,6 @@
                     positions: true,
                     tolerant: true,
                     onParseError: function(e, fallbackNode) {
-                        console.log(arguments);
-                        console.log(e.formattedMessage || e.message || e);
-                        console.log(fallbackNode.value, fallbackNode.loc.start);
                         parseErrors.push(e);
                     }
                 });
@@ -245,7 +242,7 @@
                 if (node.type === 'Declaration') {
                     declCount++;
 
-                    var id = csstree.translate(node);
+                    var id = csstree.generate(node);
                     if (id in uniqueDecls) {
                         uniqueDecls[id]++;
                         return;
@@ -278,7 +275,7 @@
                         type = 'Unknown property';
                         message =
                             message.replace(/:.*/, '') +
-                            '\n   value: ' + csstree.translate(node) + '\n  ^';
+                            '\n   value: ' + csstree.generate(node) + '\n  ^';
                     } else if (error.name !== 'SyntaxMatchError') {
                         // ignore non-match errors
                         return;

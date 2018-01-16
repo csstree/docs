@@ -552,7 +552,7 @@
                         );
                         break;
                     default:
-                        result = createMatchBlock('ASTNode', csstree.translate(match.node), stack.concat(match));
+                        result = createMatchBlock('ASTNode', csstree.generate(match.node), stack.concat(match));
                 }
             } else {
                 result = createMatchBlock(syntax.type, syntax.name ? syntax.type + ':' + syntax.name : '');
@@ -665,8 +665,8 @@
             var editingEnabled = true;
 
             if (info.syntax) {
-                syntax = cssSyntax.translate(info.syntax);
-                syntaxHtml = cssSyntax.translate(info.syntax, false, function(str, node) {
+                syntax = cssSyntax.generate(info.syntax);
+                syntaxHtml = cssSyntax.generate(info.syntax, false, function(str, node) {
                     if (node.type === 'Type' || node.type === 'Property') {
                         str = '<span style="white-space: nowrap">' + escapeHtml(str) + '</span>';
                     }
@@ -727,7 +727,7 @@
                             nested[ref] = {
                                 section: nestedSection,
                                 name: nestedName,
-                                syntax: cssSyntax.translate(nestedInfo.syntax)
+                                syntax: cssSyntax.generate(nestedInfo.syntax)
                             };
                             cssSyntax.walk(nestedInfo.syntax, walk);
                         }
@@ -886,7 +886,7 @@
                         break;
                 }
 
-                var syntaxStr = cssSyntax.translate(syntax, false, function(str, node) {
+                var syntaxStr = cssSyntax.generate(syntax, false, function(str, node) {
                     if (node.type === 'Type' || node.type === 'Property') {
                         str = '<span style="white-space: nowrap">' + escapeHtml(str) + '</span>';
                     }
@@ -973,13 +973,13 @@
                                     hostStack.push(host);
                                     host = node;
                                     if (!functionX.has(node) && host.name in defaultSyntax.functions) {
-                                        var curSyntax = cssSyntax.translate(defaultSyntax.functions[host.name].syntax);
-                                        var newSyntax = cssSyntax.translate(node)
+                                        var curSyntax = cssSyntax.generate(defaultSyntax.functions[host.name].syntax);
+                                        var newSyntax = cssSyntax.generate(node)
 
                                         if (curSyntax !== newSyntax) {
                                             console.log([
-                                                cssSyntax.translate(defaultSyntax.functions[host.name].syntax),
-                                                cssSyntax.translate(node)
+                                                cssSyntax.generate(defaultSyntax.functions[host.name].syntax),
+                                                cssSyntax.generate(node)
                                             ].join('\n'));
                                         }
                                     }
