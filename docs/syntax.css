@@ -1,0 +1,435 @@
+html,
+body
+{
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    border: none;
+    font-family: Tahoma, Verdana, Arial, sans-serif;
+    font-size: 14px;
+    line-height: 1.6;
+}
+body
+{
+    display: flex;
+}
+a
+{
+    color: #0099DD;
+    text-decoration-skip: ink;
+}
+a:hover
+{
+    color: #0077BB;
+}
+
+aside
+{
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    width: 280px;
+    background: #f0f0f0;
+    border-right: 1px solid #DDD;
+    box-shadow: 2px 0 5px -3px rgba(0, 0, 0, .26);
+}
+#filter
+{
+    border-bottom: 1px solid #DDD;
+    box-shadow: 0 0 6px 0 rgba(0, 0, 0, .05);
+    position: relative;
+    z-index: 9;
+    background: white;
+    line-height: 1;
+    margin-bottom: -1px;
+}
+#filter input
+{
+    width: 100%;
+    box-sizing: border-box;
+    border: none;
+    background-color: white;
+    margin: 0;
+    outline: none;
+    padding: 8px 12px;
+    font-size: 14px;
+    line-height: 1.2;
+}
+#toc
+{
+    overflow: auto;
+    flex: 1;
+}
+#toc section
+{
+}
+#toc h2
+{
+    top: 0px;
+    position: sticky;
+    padding: 9px 12px;
+    line-height: 1;
+    font-size: 14px;
+    border: 1px solid #DDD;
+    border-width: 1px 0;
+    background: #F8F8F8;
+    opacity: .95;
+    text-transform: capitalize;
+    margin: 0;
+}
+#toc .count
+{
+    background: #E4E4E4;
+    font-weight: normal;
+    font-size: 85%;
+    padding: 2px 4px;
+    border-radius: 5px;
+}
+#toc ul
+{
+    margin: 8px 0;
+    padding: 0 0 0 30px;
+}
+#toc ul.no-matches::after
+{
+    content: 'No matches';
+    font-size: 12px;
+    color: #AAA;
+    margin-left: -16px;
+}
+#toc li.mismatch
+{
+    display: none;
+}
+#toc .match-entry
+{
+    background: white;
+    border-bottom: 2px solid orange;
+    line-height: 1.2;
+    display: inline-block;
+    border-radius: 3px;
+    padding: 0 1px;
+}
+
+article
+{
+    flex: 1;
+    overflow: auto;
+    padding: 16px;
+    z-index: 10;
+}
+article h1
+{
+    margin: 0 0 16px;
+    font-weight: normal;
+    font-size: 32px;
+}
+article h2
+{
+    font-size: 110%;
+    font-weight: normal;
+}
+article section:not(.dont-hide-on-match-hover)
+{
+    transition: opacity .4s .15s;
+}
+#syntax,
+#syntax-input,
+#syntax-tree
+{
+    background: #f8f8f8;
+    padding: 10px;
+    margin-bottom: 1em;
+    border: none;
+    box-sizing: border-box;
+    width: 100%;
+    font: inherit;
+}
+#syntax .match
+{
+    background: #FF9;
+    white-space: nowrap;
+    padding: 2px;
+}
+#syntax-tree
+{
+    margin-bottom: 0;
+}
+.match-syntax-visible section:not(.dont-hide-on-match-hover)
+{
+    opacity: .1;
+}
+.error
+{
+    color: #DD0000;
+}
+
+.value-input-wrapper
+{
+    margin: 2px 0 16px;
+    display: flex;
+    align-items: baseline;
+}
+.value-input-hint
+{
+    display: none;
+    font-size: 16px;
+    padding: 4px;
+    white-space: nowrap;
+}
+.value-is-function-children .value-input-hint
+{
+    display: inline-block;
+}
+#value-input
+{
+    box-sizing: border-box;
+    width: 100%;
+    font-family: Tahoma, Verdana, Arial, sans-serif;
+    font-size: 16px;
+    padding: 4px 2px;
+}
+#value-input-result
+{
+    padding: 5px;
+    height: 5.5em;
+    color: #DD0000;
+    font-family: Consolas, Courier New, monospace;
+    white-space: pre;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+/*#value-input-result.valid:before
+{
+    content: 'Value is valid';
+    color: #00AA00;
+}*/
+#value-input-result.valid:not(.empty)
+{
+    display: none;
+}
+#value-input-result.empty:before
+{
+    content: 'Enter a value to test';
+    color: #666;
+}
+
+#value-match-wrapper
+{
+    display: none;
+    position: relative;
+}
+#value-input-result.valid:not(.empty) + #value-match-wrapper
+{
+    display: block;
+}
+#value-match
+{
+    font-family: Consolas, Courier New, monospace;
+    font-size: 10px;
+    white-space: pre;
+    max-height: 300px;
+    border: 1px solid #E0E0E0;
+    border-width: 1px 0;
+    overflow: auto;
+}
+
+#value-match-tree
+{
+    overflow: auto;
+}
+#value-match-tree .label:empty
+{
+    display: none;
+}
+#value-match-tree:hover .label,
+#value-match-tree.pinned .label
+{
+    opacity: .35;
+}
+.match-tree-node
+{
+    font-size: 11px;
+    display: inline-block;
+    flex: 1;
+    cursor: default;
+}
+.match-tree-node + .match-tree-node
+{
+    margin-left: 2px;
+}
+.match-tree-node > .label
+{
+    display: block;
+    text-align: center;
+    border-top: 1px solid green;
+    padding: 1px 6px 4px;
+    line-height: 1;
+    white-space: nowrap;
+}
+.match-tree-node:hover > .label,
+.match-tree-node.pinned > .label
+{
+    opacity: 1 !important;
+    background: linear-gradient(to bottom, rgba(0, 255, 0, .1), transparent 75%);
+}
+.match-tree-node > .children
+{
+    display: flex;
+    align-items: stretch;
+}
+.match-tree-node_ASTNode
+{
+    display: block;
+}
+.match-tree-node_ASTNode > .label
+{
+    opacity: 1;
+    font-size: 14px;
+    background: #E0FFE0;
+    margin-bottom: 2px;
+    margin-left: -2px;
+    border: none;
+    border-left: 2px solid white;
+    padding: 2px 6px;
+    line-height: 1.2;
+}
+.match-tree-node_ASTNode:hover > .label,
+.match-tree-node_ASTNode.pinned > .label
+{
+    background-color: #D0FFD0;
+}
+
+#value-match-hover-syntax
+{
+    display: none;
+    position: absolute;
+    margin-top: 22px;
+    left: 0;
+    right: 0;
+    background: white;
+    padding: 12px;
+    border: 1px solid #CCC;
+    box-shadow: 1px 1px 5px rgba(0, 0, 0, .25);
+    z-index: 100;
+    line-height: 30px;
+}
+.match-syntax-visible #value-match-hover-syntax
+{
+    display: block;
+}
+#value-match-hover-syntax .header
+{
+    font-size: 12px;
+    text-align: center;
+    color: #666;
+    margin-top: -8px;
+}
+#value-match-hover-syntax .instruction
+{
+    opacity: .75;
+}
+#value-match-hover-syntax ul
+{
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+#value-match-hover-syntax li
+{
+    overflow: hidden;
+    line-height: 20px;
+    margin-bottom: -7px;
+}
+#value-match-hover-syntax li + li
+{
+    z-index: -1;
+}
+#value-match-hover-syntax .syntax
+{
+    display: inline-block;
+    padding: 15px 6px 6px;
+    position: relative;
+    overflow: hidden;
+}
+#value-match-hover-syntax li:first-child .syntax
+{
+    padding-top: 0;
+}
+#value-match-hover-syntax .lines
+{
+    background-color: rgba(255, 255, 255, .65);
+}
+#value-match-hover-syntax li:not(:last-child) .syntax::before
+{
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    border: solid #e5e6b5;
+    border-width: 0 1px 2px;
+}
+#value-match-hover-syntax .match,
+#value-match-hover-syntax .children-match
+{
+    display: inline-block;
+    background: #FF9;
+    white-space: nowrap;
+    outline: 2px solid #FF9;
+    outline-width: 2px 1px;
+    text-align: center;
+}
+#value-match-hover-syntax .children-match
+{
+    background-color: #CCF;
+    outline-color: #CCF;
+}
+#value-match-hover-syntax .match > .tail
+{
+    display: block;
+}
+#value-match-hover-syntax .match::before
+{
+    content: '';
+    position: absolute;
+    height: 500px;
+    width: 2000px;
+    transform: translateX(-100%);
+    border: solid #e5e6b5;
+    border-width: 2px 2px 0 0;
+    top: 0;
+    z-index: -1;
+}
+#value-match-hover-syntax .match::after
+{
+    content: '';
+    position: absolute;
+    margin-bottom: -500px;
+    margin-left: -200px;
+    width: 400px;
+    z-index: -1;
+    background: white;
+    height: 500px;
+}
+
+#usedBy
+{
+    overflow: hidden;
+}
+#usedBy .section
+{
+    float: left;
+    margin-right: 50px;
+}
+#usedBy h4
+{
+    margin: 0 0 10px;
+}
+#usedBy ul
+{
+    padding-left: 18px;
+    margin: 0;
+    min-width: 160px;
+}
