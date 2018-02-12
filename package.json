@@ -3,7 +3,7 @@
     "csstree": "csstree/csstree"
   },
   "scripts": {
-    "build": "cd node_modules/css-tree && npm run build && cd ../.. && cp -f node_modules/css-tree/dist/csstree.js ./docs"
+    "build": "node scripts/build.js"
   },
   "eslintConfig": {
     "env": {
