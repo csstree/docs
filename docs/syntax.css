@@ -452,13 +452,18 @@ article section:not(.dont-hide-on-match-hover)
 {
     position: relative;
     white-space: pre;
+    line-height: 12px;
 }
 #match-tree .node-wrapper
 {
     display: flex;
     align-items: flex-start;
-    border: 1px solid transparent;
+    border: solid transparent;
     border-width: 1px 2px;
+}
+#match-tree .node-content > .node-wrapper
+{
+    border-width: 2px 0 0;
 }
 #match-tree .node
 {
@@ -466,11 +471,11 @@ article section:not(.dont-hide-on-match-hover)
     display: inline-block;
     background: rgba(220, 220, 220, .5);
     font-size: 12px;
-    line-height: 12px;
 }
 #match-tree .nested
 {
-    padding-left: 28px;
+    display: inline-block;
+    padding-left: 40px;
 }
 #match-tree .nested_labeled
 {
@@ -481,8 +486,6 @@ article section:not(.dont-hide-on-match-hover)
     background: rgba(150, 200, 255, .35);
     padding: 0;
     border-radius: 3px;
-    display: flex;
-    /*align-items: center;*/
 }
 #match-tree .node__label
 {
@@ -518,7 +521,8 @@ article section:not(.dont-hide-on-match-hover)
     padding: 0 4px;
 }
 #match-tree .node_match,
-#match-tree .node_mismatch
+#match-tree .node_mismatch,
+#match-tree .node_recursive
 {
     opacity: .75;
     background: #0A0;

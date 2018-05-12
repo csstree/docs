@@ -171,24 +171,34 @@ function buildContentUsedBy(info, section) {
 
 function buildContentMatchTree(info) {
     function walk(node, container) {
-        if (visited.has(node)) {
-            container
-                .appendChild(document.createElement('div'))
-                .innerHTML = '<div class="node_recursive">recursive</div>';
-            return;
-        }
-
+        var complex = false;
         var el = document.createElement('div');
         el.className = 'node-wrapper';
 
+        var contentEl = document.createElement('div');
+        contentEl.className = 'node-content';
+        el.appendChild(contentEl);
+
         var mainEl = document.createElement('div');
         mainEl.className = 'node';
-        el.appendChild(mainEl);
-        elByNode.set(node, mainEl);
+        contentEl.appendChild(mainEl);
+
+        if (visited.has(node)) {
+            mainEl.classList.add('node_recursive');
+            mainEl.innerHTML = 'Recursive';
+            container.appendChild(el);
+            return complex;
+        }
 
         if (node.type === 'If') {
             visited.set(node);
         }
+
+        elByNode.set(node, {
+            root: el,
+            content: contentEl,
+            main: mainEl
+        });
 
         switch (node.type) {
             case 'Match':
@@ -251,6 +261,8 @@ function buildContentMatchTree(info) {
                 nodeTypeEl.innerHTML = node.type;
                 nestedEl.classList.add('nested_labeled')
 
+                complex = true;
+
                 if (node.type === 'Enum') {
                     for (var key in node.map) {
                         walk(node.map[key], nestedEl);
@@ -258,6 +270,7 @@ function buildContentMatchTree(info) {
                     break;
                 }
 
+                var nestedSimpleEl = nestedEl;
                 var nestedOffset = {
                     count: 0
                 };
@@ -280,10 +293,17 @@ function buildContentMatchTree(info) {
                     );
 
                     if (isNested) {
-                        walk(node[key], nestedEl);
+                        if (walk(node[key], nestedEl)) {
+                            nestedSimpleEl = elByNode.get(node[key]);
+                        } else {
+                            if (nestedEl !== nestedSimpleEl) {
+                                nestedSimpleEl.content.appendChild(elByNode.get(node[key]).root);
+                            }
+                        }
+
                         connections.push({
                             from: field.lastChild.lastChild,
-                            to: elByNode.get(node[key]),
+                            to: elByNode.get(node[key]).main,
                             num: nestedOffset.count++,
                             total: nestedOffset
                         });
@@ -292,6 +312,8 @@ function buildContentMatchTree(info) {
         }
 
         container.appendChild(el);
+
+        return complex;
     }
 
     var visited = new Map();
@@ -314,13 +336,24 @@ function buildContentMatchTree(info) {
             var y1 = from.top - baseBox.top + from.height / 2;
             var x2 = (back ? to.right + 1 : to.left - 1) - baseBox.left;
             var y2 = to.top - baseBox.top + 10;
-            var mid = back ? 8 : 8 + Math.abs(connection.num - connection.total.count) * 5;
+            var midX = back ? 12 : 12 + Math.abs(connection.num - connection.total.count) * 5;
+
+            if (y1 === y2) {
+                return [
+                    'M', x1, y1,
+                    'H', x2 
+                ].join(' ');
+            }
+
+            var arc = Math.abs(y1 - y2) > 16 ? 8 : 0;
+            var arcY = y2 < y1 ? -arc : arc;
 
             return [
                 'M', x1, y1,
-                // 'Q', [x1 + mid, y1], [x1 + mid, y1 - 10],
-                'h', mid,
-                'V', y2,
+                'h', midX - arc,
+                'q', [arc, 0], [arc, arcY],
+                'V', y2 - arcY,
+                'q', [0, arcY], [x1 < x2 ? arc : -arc, arcY],
                 'H', x2
             ].join(' ');
         })
