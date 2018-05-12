@@ -50,23 +50,8 @@ function buildMatchTree(match, stack) {
     var syntax = match.syntax || match;
     var result;
 
-    if (match.type === 'ASTNode') {
-        switch (match.node.type) {
-            case 'Function':
-                result = createMatchBlock('', '');
-                result.children.appendChild(
-                    createMatchBlock('ASTNode', match.node.name + '(', stack.concat(match)).node
-                );
-                if (match.childrenMatch) {
-                    buildNested(match.childrenMatch, result.children);
-                }
-                result.children.appendChild(
-                    createMatchBlock('ASTNode', ')', stack.concat(match)).node
-                );
-                break;
-            default:
-                result = createMatchBlock('ASTNode', csstree.generate(match.node), stack.concat(match));
-        }
+    if (match.node) {
+        result = createMatchBlock('ASTNode', match.token, stack.concat(match));
     } else {
         result = createMatchBlock(syntax.type, syntax.name ? syntax.type + ':' + syntax.name : '');
 
@@ -128,6 +113,225 @@ function decodeParams() {
         matchType: from.split(':')[0],
         matchName: from.split(':')[1]
     };
+}
+
+function buildContentUsedBy(info, section) {
+    var usedBy = syntaxUsage[info.type + ':' + info.name] || {};
+    var usedByKeys = Object.keys(usedBy).sort(function(a, b) {
+        a = usedBy[a].name;
+        b = usedBy[b].name;
+        return a > b ? 1 : a < b ? -1 : 0;
+    });
+    var lists = usedByKeys.reduce(function(result, key) {
+        var usage = usedBy[key];
+        var html =
+            '<a href="#' + usage.type + ':' + usage.name + '&' + section + ':' + name + '">' +
+                escapeHtml(formatName(usage.type, usage.name)) +
+            '</a>';
+
+        switch (usage.type) {
+            case 'Type':
+                result.Types.push(html);
+                break;
+            case 'Property':
+                result.Properties.push(html);
+                break;
+            case 'Function':
+                result.Functions.push(html);
+                break;
+        }
+
+        return result;
+    }, {
+        Properties: [],
+        Types: [],
+        Functions: []
+    });
+
+    document.getElementById('usedBy').innerHTML =
+        Object.keys(lists).some(function(name) {
+            return lists[name].length > 0;
+        })
+            ? Object.keys(lists).map(function(name) {
+                if (lists[name].length) {
+                    return (
+                        '<div class="section">' +
+                            '<h4>' + name + ' (' + lists[name].length + ')</h4>' +
+                            '<ul>' +
+                                lists[name].sort().map(function(item) {
+                                    return '<li>' + item + '</li>';
+                                }).join('') +
+                            '</ul>' +
+                        '</div>'
+                    );
+                }
+              }).join('')
+            : '<span style="color: #888">No syntaxes</span>';
+}
+
+function buildContentMatchTree(info) {
+    function walk(node, container) {
+        if (visited.has(node)) {
+            container
+                .appendChild(document.createElement('div'))
+                .innerHTML = '<div class="node_recursive">recursive</div>';
+            return;
+        }
+
+        var el = document.createElement('div');
+        el.className = 'node-wrapper';
+
+        var mainEl = document.createElement('div');
+        mainEl.className = 'node';
+        el.appendChild(mainEl);
+        elByNode.set(node, mainEl);
+
+        if (node.type === 'If') {
+            visited.set(node);
+        }
+
+        switch (node.type) {
+            case 'Match':
+                mainEl.classList.add('node_match');
+                mainEl.innerHTML = 'Match';
+                break;
+
+            case 'Mismatch':
+                mainEl.classList.add('node_mismatch');
+                mainEl.innerHTML = 'Mismatch';
+                break;
+
+            case 'Type':
+            case 'Property':
+            case 'Keyword':
+            case 'Function':
+            case 'Token':
+            case 'String':
+            case 'Comma':
+                if (!node.match) {
+                    var key = false;
+
+                    switch (node.type) {
+                        case 'Type':
+                            key = '&lt;' + node.name + '&gt;';
+                            break;
+                        case 'Property':
+                            key = '&lt;\'' + node.name + '\'&gt;';
+                            break;
+                        case 'Function':
+                            key = node.name + '(';
+                            break;
+                        case 'Keyword':
+                            key = node.name;
+                            break;
+                        case 'Token':
+                        case 'String':
+                            key = node.value;
+                            break;
+                        case 'Comma':
+                            key = ',';
+                            break;
+                    }
+
+                    mainEl.classList.add('node_check');
+                    mainEl.innerHTML =
+                        '<span class="node__label">' + node.type + '</span>' +
+                        '<span class="node__key">' + key + '</span>';
+                    break;
+                }
+
+            default:
+                var nestedEl = document.createElement('div');
+                nestedEl.className = 'nested';
+
+                el.appendChild(nestedEl);
+
+                var nodeTypeEl = mainEl.appendChild(document.createElement('div'));
+                nodeTypeEl.className = 'node__type';
+                nodeTypeEl.innerHTML = node.type;
+                nestedEl.classList.add('nested_labeled')
+
+                if (node.type === 'Enum') {
+                    for (var key in node.map) {
+                        walk(node.map[key], nestedEl);
+                    }
+                    break;
+                }
+
+                var nestedOffset = {
+                    count: 0
+                };
+                for (var key in node) {
+                    if (key === 'syntax' || key === 'type') {
+                        continue;
+                    }
+
+                    var isNested = node[key] && typeof node[key] === 'object';
+
+                    var field = mainEl.appendChild(document.createElement('div'));
+                    field.className = 'node-field';
+                    field.innerHTML = (
+                        '<span class="node-field-label">' +
+                            key +
+                        '</span>' +
+                        '<span>' +
+                            (isNested ? '<span class="connection-dot"></span>' : JSON.stringify(node[key])) +
+                        '</span>'
+                    );
+
+                    if (isNested) {
+                        walk(node[key], nestedEl);
+                        connections.push({
+                            from: field.lastChild.lastChild,
+                            to: elByNode.get(node[key]),
+                            num: nestedOffset.count++,
+                            total: nestedOffset
+                        });
+                    }
+                }
+        }
+
+        container.appendChild(el);
+    }
+
+    var visited = new Map();
+    var elByNode = new Map();
+    var connections = [];
+
+    matchTreeEl.innerHTML = '';
+    walk(info.match, matchTreeEl);
+
+    // build connections
+    var baseBox = matchTreeEl.getBoundingClientRect();
+    matchTreeConnectionsEl.innerHTML = '';
+    connections
+        .map(function(connection) {
+            var from = connection.from.getBoundingClientRect();
+            var to = connection.to.getBoundingClientRect();
+            var back = from.right > to.left;
+
+            var x1 = from.right - baseBox.left - 3;
+            var y1 = from.top - baseBox.top + from.height / 2;
+            var x2 = (back ? to.right + 1 : to.left - 1) - baseBox.left;
+            var y2 = to.top - baseBox.top + 10;
+            var mid = back ? 8 : 8 + Math.abs(connection.num - connection.total.count) * 5;
+
+            return [
+                'M', x1, y1,
+                // 'Q', [x1 + mid, y1], [x1 + mid, y1 - 10],
+                'h', mid,
+                'V', y2,
+                'H', x2
+            ].join(' ');
+        })
+        .forEach(function(path) {
+            var pathEl = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+
+            pathEl.classList.add('connection');
+            pathEl.setAttribute('d', path);
+
+            matchTreeConnectionsEl.appendChild(pathEl);
+        });
 }
 
 function updateContent(focusValueInput) {
@@ -266,61 +470,10 @@ function updateContent(focusValueInput) {
         if (nestedEl.firstChild) {
             nestedEl.style.display = '';
         }
-
     }
 
-    // used by
-    var usedBy = syntaxUsage[info.type + ':' + info.name] || {};
-    var usedByKeys = Object.keys(usedBy).sort(function(a, b) {
-        a = usedBy[a].name;
-        b = usedBy[b].name;
-        return a > b ? 1 : a < b ? -1 : 0;
-    });
-    var lists = usedByKeys.reduce(function(result, key) {
-        var usage = usedBy[key];
-        var html =
-            '<a href="#' + usage.type + ':' + usage.name + '&' + section + ':' + name + '">' +
-                escapeHtml(formatName(usage.type, usage.name)) +
-            '</a>';
-
-        switch (usage.type) {
-            case 'Type':
-                result.Types.push(html);
-                break;
-            case 'Property':
-                result.Properties.push(html);
-                break;
-            case 'Function':
-                result.Functions.push(html);
-                break;
-        }
-
-        return result;
-    }, {
-        Properties: [],
-        Types: [],
-        Functions: []
-    });
-
-    document.getElementById('usedBy').innerHTML =
-        Object.keys(lists).some(function(name) {
-            return lists[name].length > 0;
-        })
-            ? Object.keys(lists).map(function(name) {
-                if (lists[name].length) {
-                    return (
-                        '<div class="section">' +
-                            '<h4>' + name + ' (' + lists[name].length + ')</h4>' +
-                            '<ul>' +
-                                lists[name].sort().map(function(item) {
-                                    return '<li>' + item + '</li>';
-                                }).join('') +
-                            '</ul>' +
-                        '</div>'
-                    );
-                }
-              }).join('')
-            : '<span style="color: #888">No syntaxes</span>';
+    buildContentUsedBy(info, section);
+    buildContentMatchTree(info);
 }
 
 function updateFilter() {
@@ -386,7 +539,17 @@ function buildMatchTrace(hoverSyntax) {
     var childrenSyntaxes = (mainMatch.childrenMatch || []).map(function(match) {
         return match.syntax;
     });
-    var matches = hoverSyntax.slice(0, -1).reverse().map(function(match, idx, array) {
+
+    console.log(hoverSyntax);
+    switch (mainMatch.syntax.type) {
+        case 'Generic':
+            hoverSyntax = hoverSyntax.slice(0, -1);
+            break;
+        default:
+            hoverSyntax = hoverSyntax.slice();
+    }
+
+    var matches = hoverSyntax.reverse().map(function(match, idx, array) {
         var syntax = match.syntax || currentSyntax;
         var prevSyntax = idx > 0 ? array[idx - 1].syntax : null;
 
@@ -403,21 +566,15 @@ function buildMatchTrace(hoverSyntax) {
             if (node.type === 'Type' || node.type === 'Property') {
                 str = '<span style="white-space: nowrap">' + escapeHtml(str) + '</span>';
             }
+
             if (node === prevSyntax) {
                 str = '<span class="match"><span class="tail"></span>' + str + '</span>';
             } else if (childrenSyntaxes.indexOf(node) !== -1) {
                 str = '<span class="children-match">' + str + '</span>';
             }
+
             return str;
         });
-
-        // ignore Group node with single Function node match
-        // since it always matched and duplicates following
-        if (syntax.type === 'Group' &&
-            syntax.terms.length === 1 &&
-            syntax.terms[0].type === 'Function') {
-            return;
-        }
 
         if (idx === 0) {
             if (syntax.multiplier && syntax.multiplier.comma && matchNode.type === 'Operator' && matchNode.value === ',') {
@@ -562,6 +719,8 @@ var valueInputMatchHoverTimer = null;
 var valueInputMatchHoverSyntax = null;
 var valueInputMatchHoverPinned = false;
 var filterInput = document.querySelector('#filter > input');
+var matchTreeEl = document.getElementById('match-tree');
+var matchTreeConnectionsEl = document.getElementById('match-tree-connections');
 var syntaxInput = document.querySelector('#syntax-input');
 var syntaxString = document.querySelector('#syntax');
 var currentFilter = '';
