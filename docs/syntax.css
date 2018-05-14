@@ -219,6 +219,18 @@ article section:not(.dont-hide-on-match-hover)
     display: none;
     position: relative;
 }
+#value-match-iteration-count
+{
+    background: #EEE;
+    padding: 2px 6px;
+    border-radius: 3px;
+    margin-left: 1ex;
+    font-size: 12px;
+}
+#value-match-iteration-count::after
+{
+    content: ' iteration(s)';
+}
 #value-input-result.valid:not(.empty) + #value-match-wrapper
 {
     display: block;
