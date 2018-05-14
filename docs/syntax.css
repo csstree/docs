@@ -435,7 +435,8 @@ article section:not(.dont-hide-on-match-hover)
 #match-tree-canvas
 {
     position: relative;
-    /*overflow: hidden;*/
+    display: inline-block;
+    min-width: 100%;
 }
 #match-tree-connections-canvas
 {
@@ -447,12 +448,20 @@ article section:not(.dont-hide-on-match-hover)
     background-size: 20px 20px;
     background-image: linear-gradient(-45deg, transparent 10px, #ddd 10px , #ddd 11px, transparent 11px );
 }
-
+#match-tree-connections .connection
+{
+    stroke: #CCC;
+    stroke-width: 2;
+    fill: transparent;
+    stroke-linejoin: round;
+    marker-end: url(#match-tree-connections-marker);
+}
 #match-tree
 {
     position: relative;
     white-space: pre;
     line-height: 12px;
+    padding: 20px;
 }
 #match-tree .node-wrapper
 {
@@ -522,6 +531,7 @@ article section:not(.dont-hide-on-match-hover)
 }
 #match-tree .node_match,
 #match-tree .node_mismatch,
+#match-tree .node_disallow-empty,
 #match-tree .node_recursive
 {
     opacity: .75;
@@ -535,6 +545,10 @@ article section:not(.dont-hide-on-match-hover)
 #match-tree .node_mismatch
 {
     background: #D00;
+}
+#match-tree .node_disallow-empty
+{
+    background: orange;
 }
 #match-tree .node_recursive
 {
@@ -551,12 +565,4 @@ article section:not(.dont-hide-on-match-hover)
     height: 8px;
     border-radius: 50%;
     background: #CCC;
-}
-#match-tree-connections .connection
-{
-    stroke: #CCC;
-    stroke-width: 2;
-    fill: transparent;
-    stroke-linejoin: round;
-    marker-end: url(#match-tree-connections-marker);
 }

@@ -192,6 +192,7 @@ function buildContentMatchTree(info) {
 
         if (node.type === 'If') {
             visited.set(node);
+            ifStack.push(node);
         }
 
         elByNode.set(node, {
@@ -203,12 +204,55 @@ function buildContentMatchTree(info) {
         switch (node.type) {
             case 'Match':
                 mainEl.classList.add('node_match');
-                mainEl.innerHTML = 'Match';
+                mainEl.innerHTML = node.type;
+
+                var toNode = null;
+                for (var i = ifStack.length - 1, prev = node; i >= 0; i--) {
+                    var ifStackItem = ifStack[i];
+                    if (prev === ifStackItem.then) {
+                        toNode = ifStackItem.then;
+                        break;
+                    }
+                    prev = ifStackItem;
+                }
+
+                if (toNode !== null) {
+                    laterConnections.push({
+                        from: mainEl,
+                        to: toNode,
+                        num: 0,
+                        total: { count: 0}
+                    });
+                }
                 break;
 
             case 'Mismatch':
                 mainEl.classList.add('node_mismatch');
-                mainEl.innerHTML = 'Mismatch';
+                mainEl.innerHTML = node.type;
+
+                var toNode = null;
+                for (var i = ifStack.length - 1, prev = node; i >= 0; i--) {
+                    var ifStackItem = ifStack[i];
+                    if (prev === ifStackItem.then) {
+                        toNode = ifStackItem.else;
+                        break;
+                    }
+                    prev = ifStackItem;
+                }
+
+                if (toNode !== null) {
+                    laterConnections.push({
+                        from: mainEl,
+                        to: toNode,
+                        num: 0,
+                        total: { count: 0}
+                    });
+                }
+                break;
+
+            case 'DisallowEmpty':
+                mainEl.classList.add('node_disallow-empty');
+                mainEl.innerHTML = node.type;
                 break;
 
             case 'Type':
@@ -294,8 +338,10 @@ function buildContentMatchTree(info) {
 
                     if (isNested) {
                         if (walk(node[key], nestedEl)) {
+                            // complex
                             nestedSimpleEl = elByNode.get(node[key]);
                         } else {
+                            // simple
                             if (nestedEl !== nestedSimpleEl) {
                                 nestedSimpleEl.content.appendChild(elByNode.get(node[key]).root);
                             }
@@ -313,15 +359,31 @@ function buildContentMatchTree(info) {
 
         container.appendChild(el);
 
+        if (node.type === 'If') {
+            ifStack.pop();
+        }
+
         return complex;
     }
 
     var visited = new Map();
     var elByNode = new Map();
+    var ifStack = [];
+    var laterConnections = [];
     var connections = [];
 
     matchTreeEl.innerHTML = '';
     walk(info.match, matchTreeEl);
+
+    // don't show additional connections since it makes a mess currently
+    // laterConnections.forEach(function(later) {
+    //     connections.push({
+    //         from: later.from,
+    //         to: elByNode.get(later.to).main,
+    //         num: later.num,
+    //         total: later.total
+    //     });
+    // });
 
     // build connections
     var baseBox = matchTreeEl.getBoundingClientRect();
