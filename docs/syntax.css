@@ -508,6 +508,14 @@ article section:not(.dont-hide-on-match-hover)
     padding: 0;
     border-radius: 3px;
 }
+#match-tree .node_check A
+{
+    color: inherit;
+}
+#match-tree .node_check A:hover
+{
+    color: #0077BB;
+}
 #match-tree .node__label
 {
     display: inline-block;

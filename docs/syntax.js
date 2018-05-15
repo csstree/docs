@@ -274,10 +274,10 @@ function buildContentMatchTree(info) {
 
                     switch (node.type) {
                         case 'Type':
-                            key = '&lt;' + node.name + '&gt;';
+                            key = '<a href="#Type:' + node.name + '">&lt;' + node.name + '&gt;</a>';
                             break;
                         case 'Property':
-                            key = '&lt;\'' + node.name + '\'&gt;';
+                            key = '<a href="#Property:' + node.name + '">&lt;\'' + node.name + '\'&gt;</a>';
                             break;
                         case 'Function':
                             key = node.name + '(';
