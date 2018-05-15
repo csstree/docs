@@ -334,7 +334,10 @@ function buildContentMatchTree(info) {
                             key +
                         '</span>' +
                         '<span>' +
-                            (isNested ? '<span class="connection-dot"></span>' : JSON.stringify(value)) +
+                            (isNested ?
+                                '<span class="connection-dot"></span>'
+                                : typeof value === 'function' ? '[function]' : JSON.stringify(value)
+                            ) +
                         '</span>'
                     );
 
@@ -639,7 +642,6 @@ function buildMatchTrace(hoverSyntax) {
         return match.syntax;
     });
 
-    console.log(hoverSyntax);
     switch (mainMatch.syntax.type) {
         case 'Generic':
             hoverSyntax = hoverSyntax.slice(0, -1);
