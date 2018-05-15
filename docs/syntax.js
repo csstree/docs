@@ -314,23 +314,18 @@ function buildContentMatchTree(info) {
 
                 complex = true;
 
-                if (node.type === 'Enum') {
-                    for (var key in node.map) {
-                        walk(node.map[key], nestedEl);
-                    }
-                    break;
-                }
-
                 var nestedSimpleEl = nestedEl;
                 var nestedOffset = {
                     count: 0
                 };
-                for (var key in node) {
-                    if (key === 'syntax' || key === 'type') {
+                var values = node.type === 'Enum' ? node.map : node;
+                for (var key in values) {
+                    if (values === node && key === 'syntax' || key === 'type') {
                         continue;
                     }
 
-                    var isNested = node[key] && typeof node[key] === 'object';
+                    var value = values[key];
+                    var isNested = value && typeof value === 'object';
 
                     var field = mainEl.appendChild(document.createElement('div'));
                     field.className = 'node-field';
@@ -339,24 +334,24 @@ function buildContentMatchTree(info) {
                             key +
                         '</span>' +
                         '<span>' +
-                            (isNested ? '<span class="connection-dot"></span>' : JSON.stringify(node[key])) +
+                            (isNested ? '<span class="connection-dot"></span>' : JSON.stringify(value)) +
                         '</span>'
                     );
 
                     if (isNested) {
-                        if (walk(node[key], nestedEl)) {
+                        if (walk(value, nestedEl)) {
                             // complex
-                            nestedSimpleEl = elByNode.get(node[key]);
+                            nestedSimpleEl = elByNode.get(value);
                         } else {
                             // simple
                             if (nestedEl !== nestedSimpleEl) {
-                                nestedSimpleEl.content.appendChild(elByNode.get(node[key]).root);
+                                nestedSimpleEl.content.appendChild(elByNode.get(value).root);
                             }
                         }
 
                         connections.push({
                             from: field.lastChild.lastChild,
-                            to: elByNode.get(node[key]).main,
+                            to: elByNode.get(value).main,
                             num: nestedOffset.count++,
                             total: nestedOffset
                         });
@@ -382,6 +377,8 @@ function buildContentMatchTree(info) {
     matchTreeEl.innerHTML = '';
     walk(info.match, matchTreeEl);
 
+    matchTreeNodeCountEl.innerHTML = elByNode.size;
+
     // don't show additional connections since it makes a mess currently
     // laterConnections.forEach(function(later) {
     //     connections.push({
@@ -405,7 +402,7 @@ function buildContentMatchTree(info) {
             var y1 = from.top - baseBox.top + from.height / 2;
             var x2 = (back ? to.right + 1 : to.left - 1) - baseBox.left;
             var y2 = to.top - baseBox.top + 10;
-            var midX = back ? 12 : 12 + Math.abs(connection.num - connection.total.count) * 5;
+            var midX = back ? 16 : 12 + Math.abs(connection.num - connection.total.count) * 5;
 
             if (y1 === y2) {
                 return [
@@ -422,7 +419,7 @@ function buildContentMatchTree(info) {
                 'h', midX - arc,
                 'q', [arc, 0], [arc, arcY],
                 'V', y2 - arcY,
-                'q', [0, arcY], [x1 < x2 ? arc : -arc, arcY],
+                'q', [0, arcY], [back ? -arc : arc, arcY],
                 'H', x2
             ].join(' ');
         })
@@ -487,7 +484,7 @@ function updateContent(focusValueInput) {
         syntax = cssSyntax.generate(info.syntax);
         syntaxHtml = cssSyntax.generate(info.syntax, false, function(str, node) {
             if (node.type === 'Type' || node.type === 'Property') {
-                str = '<span style="white-space: nowrap">' + escapeHtml(str) + '</span>';
+                str = '<a href="#' + node.type + ':' + node.name + '" style="white-space: nowrap">' + escapeHtml(str) + '</a>';
             }
             if (node.type === params.matchType && node.name === params.matchName) {
                 str = '<span class="match">' + str + '</span>';
@@ -823,6 +820,7 @@ var valueInputMatchHoverSyntax = null;
 var valueInputMatchHoverPinned = false;
 var filterInput = document.querySelector('#filter > input');
 var matchTreeEl = document.getElementById('match-tree');
+var matchTreeNodeCountEl = document.getElementById('match-tree-node-count');
 var matchTreeConnectionsEl = document.getElementById('match-tree-connections');
 var syntaxInput = document.querySelector('#syntax-input');
 var syntaxString = document.querySelector('#syntax');
