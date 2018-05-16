@@ -400,7 +400,7 @@ article section:not(.dont-hide-on-match-hover)
 {
     display: block;
 }
-#value-match-hover-syntax .match::before
+#value-match-hover-syntax li:not(:first-child) .match::before
 {
     content: '';
     position: absolute;
@@ -412,7 +412,7 @@ article section:not(.dont-hide-on-match-hover)
     top: 0;
     z-index: -1;
 }
-#value-match-hover-syntax .match::after
+#value-match-hover-syntax li:not(:first-child) .match::after
 {
     content: '';
     position: absolute;

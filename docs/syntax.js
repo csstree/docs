@@ -53,7 +53,10 @@ function buildMatchTree(match, stack) {
     if (match.node) {
         result = createMatchBlock('ASTNode', match.token, stack.concat(match));
     } else {
-        result = createMatchBlock(syntax.type, syntax.name ? syntax.type + ':' + syntax.name : '');
+        result = createMatchBlock(
+            syntax.type,
+            syntax.name ? escapeHtml(formatName(syntax.type, syntax.name)) : ''
+        );
 
         if (match.match) {
             stack.push(match);
@@ -92,9 +95,7 @@ function validateValue() {
     valueInputResultEl.innerText = error || '';
 
     valueInputMatchTreeEl.innerHTML = '';
-    valueInputMatchEl.innerHTML = '';
     if (!error && match && match.matched) {
-        valueInputMatchEl.innerText = JSON.stringify(match.matched, null, 2);
         valueInputMatchTreeEl.appendChild(buildMatchTree(match.matched, []));
     }
 
@@ -280,8 +281,6 @@ function buildContentMatchTree(info) {
                             key = '<a href="#Property:' + node.name + '">&lt;\'' + node.name + '\'&gt;</a>';
                             break;
                         case 'Function':
-                            key = node.name + '(';
-                            break;
                         case 'Keyword':
                             key = node.name;
                             break;
@@ -378,7 +377,9 @@ function buildContentMatchTree(info) {
     var connections = [];
 
     matchTreeEl.innerHTML = '';
-    walk(info.match, matchTreeEl);
+    if (info.match) {
+        walk(info.match, matchTreeEl);
+    }
 
     matchTreeNodeCountEl.innerHTML = elByNode.size;
 
@@ -636,23 +637,22 @@ function updatePinnedMatchSyntax(pinnedEl) {
 }
 
 function buildMatchTrace(hoverSyntax) {
-    var mainMatch = hoverSyntax[hoverSyntax.length - 1];
-    var matchNode = mainMatch.node;
-    var childrenSyntaxes = (mainMatch.childrenMatch || []).map(function(match) {
-        return match.syntax;
-    });
+    var childrenSyntaxes = [];
+    hoverSyntax = hoverSyntax.slice().reverse();
 
-    switch (mainMatch.syntax.type) {
-        case 'Generic':
-            hoverSyntax = hoverSyntax.slice(0, -1);
-            break;
-        default:
-            hoverSyntax = hoverSyntax.slice();
+    if (!hoverSyntax[0].syntax) {
+        hoverSyntax.shift();
     }
 
-    var matches = hoverSyntax.reverse().map(function(match, idx, array) {
-        var syntax = match.syntax || currentSyntax;
-        var prevSyntax = idx > 0 ? array[idx - 1].syntax : null;
+    if (hoverSyntax[0].syntax && hoverSyntax[0].syntax.type === 'Function') {
+        childrenSyntaxes = hoverSyntax[1].match.slice(1, -1).map(function(match) {
+            return match.syntax;
+        });
+    }
+
+    var prevSyntax = hoverSyntax.shift().syntax;
+    var matches = hoverSyntax.map(function(match, idx) {
+        var syntax = match.syntax;
 
         switch (syntax.type) {
             case 'Type':
@@ -669,7 +669,23 @@ function buildMatchTrace(hoverSyntax) {
             }
 
             if (node === prevSyntax) {
-                str = '<span class="match"><span class="tail"></span>' + str + '</span>';
+                var origStr = str;
+                var offset;
+
+                if (node.type === 'Multiplier') {
+                    offset = str.lastIndexOf('#');
+                    str = '#';
+                }
+
+                if (idx > 0) {
+                    str = '<span class="tail"></span>' + str;
+                }
+
+                str = '<span class="match">' + str + '</span>';
+
+                if (node.type === 'Multiplier') {
+                    str = origStr.substr(0, offset) + str + origStr.substr(offset + 1);
+                }
             } else if (childrenSyntaxes.indexOf(node) !== -1) {
                 str = '<span class="children-match">' + str + '</span>';
             }
@@ -677,11 +693,7 @@ function buildMatchTrace(hoverSyntax) {
             return str;
         });
 
-        if (idx === 0) {
-            if (syntax.multiplier && syntax.multiplier.comma && matchNode.type === 'Operator' && matchNode.value === ',') {
-                syntaxStr = syntaxStr.replace(/#({[\d,]+})?$/, '<span class="match">#</span>$1');
-            }
-        }
+        prevSyntax = match.syntax;
 
         return (
             '<li>' +
@@ -813,7 +825,6 @@ var tocEl = document.querySelector('#toc');
 var mainEl = document.querySelector('#main');
 var valueInput = document.getElementById('value-input');
 var valueInputResultEl = document.getElementById('value-input-result');
-var valueInputMatchEl = document.getElementById('value-match');
 var valueInputMatchIterationCountEl = document.getElementById('value-match-iteration-count');
 var valueInputMatchTreeEl = document.getElementById('value-match-tree');
 var valueInputMatchHoverPopupEl = document.getElementById('value-match-hover-syntax');
