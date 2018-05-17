@@ -23,6 +23,20 @@ function formatName(type, name) {
     }
 }
 
+function markupSyntax(syntax, match) {
+    return cssSyntax.generate(syntax, false, function(str, node) {
+        if (node.type === 'Type' || node.type === 'Property') {
+            str = '<a href="#' + node.type + ':' + node.name + '" style="white-space: nowrap">' + escapeHtml(str) + '</a>';
+        }
+
+        if (match && node.type === match.type && node.name === match.name) {
+            str = '<span class="match">' + str + '</span>';
+        }
+
+        return str;
+    });
+}
+
 function buildMatchTree(match, stack) {
     function createMatchBlock(type, content, syntaxMatch) {
         var node = document.createElement('div');
@@ -69,7 +83,9 @@ function buildMatchTree(match, stack) {
 }
 
 function validateValue() {
-    var value = valueInput.value;
+    var value = currentSyntax.type === 'Function'
+        ? currentSyntax.name + '(' + valueInput.value + ')'
+        : valueInput.value;
     var isEmpty = !/\S/.test(value);
     var match;
     var error;
@@ -441,6 +457,10 @@ function updateContent(focusValueInput) {
     var params = decodeParams();
     var section = params.section;
     var name = params.name;
+    var highlightSyntax = {
+        type: params.matchType,
+        name: params.matchName
+    };
     var contentEl = document.querySelector('article');
     var nestedEl = document.querySelector('#syntax-tree');
     var info;
@@ -456,7 +476,7 @@ function updateContent(focusValueInput) {
             break;
         case 'Function':
             info = defaultSyntax.functions[name];
-            currentSyntax = info.syntax.children;
+            currentSyntax = info;
             document.getElementById('value-function-name').innerHTML = info.name + '(';
             break;
     }
@@ -486,15 +506,13 @@ function updateContent(focusValueInput) {
 
     if (info.syntax) {
         syntax = cssSyntax.generate(info.syntax);
-        syntaxHtml = cssSyntax.generate(info.syntax, false, function(str, node) {
-            if (node.type === 'Type' || node.type === 'Property') {
-                str = '<a href="#' + node.type + ':' + node.name + '" style="white-space: nowrap">' + escapeHtml(str) + '</a>';
-            }
-            if (node.type === params.matchType && node.name === params.matchName) {
-                str = '<span class="match">' + str + '</span>';
-            }
-            return str;
-        });
+        if (section === 'Function') {
+            info.syntax.combinator = '|<br>';
+        }
+        syntaxHtml = markupSyntax(info.syntax, highlightSyntax);
+        if (section === 'Function') {
+            info.syntax.combinator = '|';
+        }
     } else if (info.match) {
         syntax = 'generic';
         syntaxHtml = syntax;
@@ -547,7 +565,7 @@ function updateContent(focusValueInput) {
                     nested[ref] = {
                         section: nestedSection,
                         name: nestedName,
-                        syntax: cssSyntax.generate(nestedInfo.syntax)
+                        syntax: markupSyntax(nestedInfo.syntax, highlightSyntax)
                     };
                     cssSyntax.walk(nestedInfo.syntax, walk);
                 }
@@ -565,7 +583,7 @@ function updateContent(focusValueInput) {
 
             item.innerHTML = info.error
                 ? '&lt;' + ref + '&gt; = <span class="error">' + info.error + '</span>'
-                : '<a href="#' + info.section + ':' + info.name + '">&lt;' + ref + '&gt;</a> = ' + escapeHtml(info.syntax);
+                : '<a href="#' + info.section + ':' + info.name + '">&lt;' + ref + '&gt;</a> = <span class="nested-syntax">' + info.syntax + '</span>';
 
             nestedEl.appendChild(item);
         });
@@ -640,7 +658,7 @@ function buildMatchTrace(hoverSyntax) {
     var childrenSyntaxes = [];
     hoverSyntax = hoverSyntax.slice().reverse();
 
-    if (!hoverSyntax[0].syntax) {
+    if (typeof hoverSyntax[0].syntax === 'function') {
         hoverSyntax.shift();
     }
 
@@ -737,10 +755,43 @@ function findHoverMatchSyntax(cursor) {
 }
 
 function collectUsage(type, dict) {
+    function createGroup(terms, combinator) {
+        return {
+            type: 'Group',
+            terms: terms,
+            combinator: combinator,
+            explicit: false,
+            disallowEmpty: false
+        };
+    }
+
+    function extractFunction(node, stack) {
+        const parent = stack[stack.length - 1];
+        const start = parent.terms.indexOf(node);
+
+        for (var i = start; i < parent.terms.length; i++) {
+            if (parent.terms[i].type === 'Token' && parent.terms[i].value === ')') {
+                i++;
+                break;
+            }
+        }
+
+        return createGroup(parent.terms.slice(start, i), ' ');
+    }
+
     function processDescriptor(descriptor) {
         if (descriptor && descriptor.syntax !== null) {
+            var stack = [];
+
             cssSyntax.walk(descriptor.syntax, {
                 enter: function(node) {
+                    if (
+                        (node.type === 'Token' && node.value === '(') ||
+                        (node.type === 'Type' && node.name === 'function-token')
+                    ) {
+                        hostStack.push(null);
+                    }
+
                     if (node.type === 'Type' ||
                         node.type === 'Property' ||
                         node.type === 'Function') {
@@ -755,24 +806,34 @@ function collectUsage(type, dict) {
                         if (node.type === 'Function') {
                             hostStack.push(host);
                             host = node;
-                            if (!functionX.has(node) && host.name in defaultSyntax.functions) {
-                                var curSyntax = cssSyntax.generate(defaultSyntax.functions[host.name].syntax);
-                                var newSyntax = cssSyntax.generate(node)
 
-                                if (curSyntax !== newSyntax) {
-                                    console.log([
-                                        cssSyntax.generate(defaultSyntax.functions[host.name].syntax),
-                                        cssSyntax.generate(node)
-                                    ].join('\n'));
-                                }
+                            
+                            var functionDescriptor = defaultSyntax.functions[host.name];
+
+                            if (!functionDescriptor) {
+                                functionDescriptor = defaultSyntax.createDescriptor(
+                                    createGroup([], '|'),
+                                    node.type,
+                                    node.name
+                                );
+                                functionDescriptor.syntaxes = new Set();
+                                defaultSyntax.functions[host.name] = functionDescriptor;
                             }
-                            functionX.add(node);
-                            defaultSyntax.functions[host.name] = {
-                                type: node.type,
-                                name: node.name,
-                                syntax: node
-                            };
+
+                            if (!functionDescriptor.syntaxes.has(node)) {
+                                var functionSyntax = extractFunction(node, stack);
+                                var functionSyntaxStr = cssSyntax.generate(functionSyntax);
+                                
+                                if (!functionDescriptor.syntaxes.has(functionSyntaxStr)) {
+                                    functionDescriptor.syntax.terms.push(functionSyntax);
+                                }
+
+                                functionDescriptor.syntaxes.add(node);
+                                functionDescriptor.syntaxes.add(functionSyntaxStr);
+                            }
                         }
+
+                        stack.push(node);
 
                         if (id in visited === false) {
                             visited[id] = true;
@@ -785,11 +846,14 @@ function collectUsage(type, dict) {
                                     break;
                             }
                         }
+                    } else {
+                        stack.push(node);
                     }
                 },
                 leave: function(node) {
-                    if (node.type === 'Function') {
-                        host = hostStack.pop();
+                    stack.pop();
+                    if (node.type === 'Token' && node.value === ')') {
+                        host = hostStack.pop() || host;
                     }
                 }
             });
@@ -803,9 +867,10 @@ function collectUsage(type, dict) {
 
     for (var name in dict) {
         visited = Object.create(null);
+        visited[type + ':' + name] = true;
         host = dict[name];
         hostStack.push(host);
-        processDescriptor(host, true);
+        processDescriptor(host);
         hostStack.pop();
     }
 }
@@ -840,10 +905,8 @@ var syntaxString = document.querySelector('#syntax');
 var currentFilter = '';
 var currentSyntax;
 var syntaxUsage = {};
-var functionX = new Set();
 
-defaultSyntax.functions = {};
-
+defaultSyntax.functions = Object.create(null);
 collectUsage('Property', defaultSyntax.properties);
 collectUsage('Type', defaultSyntax.types);
 
@@ -924,6 +987,16 @@ document.addEventListener('click', function(e) {
 
         itemEl.appendChild(linkEl);
         listEl.appendChild(itemEl);
+
+        if (section === 'functions') {
+            var variantCount = defaultSyntax[section][name].syntax.terms.length;
+            if (variantCount > 1) {
+                var variantsEl = document.createElement('span');
+                variantsEl.className = 'variants';
+                variantsEl.innerHTML = ' × ' + variantCount;
+                itemEl.appendChild(variantsEl);
+            }
+        }
     });
 
     headerEl.innerHTML =
