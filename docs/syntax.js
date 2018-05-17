@@ -37,7 +37,7 @@ function markupSyntax(syntax, match) {
     });
 }
 
-function buildMatchTree(match, stack) {
+function buildMatchResult(match, stack) {
     function createMatchBlock(type, content, syntaxMatch) {
         var node = document.createElement('div');
         var caption = content || type;
@@ -57,7 +57,7 @@ function buildMatchTree(match, stack) {
 
     function buildNested(items, container) {
         items.forEach(function(item) {
-            this.appendChild(buildMatchTree(item, stack), this.firstChild);
+            this.appendChild(buildMatchResult(item, stack), this.firstChild);
         }, container);
     }
 
@@ -112,7 +112,7 @@ function validateValue() {
 
     valueInputMatchTreeEl.innerHTML = '';
     if (!error && match && match.matched) {
-        valueInputMatchTreeEl.appendChild(buildMatchTree(match.matched, []));
+        valueInputMatchTreeEl.appendChild(buildMatchResult(match.matched, []));
     }
 
     if (match && match.iterations) {
@@ -195,6 +195,10 @@ function buildContentUsedBy(info, section, name) {
 
 function buildContentMatchTree(info) {
     function walk(node, container) {
+        if (node.type === 'MatchTree') {
+            return walk(node.match, container);
+        }
+
         var complex = false;
         var el = document.createElement('div');
         el.className = 'node-wrapper';
@@ -317,6 +321,8 @@ function buildContentMatchTree(info) {
                 }
 
             default:
+                mainEl.classList.add('node_default');
+
                 var nestedEl = document.createElement('div');
                 nestedEl.className = 'nested';
 

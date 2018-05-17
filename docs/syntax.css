@@ -474,8 +474,8 @@ article section:not(.dont-hide-on-match-hover)
     min-height: 100%;
     min-width: 100%;
     background: rgba(100, 150, 200, .05);
-    background-size: 20px 20px;
-    background-image: linear-gradient(-45deg, transparent 10px, #ddd 10px , #ddd 11px, transparent 11px );
+    background-size: 15px 15px;
+    background-image: linear-gradient(-45deg, transparent 8px, #f0f0f0 8px , #f0f0f0 9px, transparent 9px);
 }
 #match-tree-connections .connection
 {
@@ -519,6 +519,11 @@ article section:not(.dont-hide-on-match-hover)
 {
     padding-top: 21px;
 }
+#match-tree .node_default
+{
+    border-radius: 3px;
+    box-shadow: inset 0 0 2px rgba(0, 0, 0, .05);
+}
 #match-tree .node_check
 {
     background: rgba(150, 200, 255, .35);
@@ -536,6 +541,7 @@ article section:not(.dont-hide-on-match-hover)
     font-size: 10px;
     text-transform: uppercase;
     background-color: rgba(0, 0, 0, .1);
+    border-radius: 3px 0 0 3px;
     text-shadow: 1px 1px rgba(255, 255, 255, .35);
 }
 #match-tree .node__key
@@ -551,6 +557,7 @@ article section:not(.dont-hide-on-match-hover)
     text-transform: uppercase;
     font-size: 10px;
     text-align: center;
+    border-radius: 3px 3px 0 0;
 }
 #match-tree .node-field
 {
@@ -574,6 +581,7 @@ article section:not(.dont-hide-on-match-hover)
     font-size: 10px;
     text-transform: uppercase;
     border-radius: 3px;
+    box-shadow: none;
 }
 #match-tree .node_mismatch
 {
