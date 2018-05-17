@@ -24,7 +24,7 @@ function formatName(type, name) {
 }
 
 function markupSyntax(syntax, match) {
-    return cssSyntax.generate(syntax, false, function(str, node) {
+    return cssSyntax.generate(syntax, function(str, node) {
         if (node.type === 'Type' || node.type === 'Property') {
             str = '<a href="#' + node.type + ':' + node.name + '" style="white-space: nowrap">' + escapeHtml(str) + '</a>';
         }
@@ -681,7 +681,7 @@ function buildMatchTrace(hoverSyntax) {
                 break;
         }
 
-        var syntaxStr = cssSyntax.generate(syntax, false, function(str, node) {
+        var syntaxStr = cssSyntax.generate(syntax, function(str, node) {
             if (node.type === 'Type' || node.type === 'Property') {
                 str = '<span style="white-space: nowrap">' + escapeHtml(str) + '</span>';
             }
