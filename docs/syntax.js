@@ -195,7 +195,7 @@ function buildContentUsedBy(info, section, name) {
 
 function buildContentMatchTree(info) {
     function walk(node, container) {
-        if (node.type === 'MatchTree') {
+        if (node.type === 'MatchGraph') {
             return walk(node.match, container);
         }
 
@@ -903,9 +903,9 @@ var valueInputMatchHoverTimer = null;
 var valueInputMatchHoverSyntax = null;
 var valueInputMatchHoverPinned = false;
 var filterInput = document.querySelector('#filter > input');
-var matchTreeEl = document.getElementById('match-tree');
-var matchTreeNodeCountEl = document.getElementById('match-tree-node-count');
-var matchTreeConnectionsEl = document.getElementById('match-tree-connections');
+var matchTreeEl = document.getElementById('match-graph');
+var matchTreeNodeCountEl = document.getElementById('match-graph-node-count');
+var matchTreeConnectionsEl = document.getElementById('match-graph-connections');
 var syntaxInput = document.querySelector('#syntax-input');
 var syntaxString = document.querySelector('#syntax');
 var currentFilter = '';

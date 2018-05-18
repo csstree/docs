@@ -232,7 +232,7 @@ article section:not(.dont-hide-on-match-hover)
     position: relative;
 }
 #value-match-iteration-count,
-#match-tree-node-count
+#match-graph-node-count
 {
     background: #EEE;
     padding: 2px 6px;
@@ -244,7 +244,7 @@ article section:not(.dont-hide-on-match-hover)
 {
     content: ' iteration(s)';
 }
-#match-tree-node-count::after
+#match-graph-node-count::after
 {
     content: ' node(s)';
 }
@@ -461,13 +461,13 @@ article section:not(.dont-hide-on-match-hover)
     min-width: 160px;
 }
 
-#match-tree-canvas
+#match-graph-canvas
 {
     position: relative;
     display: inline-block;
     min-width: 100%;
 }
-#match-tree-connections-canvas
+#match-graph-connections-canvas
 {
     position: absolute;
     height: 0;
@@ -477,64 +477,64 @@ article section:not(.dont-hide-on-match-hover)
     background-size: 15px 15px;
     background-image: linear-gradient(-45deg, transparent 8px, #f0f0f0 8px , #f0f0f0 9px, transparent 9px);
 }
-#match-tree-connections .connection
+#match-graph-connections .connection
 {
     stroke: #CCC;
     stroke-width: 2;
     fill: transparent;
     stroke-linejoin: round;
-    marker-end: url(#match-tree-connections-marker);
+    marker-end: url(#match-graph-connections-marker);
 }
-#match-tree
+#match-graph
 {
     position: relative;
     white-space: pre;
     line-height: 12px;
     padding: 20px;
 }
-#match-tree .node-wrapper
+#match-graph .node-wrapper
 {
     display: flex;
     align-items: flex-start;
     border: solid transparent;
     border-width: 1px 2px;
 }
-#match-tree .node-content > .node-wrapper
+#match-graph .node-content > .node-wrapper
 {
     border-width: 2px 0 0;
 }
-#match-tree .node
+#match-graph .node
 {
     vertical-align: top;
     display: inline-block;
     background: rgba(220, 220, 220, .5);
     font-size: 12px;
 }
-#match-tree .nested
+#match-graph .nested
 {
     display: inline-block;
     padding-left: 40px;
 }
-#match-tree .nested_labeled
+#match-graph .nested_labeled
 {
     padding-top: 21px;
 }
-#match-tree .node_default
+#match-graph .node_default
 {
     border-radius: 3px;
     box-shadow: inset 0 0 2px rgba(0, 0, 0, .05);
 }
-#match-tree .node_check
+#match-graph .node_check
 {
     background: rgba(150, 200, 255, .35);
     padding: 0;
     border-radius: 3px;
 }
-#match-tree .node_check a
+#match-graph .node_check a
 {
     color: inherit;
 }
-#match-tree .node__label
+#match-graph .node__label
 {
     display: inline-block;
     padding: 4px;
@@ -544,13 +544,13 @@ article section:not(.dont-hide-on-match-hover)
     border-radius: 3px 0 0 3px;
     text-shadow: 1px 1px rgba(255, 255, 255, .35);
 }
-#match-tree .node__key
+#match-graph .node__key
 {
     display: inline-block;
     padding: 3px 8px;
     font-size: 12px;
 }
-#match-tree .node__type
+#match-graph .node__type
 {
     background: rgba(0, 0, 0, .2);
     padding: 4px 4px;
@@ -559,20 +559,20 @@ article section:not(.dont-hide-on-match-hover)
     text-align: center;
     border-radius: 3px 3px 0 0;
 }
-#match-tree .node-field
+#match-graph .node-field
 {
     position: relative;
     padding: 5px 4px;
     font-size: 12px;
 }
-#match-tree .node-field-label
+#match-graph .node-field-label
 {
     padding: 0 4px;
 }
-#match-tree .node_match,
-#match-tree .node_mismatch,
-#match-tree .node_disallow-empty,
-#match-tree .node_recursive
+#match-graph .node_match,
+#match-graph .node_mismatch,
+#match-graph .node_disallow-empty,
+#match-graph .node_recursive
 {
     opacity: .75;
     background: #0A0;
@@ -583,19 +583,19 @@ article section:not(.dont-hide-on-match-hover)
     border-radius: 3px;
     box-shadow: none;
 }
-#match-tree .node_mismatch
+#match-graph .node_mismatch
 {
     background: #D00;
 }
-#match-tree .node_disallow-empty
+#match-graph .node_disallow-empty
 {
     background: orange;
 }
-#match-tree .node_recursive
+#match-graph .node_recursive
 {
     visibility: hidden;
 }
-#match-tree .connection-dot
+#match-graph .connection-dot
 {
     position: absolute;
     right: -3px;
