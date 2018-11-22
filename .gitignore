@@ -1,6 +1,7 @@
 /node_modules/
 .idea
 .vscode
+*.cache
 *.log
 *.lock
 .DS_store

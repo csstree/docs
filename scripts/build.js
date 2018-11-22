@@ -1,9 +1,12 @@
 var fs = require('fs');
 var path = require('path');
 var exec = require('child_process').execSync;
-var CSSTREE_DIR = 'node_modules/css-tree';
+var resolve = require('resolve');
+
+var CSSTREE_DIR = path.dirname(resolve.sync('css-tree/package.json'));
 var CSSTREE_DIST = path.join(CSSTREE_DIR, 'dist/csstree.js');
-var CSSTREE_DEST = path.join('docs', 'csstree.js');
+var DEST_DIR = path.join(__dirname, '../docs');
+var CSSTREE_DEST = path.join(DEST_DIR, 'csstree.js');
 
 // build CSSTree
 exec('npm run build', {

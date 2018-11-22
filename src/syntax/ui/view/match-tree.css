@@ -1,0 +1,169 @@
+.view-match-tree
+{
+    position: relative;
+    white-space: pre;
+    line-height: 12px;;
+}
+.view-match-tree h2 {
+    font-size: 110%;
+    font-weight: normal;
+}
+
+.view-match-tree .node-count
+{
+    background: #EEE;
+    padding: 2px 6px;
+    border-radius: 3px;
+    margin-left: 1ex;
+    font-size: 12px;
+}
+.view-match-tree .node-count::after
+{
+    content: ' node(s)';
+}
+
+.view-match-tree .canvas
+{
+    position: relative;
+    display: inline-block;
+    min-width: 100%;
+}
+.view-match-tree .connections-canvas
+{
+    position: absolute;
+    height: 0;
+    min-height: 100%;
+    min-width: 100%;
+    background: rgba(100, 150, 200, .05);
+    background-size: 15px 15px;
+    background-image: linear-gradient(-45deg, transparent 8px, #f0f0f0 8px , #f0f0f0 9px, transparent 9px);
+}
+.view-match-tree .connections-canvas .connection
+{
+    stroke: #CCC;
+    stroke-width: 2;
+    fill: transparent;
+    stroke-linejoin: round;
+    marker-end: url(#match-graph-connection-marker);
+}
+
+.view-match-tree .graph {
+    position: relative;
+    padding: 20px;
+}
+
+.view-match-tree .node-wrapper
+{
+    display: flex;
+    align-items: flex-start;
+    border: solid transparent;
+    border-width: 1px 2px;
+}
+.view-match-tree .node-content > .node-wrapper
+{
+    border-width: 2px 0 0;
+}
+.view-match-tree .node
+{
+    vertical-align: top;
+    display: inline-block;
+    background: rgba(220, 220, 220, .5);
+    font-size: 12px;
+}
+.view-match-tree .nested
+{
+    display: inline-block;
+    padding-left: 40px;
+}
+.view-match-tree .nested_labeled
+{
+    padding-top: 21px;
+}
+.view-match-tree .node_default
+{
+    border-radius: 3px;
+    box-shadow: inset 0 0 2px rgba(0, 0, 0, .05);
+}
+.view-match-tree .node_check
+{
+    background: rgba(150, 200, 255, .35);
+    padding: 0;
+    border-radius: 3px;
+}
+.view-match-tree .node_check a
+{
+    color: inherit;
+}
+.view-match-tree .node__label
+{
+    display: inline-block;
+    padding: 4px;
+    font-size: 10px;
+    text-transform: uppercase;
+    background-color: rgba(0, 0, 0, .1);
+    border-radius: 3px 0 0 3px;
+    text-shadow: 1px 1px rgba(255, 255, 255, .35);
+}
+.view-match-tree .node__key
+{
+    display: inline-block;
+    padding: 3px 8px;
+    font-size: 12px;
+}
+.view-match-tree .node__type
+{
+    background: rgba(0, 0, 0, .2);
+    padding: 4px 4px;
+    text-transform: uppercase;
+    font-size: 10px;
+    text-align: center;
+    border-radius: 3px 3px 0 0;
+}
+.view-match-tree .node-field
+{
+    position: relative;
+    padding: 5px 4px;
+    font-size: 12px;
+}
+.view-match-tree .node-field-label
+{
+    padding: 0 4px;
+}
+.view-match-tree .node_match,
+.view-match-tree .node_mismatch,
+.view-match-tree .node_disallow-empty,
+.view-match-tree .node_recursive
+{
+    opacity: .75;
+    background: #0A0;
+    padding: 4px;
+    color: white;
+    font-size: 10px;
+    text-transform: uppercase;
+    border-radius: 3px;
+    box-shadow: none;
+}
+.view-match-tree .node_mismatch
+{
+    background: #D00;
+}
+.view-match-tree .node_disallow-empty
+{
+    background: orange;
+}
+.view-match-tree .node_recursive
+{
+    visibility: hidden;
+}
+.view-match-tree .connection-dot
+{
+    position: absolute;
+    right: -3px;
+    top: 50%;
+    margin-top: -3px;
+    display: inline-block;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: #CCC;
+}

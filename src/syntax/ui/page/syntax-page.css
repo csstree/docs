@@ -1,0 +1,16 @@
+.page-Property .view-alert-danger,
+.page-Type .view-alert-danger,
+.page-Function .view-alert-danger {
+    font-family: Consolas, Monaco, Courier New, monospace;
+    font-size: 12px;
+    white-space: pre-wrap;
+}
+
+.page-Property > *,
+.page-Type > *,
+.page-Function > * {
+    transition: opacity .4s .15s;
+}
+.syntax-match-trace-pinned ~ * {
+    opacity: .1;
+}

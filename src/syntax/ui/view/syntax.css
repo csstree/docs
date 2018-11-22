@@ -1,0 +1,17 @@
+.view-syntax
+{
+    background: #f8f8f8;
+    padding: 10px;
+    margin-bottom: 1em;
+    border: none;
+    box-sizing: border-box;
+    width: 100%;
+    font: inherit;
+}
+.view-syntax .match
+{
+    background: #fe8;
+    white-space: nowrap;
+    padding: 2px 3px;
+    border-radius: 3px;
+}

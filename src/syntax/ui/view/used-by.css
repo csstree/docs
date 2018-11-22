@@ -1,0 +1,19 @@
+.view-used-by
+{
+    overflow: hidden;
+}
+.view-used-by .section
+{
+    float: left;
+    margin-right: 50px;
+}
+.view-used-by h4
+{
+    margin: 0 0 10px;
+}
+.view-used-by ul
+{
+    padding-left: 18px;
+    margin: 0;
+    min-width: 160px;
+}

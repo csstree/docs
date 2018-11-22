@@ -1,9 +1,18 @@
 {
+  "license": "MIT",
+  "repository": "csstree/docs",
   "dependencies": {
-    "csstree": "csstree/csstree"
+    "css-tree": "csstree/csstree"
   },
   "scripts": {
-    "build": "node scripts/build.js"
+    "build": "node scripts/build.js",
+    "discovery": "discovery --model syntax",
+    "discovery:build": "discovery-build --model syntax -o docs/new-syntax"
+  },
+  "discovery": {
+    "models": {
+      "syntax": "src/syntax/config.js"
+    }
   },
   "eslintConfig": {
     "env": {
@@ -22,5 +31,8 @@
         }
       ]
     }
+  },
+  "devDependencies": {
+    "resolve": "^1.5.0"
   }
 }

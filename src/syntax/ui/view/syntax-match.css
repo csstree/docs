@@ -1,0 +1,30 @@
+.view-syntax-match
+{
+    position: relative;
+}
+
+.view-syntax-match > .trace-popup
+{
+    position: absolute;
+    margin-top: 21px;
+    top: 0;
+    left: 0;
+    right: 0;
+    background: white;
+    padding: 12px;
+    border: 1px solid #CCC;
+    box-shadow: 1px 1px 5px rgba(0, 0, 0, .25);
+    z-index: 100;
+    line-height: 30px;
+}
+.view-syntax-match > .trace-popup .header
+{
+    font-size: 12px;
+    text-align: center;
+    color: #666;
+    margin-top: -8px;
+}
+.view-syntax-match > .trace-popup .instruction
+{
+    opacity: .75;
+}
