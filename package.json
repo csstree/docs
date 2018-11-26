@@ -2,10 +2,11 @@
   "license": "MIT",
   "repository": "csstree/docs",
   "dependencies": {
-    "css-tree": "csstree/csstree"
+    "@discoveryjs/discovery": "1.0.0-beta.1",
+    "css-tree": "1.0.0-alpha.29"
   },
   "scripts": {
-    "build": "node scripts/build.js",
+    "build": "node scripts/build.js && npm run discovery:build",
     "discovery": "discovery --model syntax",
     "discovery:build": "discovery-build --model syntax -o docs/new-syntax"
   },

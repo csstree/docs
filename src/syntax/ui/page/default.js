@@ -5,9 +5,9 @@ discovery.definePage('default', [
     {
         view: 'context',
         data: [
-            { title: 'Properties', query: 'dict[type="Property"]' },
-            { title: 'Types', query: 'dict[type="Type"]' },
-            { title: 'Functions', query: 'dict[type="Function"]' }
+            { title: 'Properties', query: 'dict.[type="Property"]' },
+            { title: 'Types', query: 'dict.[type="Type"]' },
+            { title: 'Functions', query: 'dict.[type="Function"]' }
         ],
         content: {
             view: 'inline-list',
@@ -28,7 +28,12 @@ discovery.definePage('default', [
         },
         data: [
             {
-                title: "csstree & mdn-data parity",
+                title: 'Syntax type stat',
+                query: 'dict.group(<type>).({ type: key, count: value.size() })',
+                view: '{\n    view: \'hstack\',\n    content: [\'table\', \'chart:.({ y: count, name: type })\']\n}'
+            },
+            {
+                title: 'csstree & mdn-data parity',
                 query: 'csstree.properties.keys() + mdn.properties.keys()',
                 view: '{\n    view: \'table\',\n    cols: [\n    \t{ },\n    \t{ header: \'csstree\', content: \'text:#.data.csstree.properties.pick(@)\' },\n    \t{ header: \'MDN\', content: \'text:#.data.mdn.properties.pick(@).syntax\' }\n    ]\n}'
             }

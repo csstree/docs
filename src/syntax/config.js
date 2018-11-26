@@ -6,7 +6,7 @@ module.exports = {
     data: fetchData,
     prepare: path.join(__dirname, 'prepare.js'),
     view: {
-        base: __dirname,
+        basedir: __dirname,
         assets: [
             '../../docs/csstree.js',
             'ui/sidebar.css',

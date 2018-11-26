@@ -2,7 +2,7 @@
 
 const page = {
     view: 'context',
-    data: 'dict[type=#.page and name=#.id].pick()',
+    data: 'dict.[type=#.page and name=#.id].pick()',
     content: [
         'h1:formatName()',
         {
@@ -24,7 +24,7 @@ const page = {
                             'text:"Match result "',
                             {
                                 view: 'badge',
-                                visible: 'iterations',
+                                when: 'iterations',
                                 data: '{ text: iterations + " iteration(s)" }'
                             }
                         ],
@@ -32,11 +32,11 @@ const page = {
                             view: 'switch',
                             content: [
                                 {
-                                    case: 'error',
+                                    when: 'error',
                                     content: 'alert-danger:error'
                                 },
                                 {
-                                    case: 'match',
+                                    when: 'match',
                                     content: {
                                         view: 'syntax-match',
                                         data: 'match',

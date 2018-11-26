@@ -5,7 +5,7 @@ discovery.view.define('sidebar', {
     content: {
         view: 'list',
         data: `
-            dict[no #.filter or name~=#.filter]
+            dict.[no #.filter or name~=#.filter]
             .group(<type>)
             .sort(<key.typeSorting()>)
             .({
@@ -28,10 +28,10 @@ discovery.view.define('sidebar', {
             view: 'toc-section',
             header: [
                 'text:caption',
-                'pill-badge:{ text: items.size(), href: ("files[type=\\"" + caption + "\\"]").reportLink() }',
+                'pill-badge:{ text: items.size(), href: ("files.[type=\\"" + caption + "\\"]").reportLink() }',
                 {
                     view: 'pill-badge',
-                    visible: 'errors',
+                    when: 'errors',
                     className: 'errors',
                     data: `{
                         href: "#errors:" + caption,
@@ -50,14 +50,14 @@ discovery.view.define('sidebar', {
                         content: 'text-match'
                     },
                     {
-                        visible: 'type="Function" and syntax.terms.size() > 1',
+                        when: 'type="Function" and syntax.terms.size() > 1',
                         view: 'html',
                         data: '"<span class=variants> × " + syntax.terms.size() + "</span>"',
                     },
                     {
                         view: 'pill-badge',
                         className: 'item-error-label',
-                        visible: 'errors',
+                        when: 'errors',
                         data: '{ text: errors.size() }'
                     }
                 ]
