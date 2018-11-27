@@ -34,8 +34,8 @@ discovery.definePage('default', [
             },
             {
                 title: 'csstree & mdn-data parity',
-                query: 'csstree.properties.keys() + mdn.properties.keys()',
-                view: '{\n    view: \'table\',\n    cols: [\n    \t{ },\n    \t{ header: \'csstree\', content: \'text:#.data.csstree.properties.pick(@)\' },\n    \t{ header: \'MDN\', content: \'text:#.data.mdn.properties.pick(@).syntax\' }\n    ]\n}'
+                query: '$csstree: csstree.properties;\n$mdn: mdn.properties;\n\n($csstree.keys() + mdn.keys())\n.[$csstree[$] != $mdn[$].syntax]\n.({ property: $, csstree: $csstree[$], mdn: $mdn[$].syntax })',
+                view: '{\n    view: \'table\'\n}'
             }
         ]
     }
