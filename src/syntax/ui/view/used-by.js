@@ -4,22 +4,31 @@
 discovery.view.define('used-by', {
     view: 'columns',
     data: `
-        usedBy()
-            .values()
+        $dict: #.data.dict;
+        $explicit: $dict.[refs.[resolved = @]];
+        $explicit
+            ..($t:$;$t + $dict.[refs.[resolved=$t]])
+            .[$ != @]
             .group(<type>)
             .({
                 type: key,
-                refs: value.sort(<name>)
+                refs: value.sort(<name>).({ ..., implicit: $ not in $explicit })
             })
             .sort(<type.typeSorting()>)
     `,
     emptyText: 'No syntaxes',
     column: [
-        'h4:type + " (" + refs.size() + ")"',
+        'h5:type + " (" + refs.size() + ")"',
         {
             view: 'list',
             data: 'refs',
-            item: 'link:{ text: formatName(), href: "#" + type + ":" + name }'
+            itemConfig: {
+                className: data => data.implicit && 'implicit'
+            },
+            item: {
+                view: 'auto-link',
+                href: (href, _, { page: type, id: name }) => `${href}&hltype=${type}&hlname=${name}`
+            }
         }
     ]
 });

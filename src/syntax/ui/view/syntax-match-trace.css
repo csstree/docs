@@ -1,36 +1,29 @@
-.view-syntax-match-trace ul
-{
+.view-syntax-match-trace ul {
     margin: 0;
     padding: 0;
     list-style: none;
 }
-.view-syntax-match-trace li
-{
+.view-syntax-match-trace li {
     overflow: hidden;
     line-height: 20px;
     margin-bottom: -7px;
 }
-.view-syntax-match-trace li + li
-{
+.view-syntax-match-trace li + li {
     z-index: -1;
 }
-.view-syntax-match-trace .syntax
-{
+.view-syntax-match-trace .syntax {
     display: inline-block;
     padding: 15px 6px 6px;
     position: relative;
     overflow: hidden;
 }
-.view-syntax-match-trace li:first-child .syntax
-{
+.view-syntax-match-trace li:first-child .syntax {
     padding-top: 0;
 }
-.view-syntax-match-trace .lines
-{
+.view-syntax-match-trace .lines {
     background-color: rgba(255, 255, 255, .65);
 }
-.view-syntax-match-trace li:not(:last-child) .syntax::before
-{
+.view-syntax-match-trace li:not(:last-child) .syntax::before {
     content: '';
     position: absolute;
     bottom: 0;
@@ -41,8 +34,7 @@
     border-width: 0 1px 2px;
 }
 .view-syntax-match-trace .match,
-.view-syntax-match-trace .children-match
-{
+.view-syntax-match-trace .children-match {
     display: inline-block;
     background: #FF9;
     white-space: nowrap;
@@ -50,17 +42,14 @@
     outline-width: 2px 1px;
     text-align: center;
 }
-.view-syntax-match-trace .children-match
-{
+.view-syntax-match-trace .children-match {
     background-color: #CCF;
     outline-color: #CCF;
 }
-.view-syntax-match-trace .match > .tail
-{
+.view-syntax-match-trace .match > .tail {
     display: block;
 }
-.view-syntax-match-trace li:not(:first-child) .match::before
-{
+.view-syntax-match-trace li:not(:first-child) .match::before {
     content: '';
     position: absolute;
     height: 500px;
@@ -71,8 +60,7 @@
     top: 0;
     z-index: -1;
 }
-.view-syntax-match-trace li:not(:first-child) .match::after
-{
+.view-syntax-match-trace li:not(:first-child) .match::after {
     content: '';
     position: absolute;
     margin-bottom: -500px;

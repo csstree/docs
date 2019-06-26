@@ -10,11 +10,14 @@ function escapeHtml(str) {
 function markupSyntax(syntax, match) {
     return csstree.grammar.generate(syntax, function(str, node) {
         if (node.type === 'Type' || node.type === 'Property') {
-            str = '<a href="#' + node.type + ':' + node.name + '" style="white-space: nowrap">' + escapeHtml(str) + '</a>';
-        }
+            const entityDescriptor = discovery.resolveEntity(node);
+            const error = !entityDescriptor || !entityDescriptor.entity.match;
 
-        if (match && node.type === match.type && node.name === match.name) {
-            str = '<span class="match">' + str + '</span>';
+            str = `<a href="#${node.type}:${node.name}"${error ? ' class="error"': ''}>${escapeHtml(str)}</a>`;
+
+            if (match && match.type === node.type && match.name === node.name) {
+                str = `<span class="match">${str}</span>`;
+            }
         }
 
         return str;
@@ -43,4 +46,4 @@ discovery.view.define('syntax', function(el, config, data) {
     }
 
     el.innerHTML = syntaxHtml;
-});
+}, { tag: 'span' });

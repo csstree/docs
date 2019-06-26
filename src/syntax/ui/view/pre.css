@@ -1,0 +1,8 @@
+.view-pre {
+    font-family: Consolas, Menlo, Courier New, monospace;
+    white-space: pre-wrap;
+}
+
+.view-nowrap {
+    white-space: nowrap;
+}

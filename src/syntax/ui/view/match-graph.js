@@ -61,7 +61,7 @@ function createText(text) {
     return document.createTextNode(String(text));
 }
 
-discovery.view.define('match-tree', function(el, config, data) {
+discovery.view.define('match-graph', function(el, config, data) {
     function walk(node, container) {
         if (node.type === 'MatchGraph') {
             return walk(node.match, container);
@@ -272,7 +272,7 @@ discovery.view.define('match-tree', function(el, config, data) {
     //     <div id="match-graph"></div>
     // </div>
     el.appendChild(
-        createElement('h2', 'view-header', 'Match graph:<span class="node-count">' + elByNode.size + '</span>')
+        createElement('h2', 'view-header', 'Match graph<span class="view-badge node-count">' + elByNode.size + '</span>')
     );
     el.appendChild(
         createElement('div', 'canvas', [

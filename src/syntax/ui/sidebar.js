@@ -7,35 +7,37 @@ discovery.view.define('sidebar', {
         data: `
             dict.[no #.filter or name~=#.filter]
             .group(<type>)
-            .sort(<key.typeSorting()>)
-            .({
-                caption: key,
-                items: value
-                    .({
-                        type,
-                        syntax,
-                        caption: formatName(),
-                        href: "#" + type + ":" + name,
-                        match: #.filter,
-                        errors
-                    })
-                    .sort(<caption>),
-                errors: value.errors
-            })
+            .(
+                // prepare items
+                $items: value.({
+                    type,
+                    name,
+                    syntax,
+                    missed: no match,
+                    brokenRefs: refs.resolved.[no match]
+                }).sort(<name>);
+
+                // section info
+                {
+                    type: key,
+                    $items,
+                    badSyntaxes: $items.[missed or brokenRefs]
+                }
+            )
+            .sort(<type.typeSorting()>)
         `,
         emptyText: 'No matches',
         item: {
             view: 'toc-section',
             header: [
-                'text:caption',
-                'pill-badge:{ text: items.size(), href: ("files.[type=\\"" + caption + "\\"]").reportLink() }',
+                'text:type',
+                'pill-badge:{ text: items.size(), href: pageLink("report", "dict.[type=\\"" + type + "\\"]") }',
                 {
                     view: 'pill-badge',
-                    when: 'errors',
-                    className: 'errors',
+                    when: 'badSyntaxes',
+                    className: 'danger-badge',
                     data: `{
-                        href: "#errors:" + caption,
-                        text: errors.size() + " errors",
+                        text: badSyntaxes.size(),
                         color: "#ff4444"
                     }`
                 }
@@ -45,9 +47,9 @@ discovery.view.define('sidebar', {
                 data: 'items',
                 item: [
                     {
-                        view: 'link',
-                        data: '{ href, text: caption, match }',
-                        content: 'text-match'
+                        view: 'auto-link',
+                        className: data => data.missed ? 'missed' : '',
+                        content: 'text-match:{ text, match: #.filter }'
                     },
                     {
                         when: 'type="Function" and syntax.terms.size() > 1',
@@ -55,10 +57,16 @@ discovery.view.define('sidebar', {
                         data: '"<span class=variants> × " + syntax.terms.size() + "</span>"',
                     },
                     {
+                        view: 'badge',
+                        className: 'patched-badge',
+                        when: 'patch() and mdn()',
+                        data: '{ text: "patched" }'
+                    },
+                    {
                         view: 'pill-badge',
-                        className: 'item-error-label',
-                        when: 'errors',
-                        data: '{ text: errors.size() }'
+                        className: 'danger-badge',
+                        when: 'brokenRefs',
+                        data: '{ text: brokenRefs.size() }'
                     }
                 ]
             }

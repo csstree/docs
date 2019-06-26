@@ -1,0 +1,11 @@
+.page-default .versions .view-badge {
+    display: inline-block;
+    padding: 3px 8px 3px;
+    margin: 0 3px 2em 0;
+    background: #d7ecb1;
+}
+
+.page-default .versions .view-badge .prefix {
+    padding: 5px 8px 6px;
+    margin: -3px 6px -3px -8px;
+}

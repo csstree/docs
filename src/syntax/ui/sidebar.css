@@ -5,3 +5,27 @@
 .discovery-sidebar .variants {
     color: #888;
 }
+
+.discovery-sidebar .missed {
+    color: #a00;
+}
+
+.discovery-sidebar .patched-badge {
+    margin-left: 1ex;
+    color: #635d33;
+    background-color: #e2dcb1;
+    text-transform: uppercase;
+    font-size: 10px;
+    vertical-align: text-bottom;
+    padding-top: 2px;
+}
+.discovery-sidebar .danger-badge {
+    margin-left: 1ex;
+    color: white !important;
+    background-color: #ff4444;
+    text-shadow: none;
+}
+.discovery-sidebar .view-list-item > .danger-badge {
+    font-size: 10px;
+    vertical-align: text-bottom;
+}

@@ -1,29 +1,23 @@
-.view-syntax-match-tree
-{
+.view-syntax-match-tree {
     overflow: auto;
 }
-.view-syntax-match-tree .label:empty
-{
+.view-syntax-match-tree .label:empty {
     display: none;
 }
 .view-syntax-match-tree:hover .label,
-.view-syntax-match-tree.pinned .label
-{
+.view-syntax-match-tree.pinned .label {
     opacity: .35;
 }
-.view-syntax-match-tree .match-tree-node
-{
+.view-syntax-match-tree .match-tree-node {
     font-size: 11px;
     display: inline-block;
     flex: 1;
     cursor: default;
 }
-.view-syntax-match-tree .match-tree-node + .match-tree-node
-{
+.view-syntax-match-tree .match-tree-node + .match-tree-node {
     margin-left: 2px;
 }
-.view-syntax-match-tree .match-tree-node > .label
-{
+.view-syntax-match-tree .match-tree-node > .label {
     display: block;
     text-align: center;
     border-top: 1px solid green;
@@ -32,32 +26,27 @@
     white-space: nowrap;
 }
 .view-syntax-match-tree .match-tree-node:hover > .label,
-.view-syntax-match-tree .match-tree-node.pinned > .label
-{
+.view-syntax-match-tree .match-tree-node.pinned > .label {
     opacity: 1 !important;
     background: linear-gradient(to bottom, rgba(0, 255, 0, .1), transparent 75%);
 }
-.view-syntax-match-tree .match-tree-node > .children
-{
+.view-syntax-match-tree .match-tree-node > .children {
     display: flex;
     align-items: stretch;
 }
-.view-syntax-match-tree .match-tree-node_ASTNode
-{
+.view-syntax-match-tree .match-tree-node_ASTNode {
     display: block;
 }
-.view-syntax-match-tree .match-tree-node_ASTNode > .label
-{
+.view-syntax-match-tree .match-tree-node_ASTNode > .label {
     opacity: 1;
     font-size: 14px;
-    background: #E0FFE0;
+    background: #d4edda;
     margin-bottom: 2px;
     border: none;
     padding: 2px 6px;
     line-height: 1.2;
 }
 .view-syntax-match-tree .match-tree-node_ASTNode:hover > .label,
-.view-syntax-match-tree .match-tree-node_ASTNode.pinned > .label
-{
-    background-color: #D0FFD0;
+.view-syntax-match-tree .match-tree-node_ASTNode.pinned > .label {
+    background-color: #c3e6cb;
 }

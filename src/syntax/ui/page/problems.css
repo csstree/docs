@@ -1,0 +1,13 @@
+.page-problems .view-list-item {
+    border-bottom: 1px solid #eee;
+    padding: 12px 8px;
+    margin: 1px 0;
+}
+.page-problems .view-syntax a {
+    color: inherit;
+    text-decoration-color: #b8b8b8;
+}
+.page-problems .missed .view-link,
+.page-problems .error {
+    color: #d00;
+}

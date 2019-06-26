@@ -1,26 +1,21 @@
-.view-syntax-tree
-{
-    background: #f8f8f8;
-    padding: 10px;
-    margin-bottom: 1em;
-    border: none;
-    box-sizing: border-box;
-    width: 100%;
-    font: inherit;
+.view-syntax-tree:empty {
+    display: none;
 }
-.view-syntax-tree .match
-{
+.view-syntax-tree .match {
     background: #fe8;
     white-space: nowrap;
     padding: 2px 3px;
     border-radius: 3px;
 }
-.view-syntax-tree
-{
-    margin-bottom: 0;
-}
-.view-syntax-tree .nested-syntax a
-{
-    color: inherit;
+.view-syntax-tree .view-syntax a {
+    color: #333;
     text-decoration-color: #b8b8b8;
+}
+.view-syntax-tree .view-syntax a:hover {
+    color: black;
+    text-decoration-color: currentColor;
+}
+.view-syntax-tree .error {
+    display: inline;
+    color: #d00;
 }

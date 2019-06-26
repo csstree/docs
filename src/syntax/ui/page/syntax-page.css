@@ -1,7 +1,7 @@
 .page-Property .view-alert-danger,
 .page-Type .view-alert-danger,
 .page-Function .view-alert-danger {
-    font-family: Consolas, Monaco, Courier New, monospace;
+    font-family: Consolas, Menlo, Courier New, monospace;
     font-size: 12px;
     white-space: pre-wrap;
 }
@@ -13,4 +13,69 @@
 }
 .syntax-match-trace-pinned ~ * {
     opacity: .1;
+}
+
+.syntax-section > .view-syntax,
+.syntax-section > .view-syntax-tree,
+.syntax-section .view-tabs-content > .view-syntax,
+.syntax-section .view-tabs-content > .view-syntax-tree,
+.syntax-section .syntax-diff {
+    color: #222;
+    background: #f8f8f8;
+    padding: 10px;
+    margin: 0 0 8px;
+    font-size: 13px;
+    font-family: Consolas, Menlo, Courier New, monospace;
+}
+.syntax-section .syntax-diff {
+    padding: 4px;
+}
+.syntax-section > .view-syntax,
+.syntax-section .view-tabs-content > .view-syntax {
+    display: block;
+}
+.syntax-section .view-syntax a {
+    color: #333;
+    text-decoration-color: #b8b8b8;
+}
+.syntax-section .view-syntax a:hover {
+    color: black;
+    text-decoration-color: currentColor;
+}
+
+.page-Property .view-header .view-badge,
+.page-Type .view-header .view-badge,
+.page-Function .view-header .view-badge {
+    font-size: 11px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    margin-left: 1ex;
+}
+.syntax-section > .view-header .view-badge .prefix {
+    padding: 5px 6px 5px;
+    margin: -5px 6px -5px -6px;
+    text-transform: uppercase;
+}
+
+.syntax-section .view-tabs {
+    margin-top: 12px;
+}
+.syntax-section .view-tabs-buttons {
+    margin-bottom: 8px;
+    white-space: nowrap;
+}
+.syntax-section .view-tabs-buttons-before {
+    margin: -3px 3ex 0 -5px;
+}
+.syntax-section .view-tabs-buttons-before .view-header {
+    margin: 0;
+}
+.syntax-section .view-tab {
+    margin-top: -2px;
+    padding-top: 4px;
+    padding-bottom: 4px;
+    color: #666;
+}
+.syntax-section .view-tab.active {
+    padding-bottom: 5px;
 }
