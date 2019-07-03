@@ -55,7 +55,7 @@ function buildMatchResult(match, stack) {
     var syntax = match.syntax || match;
     var result;
 
-    if (match.node) {
+    if (match.token) {
         result = createMatchBlock('ASTNode', match.token, stack.concat(match));
     } else {
         result = createMatchBlock(

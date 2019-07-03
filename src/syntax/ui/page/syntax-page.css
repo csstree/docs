@@ -34,14 +34,6 @@
 .syntax-section .view-tabs-content > .view-syntax {
     display: block;
 }
-.syntax-section .view-syntax a {
-    color: #333;
-    text-decoration-color: #b8b8b8;
-}
-.syntax-section .view-syntax a:hover {
-    color: black;
-    text-decoration-color: currentColor;
-}
 
 .page-Property .view-header .view-badge,
 .page-Type .view-header .view-badge,

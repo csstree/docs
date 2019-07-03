@@ -1,5 +1,11 @@
 .view-syntax a {
     white-space: nowrap;
+    color: #333;
+    text-decoration-color: #b8b8b8;
+}
+.view-syntax a:hover {
+    color: black;
+    text-decoration-color: currentColor;
 }
 .view-syntax .error {
     color: #d00 !important;

@@ -11,7 +11,7 @@ const diffType = {
 
 discovery.view.define('diff', function(el, config, data) {
     const { type = 'wordws' } = config;
-    const { before, after } = data;
+    const { before = '', after = '' } = data;
 
     var diff = (type in diffType ? diffType[type] : diffType.wordws)(before, after);
 

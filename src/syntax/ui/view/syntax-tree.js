@@ -3,7 +3,7 @@
 discovery.view.define('syntax-tree', {
     view: 'context',
     data: `
-        ..(refs.resolved)
+        ..(refs().resolved)
             .[type != "Function" and (syntax or no match)]
             .({ ..., matchType: @.matchType, matchName: @.matchName })
     `,

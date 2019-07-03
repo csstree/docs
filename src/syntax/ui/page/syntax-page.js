@@ -10,53 +10,7 @@ const page = {
             when: 'no match',
             content: 'text:"Syntax definition is missed"'
         },
-        {
-            view: 'section',
-            when: 'match',
-            className: 'test-value',
-            header: 'text:""',
-            content: {
-                view: 'context',
-                modifiers: [
-                    { view: 'block', when: 'type="Function"',content: 'text:name + "("' },
-                    { view: 'input', name: 'value', placeholder: 'Enter a value to match against the syntax' },
-                    { view: 'block', when: 'type="Function"', content: 'text:")"' },
-                ],
-                content: {
-                    view: 'section',
-                    className: 'match-result',
-                    data: 'match(#.value)',
-                    header: [
-                        'text:"Match result "',
-                        {
-                            view: 'badge',
-                            when: 'iterations',
-                            data: '{ text: iterations + " iteration(s)" }'
-                        }
-                    ],
-                    content: {
-                        view: 'switch',
-                        content: [
-                            {
-                                when: 'error and #.value~=/\\S/',
-                                content: 'alert-danger:error'
-                            },
-                            {
-                                when: 'match',
-                                content: {
-                                    view: 'syntax-match',
-                                    data: 'match',
-                                    selector: '.test-value'
-                                }
-                            },
-                            {
-                                content: 'alert-success:"Enter a value to test"'
-                            }
-                        ]
-                    }
-                }
-            }
-        },
+        'syntax-test',
         // {
         //     view: 'key-value',
         //     when: 'type="Property" and mdn()',
@@ -80,7 +34,8 @@ const page = {
                             name: 'syntaxView',
                             beforeTabs: 'header:"Formal syntax"',
                             tabs: [
-                                { value: 'used syntax' },
+                                { value: 'csstree', content: 'text:"CSSTree"' },
+                                { value: 'mdn', content: 'text:"MDN"' },
                                 { value: 'diff' }
                             ],
                             afterTabs: {
@@ -91,26 +46,18 @@ const page = {
                             content: {
                                 view: 'switch',
                                 content: [
-                                    { when: '#.syntaxView="used syntax"', content: [
+                                    { when: '#.syntaxView="csstree"', content: [
+                                        'syntax',
+                                        'syntax-tree'
+                                    ] },
+                                    { when: '#.syntaxView="mdn"', data: 'mdn()', content: [
                                         'syntax',
                                         'syntax-tree'
                                     ] },
                                     { content: {
                                         view: 'block',
-                                        content: {
-                                            view: 'key-value',
-                                            className: 'syntax-diff',
-                                            data: `
-                                                $mdn: mdn().syntax;
-                                                $patch: syntax(); 
-                                                [
-                                                    { key: 'MDN', value: $mdn },
-                                                    { key: 'Patch', value: $patch },
-                                                    { key: 'Diff', view: 'diff', before: $mdn, after: $patch }
-                                                ]
-                                            `,
-                                            value: 'render:view or "pre:value"'
-                                        }
+                                        className: 'syntax-diff',
+                                        content: 'diff-syntax:{ before: mdn().syntax, after: syntax() }'
                                     } }
                                 ]
                             },

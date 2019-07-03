@@ -15,9 +15,10 @@ function markupSyntax(syntax, match) {
 
             str = `<a href="#${node.type}:${node.name}"${error ? ' class="error"': ''}>${escapeHtml(str)}</a>`;
 
-            if (match && match.type === node.type && match.name === node.name) {
-                str = `<span class="match">${str}</span>`;
-            }
+        }
+
+        if (match && match.type === node.type && match.name === node.name) {
+            str = `<span class="match">${str}</span>`;
         }
 
         return str;
@@ -25,10 +26,15 @@ function markupSyntax(syntax, match) {
 }
 
 discovery.view.define('syntax', function(el, config, data) {
-    const { type, syntax, match, matchType, matchName } = data || {};
+    const { type, match, matchType, matchName } = data || {};
+    let { syntax } = data || {};
     let syntaxHtml = '';
 
     if (syntax) {
+        if (typeof syntax === 'string') {
+            syntax = csstree.grammar.parse(syntax);
+        }
+
         if (type === 'Function') {
             syntax.combinator = '|<br>';
         }

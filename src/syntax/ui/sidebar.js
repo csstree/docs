@@ -63,6 +63,12 @@ discovery.view.define('sidebar', {
                         data: '{ text: "patched" }'
                     },
                     {
+                        view: 'badge',
+                        className: 'patched-badge',
+                        when: 'no mdn()',
+                        data: '{ text: "added" }'
+                    },
+                    {
                         view: 'pill-badge',
                         className: 'danger-badge',
                         when: 'brokenRefs',

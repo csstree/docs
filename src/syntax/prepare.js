@@ -47,7 +47,7 @@ function collectUsage(type, dict, defaultSyntax) {
 
     function processDescriptor(descriptor) {
         if (descriptor && descriptor.syntax !== null) {
-            var stack = [];
+            const stack = [];
 
             csstree.grammar.walk(descriptor.syntax, {
                 enter: function(node) {
@@ -61,13 +61,13 @@ function collectUsage(type, dict, defaultSyntax) {
                     if (node.type === 'Type' ||
                         node.type === 'Property' ||
                         node.type === 'Function') {
-                        var id = node.type + ':' + node.name;
+                        const id = node.type + ':' + node.name;
 
                         if (node.type === 'Function') {
                             hostStack.push(host);
                             host = node;
                             
-                            var functionDescriptor = defaultSyntax.functions[host.name];
+                            let functionDescriptor = defaultSyntax.functions[host.name];
 
                             if (!functionDescriptor) {
                                 functionDescriptor = defaultSyntax.createDescriptor(
@@ -122,11 +122,11 @@ function collectUsage(type, dict, defaultSyntax) {
     }
 
     // helps to avoid recursion
-    var visited;
-    var host;
-    var hostStack = [];
+    let visited;
+    let host;
+    const hostStack = [];
 
-    for (var name in dict) {
+    for (let name in dict) {
         visited = Object.create(null);
         visited[type + ':' + name] = true;
         host = dict[name];
@@ -134,6 +134,52 @@ function collectUsage(type, dict, defaultSyntax) {
         processDescriptor(host);
         hostStack.pop();
     }
+}
+
+function syntaxRefs(syntax, typeDict, globalDict) {
+    let insideFunction = 0;
+    const refs = [];
+
+    if (typeof syntax === 'string') {
+        syntax = csstree.grammar.parse(syntax);
+    }
+
+    if (syntax) {
+        csstree.grammar.walk(syntax, {
+            enter: node => {
+                if (node.type in typeDict) {
+                    const dict = typeDict[node.type];
+
+                    if (globalDict && node.name in dict === false) {
+                        globalDict.push(dict[node.name] = {
+                            type: node.type,
+                            name: node.name,
+                            syntax: null,
+                            match: null,
+                            refs: []
+                        });
+                    }
+
+                    refs.push({
+                        node,
+                        insideFunction: insideFunction > 0,
+                        resolved: dict[node.name] || null
+                    });
+                }
+
+                if (node.type === 'Function') {
+                    insideFunction++;
+                }
+            },
+            leave: node => {
+                if (node.type === 'Function') {
+                    insideFunction--;
+                }
+            }
+        });
+    }
+
+    return refs;
 }
 
 discovery.setPrepare(function(data) {
@@ -158,43 +204,7 @@ discovery.setPrepare(function(data) {
     ];
 
     data.dict.forEach(item => {
-        let insideFunction = 0;
-        item.refs = [];
-
-        if (item.syntax) {
-            csstree.grammar.walk(item.syntax, {
-                enter: node => {
-                    if (node.type in typeDict) {
-                        const dict = typeDict[node.type];
-
-                        if (node.name in dict === false) {
-                            data.dict.push(dict[node.name] = {
-                                type: node.type,
-                                name: node.name,
-                                syntax: null,
-                                match: null,
-                                refs: []
-                            });
-                        }
-
-                        item.refs.push({
-                            node,
-                            insideFunction: insideFunction > 0,
-                            resolved: dict[node.name]
-                        });
-                    }
-
-                    if (node.type === 'Function') {
-                        insideFunction++;
-                    }
-                },
-                leave: node => {
-                    if (node.type === 'Function') {
-                        insideFunction--;
-                    }
-                }
-            });
-        }
+        item.refs = syntaxRefs(item.syntax, typeDict, data.dict);
     });
 
     const syntaxIndex = data.dict.reduce(
@@ -245,6 +255,13 @@ discovery.setPrepare(function(data) {
             }
             return null;
         },
+        syntaxAst(current) {
+            const syntax = current ? current.syntax || current : null;
+
+            return typeof syntax === 'string'
+                ? csstree.grammar.parse(syntax)
+                : syntax || null;
+        },
         syntax(current) {
             if (current) {
                 if (current.syntax) {
@@ -258,6 +275,9 @@ discovery.setPrepare(function(data) {
 
             return '(unknown)';
         },
+        refs(current) {
+            return current ? current.refs || syntaxRefs(current.syntax || current, typeDict) : [];
+        },
         match(current, value) { // FIXME: change argument order: current, syntax
             const { type, name } = current || {};
 
@@ -267,12 +287,8 @@ discovery.setPrepare(function(data) {
             let error = null;
 
             try {
-                const ast = csstree.parse(matchValue, {
-                    context: 'value'
-                });
-
                 if (!isEmpty) {
-                    match = csstree.lexer.match(current, ast);
+                    match = csstree.lexer.match(current, matchValue);
                 }
             } catch (e) {
                 error = e.message + (e.sourceFragment ? '\n' + e.sourceFragment() : '');

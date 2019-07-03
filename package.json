@@ -3,8 +3,8 @@
   "repository": "csstree/docs",
   "dependencies": {},
   "devDependencies": {
-    "@discoveryjs/discovery": "1.0.0-beta.14",
-    "css-tree": "1.0.0-alpha.29",
+    "@discoveryjs/discovery": "1.0.0-beta.15",
+    "css-tree": "1.0.0-alpha.30",
     "diff": "^4.0.1",
     "eslint": "^6.0.0",
     "resolve": "^1.5.0"
@@ -12,7 +12,7 @@
   "scripts": {
     "build": "node scripts/build.js && npm run discovery:build",
     "discovery": "discovery --model syntax",
-    "discovery:build": "discovery-build --model syntax -o docs/new-syntax"
+    "discovery:build": "discovery-build --model syntax -o docs/syntax"
   },
   "discovery": {
     "models": {
