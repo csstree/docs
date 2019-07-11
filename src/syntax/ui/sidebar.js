@@ -65,7 +65,7 @@ discovery.view.define('sidebar', {
                     {
                         view: 'badge',
                         className: 'patched-badge',
-                        when: 'no mdn()',
+                        when: 'type != "Function" and no mdn()',
                         data: '{ text: "added" }'
                     },
                     {

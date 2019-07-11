@@ -11,7 +11,7 @@ function buildMatchTrace(trace) {
     var childrenSyntaxes = [];
     trace = trace.slice().reverse();
 
-    if (typeof trace[0].syntax === 'function') {
+    if (trace[0].syntax === null) {
         trace.shift();
     }
 
