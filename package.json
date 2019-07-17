@@ -12,9 +12,10 @@
   "scripts": {
     "build": "node scripts/build.js && npm run discovery:build",
     "discovery": "discovery --model syntax",
-    "discovery:build": "discovery-build --model syntax -o docs/syntax"
+    "discovery:build": "discovery-build --model syntax -o docs/syntax --pretty-data"
   },
   "discovery": {
+    "favicon": "docs/favicon.png",
     "models": {
       "syntax": "src/syntax/config.js"
     }
