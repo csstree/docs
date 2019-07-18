@@ -1,7 +1,7 @@
 {
     "name": "CSSTree syntax reference",
-    "createdAt": "2019-07-17T12:57:39.125Z",
-    "elapsedTime": 15,
+    "createdAt": "2019-07-18T10:43:43.174Z",
+    "elapsedTime": 16,
     "data": {
         "csstree": {
             "version": "1.0.0-alpha.33",
@@ -849,8 +849,8 @@
                 "-webkit-mask-clip-style": "border | border-box | padding | padding-box | content | content-box | text",
                 "-ms-filter-function-list": "<-ms-filter-function>+",
                 "-ms-filter-function": "<-ms-filter-function-progid> | <-ms-filter-function-legacy>",
-                "-ms-filter-function-progid": "'progid:' [ <ident-token> '.' ]* [ <ident-token> | <function-token> <any-value>? ')' ]",
-                "-ms-filter-function-legacy": "<ident-token> | <function-token> <any-value>? ')'",
+                "-ms-filter-function-progid": "'progid:' [ <ident-token> '.' ]* [ <ident-token> | <function-token> <any-value>? ) ]",
+                "-ms-filter-function-legacy": "<ident-token> | <function-token> <any-value>? )",
                 "-ms-filter": "<string>",
                 "age": "child | young | old",
                 "attr-name": "<wq-name>",
@@ -1421,11 +1421,11 @@
                 },
                 "-ms-filter-function-progid": {
                     "comment": "https://developer.mozilla.org/en-US/docs/Web/CSS/-ms-filter",
-                    "syntax": "'progid:' [ <ident-token> '.' ]* [ <ident-token> | <function-token> <any-value>? ')' ]"
+                    "syntax": "'progid:' [ <ident-token> '.' ]* [ <ident-token> | <function-token> <any-value>? ) ]"
                 },
                 "-ms-filter-function-legacy": {
                     "comment": "https://developer.mozilla.org/en-US/docs/Web/CSS/-ms-filter",
-                    "syntax": "<ident-token> | <function-token> <any-value>? ')'"
+                    "syntax": "<ident-token> | <function-token> <any-value>? )"
                 },
                 "-ms-filter": {
                     "syntax": "<string>"

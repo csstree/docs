@@ -279,6 +279,20 @@ discovery.setPrepare(function(data) {
         refs(current) {
             return current ? current.refs || syntaxRefs(current.syntax || current, typeDict) : [];
         },
+        syntaxChildren(current) {
+            const children = [];
+
+            if (current) {
+                if (current.term) {
+                    children.push(current.term);
+                }
+                if (current.terms) {
+                    children.push(...current.terms);
+                }
+            }
+
+            return children;
+        },
         match(current, value) { // FIXME: change argument order: current, syntax
             const { type, name } = current || {};
 
