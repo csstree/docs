@@ -3,10 +3,10 @@
   "repository": "csstree/docs",
   "dependencies": {},
   "devDependencies": {
-    "@discoveryjs/discovery": "1.0.0-beta.15",
+    "@discoveryjs/discovery": "1.0.0-beta.16",
     "css-tree": "1.0.0-alpha.33",
     "diff": "^4.0.1",
-    "eslint": "^6.0.0",
+    "eslint": "^6.1.0",
     "resolve": "^1.5.0"
   },
   "scripts": {
