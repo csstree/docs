@@ -1,10 +1,10 @@
 {
   "license": "MIT",
   "repository": "csstree/docs",
-  "dependencies": {},
   "devDependencies": {
-    "@discoveryjs/discovery": "1.0.0-beta.16",
-    "css-tree": "1.0.0-alpha.33",
+    "@discoveryjs/discovery": "1.0.0-beta.21",
+    "@discoveryjs/cli": "^1.1.1",
+    "css-tree": "1.0.0-alpha.35",
     "diff": "^4.0.1",
     "eslint": "^6.1.0",
     "resolve": "^1.5.0"
