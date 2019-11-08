@@ -1,12 +1,12 @@
 /* eslint-env browser */
-/* global discovery, Diff */
+/* global discovery, difflib */
 
 const diffType = {
-    char: Diff.diffChars,
-    word: Diff.diffWords,
-    wordws: Diff.diffWordsWithSpace,
-    sentence: Diff.diffSentences,
-    line: Diff.diffLines
+    char: difflib.diffChars,
+    word: difflib.diffWords,
+    wordws: difflib.diffWordsWithSpace,
+    sentence: difflib.diffSentences,
+    line: difflib.diffLines
 };
 
 discovery.view.define('diff', function(el, config, data) {

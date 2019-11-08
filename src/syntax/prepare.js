@@ -2,6 +2,7 @@
 /* global discovery, csstree, ga */
 
 const functionSyntaxes = new WeakMap();
+const { definitionSyntax } = csstree;
 
 function syntaxName(syntax) {
     const { type, name } = syntax || {};
@@ -50,7 +51,7 @@ function collectUsage(type, dict, defaultSyntax) {
         if (descriptor && descriptor.syntax !== null) {
             const stack = [];
 
-            csstree.grammar.walk(descriptor.syntax, {
+            definitionSyntax.walk(descriptor.syntax, {
                 enter: function(node) {
                     if (
                         (node.type === 'Token' && node.value === '(') ||
@@ -84,7 +85,7 @@ function collectUsage(type, dict, defaultSyntax) {
 
                             if (!functionSyntax.has(node)) {
                                 const functionSyntaxAst = extractFunction(node, stack);
-                                const functionSyntaxStr = csstree.grammar.generate(functionSyntaxAst);
+                                const functionSyntaxStr = definitionSyntax.generate(functionSyntaxAst);
                                 
                                 if (!functionSyntax.has(functionSyntaxStr)) {
                                     functionDescriptor.syntax.terms.push(functionSyntaxAst);
@@ -142,11 +143,11 @@ function syntaxRefs(syntax, typeDict, globalDict) {
     const refs = [];
 
     if (typeof syntax === 'string') {
-        syntax = csstree.grammar.parse(syntax);
+        syntax = definitionSyntax.parse(syntax);
     }
 
     if (syntax) {
-        csstree.grammar.walk(syntax, {
+        definitionSyntax.walk(syntax, {
             enter: node => {
                 if (node.type in typeDict) {
                     const dict = typeDict[node.type];
@@ -260,13 +261,13 @@ discovery.setPrepare(function(data) {
             const syntax = current ? current.syntax || current : null;
 
             return typeof syntax === 'string'
-                ? csstree.grammar.parse(syntax)
+                ? definitionSyntax.parse(syntax)
                 : syntax || null;
         },
         syntax(current) {
             if (current) {
                 if (current.syntax) {
-                    return csstree.grammar.generate(current.syntax);
+                    return definitionSyntax.generate(current.syntax);
                 }
 
                 if (typeof current.match) {

@@ -8,7 +8,7 @@ function escapeHtml(str) {
 }
 
 function markupSyntax(syntax, match) {
-    return csstree.grammar.generate(syntax, function(str, node) {
+    return csstree.definitionSyntax.generate(syntax, function(str, node) {
         if (node.type === 'Type' || node.type === 'Property') {
             const entityDescriptor = discovery.resolveEntity(node);
             const error = !entityDescriptor || !entityDescriptor.entity.match;
@@ -32,7 +32,7 @@ discovery.view.define('syntax', function(el, config, data) {
 
     if (syntax) {
         if (typeof syntax === 'string') {
-            syntax = csstree.grammar.parse(syntax);
+            syntax = csstree.definitionSyntax.parse(syntax);
         }
 
         if (type === 'Function') {

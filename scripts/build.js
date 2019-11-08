@@ -4,7 +4,7 @@ var exec = require('child_process').execSync;
 var resolve = require('resolve');
 
 var CSSTREE_DIR = path.dirname(resolve.sync('css-tree/package.json'));
-var CSSTREE_DIST = path.join(CSSTREE_DIR, 'dist/csstree.js');
+var CSSTREE_DIST = path.join(CSSTREE_DIR, 'dist/csstree.min.js');
 var DEST_DIR = path.join(__dirname, '../docs');
 var CSSTREE_DEST = path.join(DEST_DIR, 'csstree.js');
 

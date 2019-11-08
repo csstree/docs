@@ -32,7 +32,7 @@ function buildMatchTrace(trace) {
                 break;
         }
 
-        var syntaxStr = csstree.grammar.generate(syntax, function(str, node) {
+        var syntaxStr = csstree.definitionSyntax.generate(syntax, function(str, node) {
             if (node.type === 'Type' || node.type === 'Property') {
                 str = '<span style="white-space: nowrap">' + escapeHtml(str) + '</span>';
             }

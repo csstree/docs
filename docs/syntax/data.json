@@ -1,10 +1,10 @@
 {
     "name": "CSSTree syntax reference",
-    "createdAt": "2019-10-07T21:09:11.853Z",
-    "elapsedTime": 11,
+    "createdAt": "2019-11-08T18:09:12.156Z",
+    "elapsedTime": 17,
     "data": {
         "csstree": {
-            "version": "1.0.0-alpha.35",
+            "version": "1.0.0-alpha.37",
             "properties": {
                 "--*": "<declaration-value>",
                 "-ms-accelerator": "false | true",

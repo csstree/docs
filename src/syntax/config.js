@@ -7,9 +7,11 @@ module.exports = {
     prepare: path.join(__dirname, 'prepare.js'),
     view: {
         basedir: __dirname,
+        libs: {
+            csstree: '../../node_modules/css-tree/dist/csstree.min.js',
+            difflib: '../../node_modules/diff/dist/diff.js'
+        },
         assets: [
-            '../../docs/csstree.js',
-            '../../node_modules/diff/dist/diff.js',
             'ui/sidebar.css',
             'ui/sidebar.js',
             'ui/page/default.css',
