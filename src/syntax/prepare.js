@@ -332,3 +332,5 @@ if (/^csstree.github.io$/i.test(location.host)) {
     ga('create', 'UA-84136412-1', 'auto');
     ga('send', 'pageview');
 }
+
+window.csstree = csstree;
