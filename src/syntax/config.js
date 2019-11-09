@@ -2,7 +2,7 @@ const path = require('path');
 const fetchData = require('./data');
 
 module.exports = {
-    name: 'CSSTree syntax reference',
+    name: 'CSS syntax reference (mdn/data & CSSTree)',
     data: fetchData,
     prepare: path.join(__dirname, 'prepare.js'),
     view: {
