@@ -16,7 +16,7 @@ discovery.view.define('key-value-item', function(el, config, data, context) {
 discovery.view.define('key-value', function(el, config, data, context) {
     const { itemConfig, key, value } = config;
     let entries = null;
-    
+
     if (Array.isArray(data)) {
         entries = data;
     } else {

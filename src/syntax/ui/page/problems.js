@@ -1,3 +1,5 @@
+/* global discovery */
+
 discovery.page.define('problems', [
     {
         view: 'h1',

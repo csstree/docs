@@ -5,7 +5,7 @@ discovery.view.define('syntax-match', function(el, config, data, context) {
     function updatePinned(pinned) {
         if (typeof selector === 'string') {
             [].slice.call(document.querySelectorAll(selector)).forEach(el =>
-                el.classList.toggle('syntax-match-trace-pinned', !!pinned)
+                el.classList.toggle('syntax-match-trace-pinned', Boolean(pinned))
             );
         }
 
@@ -34,7 +34,7 @@ discovery.view.define('syntax-match', function(el, config, data, context) {
 
     tracePopupEl.className = 'trace-popup';
     tracePopupEl.hidden = true;
-    tracePopupEl.innerHTML = 
+    tracePopupEl.innerHTML =
         '<div class="header">Match trace <span class="instruction"></span></div>' +
         '<div class="trace"></div>';
 

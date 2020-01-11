@@ -9,7 +9,7 @@ discovery.view.define('syntax-test', {
         modifiers: [
             { view: 'block', when: 'type="Function"',content: 'text:name + "("' },
             { view: 'input', name: 'value', placeholder: 'Enter a value to match against the syntax' },
-            { view: 'block', when: 'type="Function"', content: 'text:")"' },
+            { view: 'block', when: 'type="Function"', content: 'text:")"' }
         ],
         content: {
             view: 'section',

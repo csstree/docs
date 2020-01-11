@@ -68,7 +68,7 @@ function collectUsage(type, dict, defaultSyntax) {
                         if (node.type === 'Function') {
                             hostStack.push(host);
                             host = node;
-                            
+
                             let functionDescriptor = defaultSyntax.functions[host.name];
 
                             if (!functionDescriptor) {
@@ -86,7 +86,7 @@ function collectUsage(type, dict, defaultSyntax) {
                             if (!functionSyntax.has(node)) {
                                 const functionSyntaxAst = extractFunction(node, stack);
                                 const functionSyntaxStr = definitionSyntax.generate(functionSyntaxAst);
-                                
+
                                 if (!functionSyntax.has(functionSyntaxStr)) {
                                     functionDescriptor.syntax.terms.push(functionSyntaxAst);
                                 }
@@ -318,16 +318,18 @@ discovery.setPrepare(function(data) {
                 match: !error && match && match.matched || null,
                 iterations: match && match.iterations || null,
                 error
-            }
+            };
         }
-    })
+    });
 });
 
 if (/^csstree.github.io$/i.test(location.host)) {
+    /* eslint-disable */
     (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
     (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
     m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
     })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+    /* eslint-enable */
 
     ga('create', 'UA-84136412-1', 'auto');
     ga('send', 'pageview');

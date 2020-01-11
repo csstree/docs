@@ -29,7 +29,7 @@ const page = {
                 {
                     view: 'switch',
                     content: [
-                        { when: 'patch() and mdn()', content: { 
+                        { when: 'patch() and mdn()', content: {
                             view: 'tabs',
                             name: 'syntaxView',
                             beforeTabs: 'header:"Formal syntax"',
@@ -60,7 +60,7 @@ const page = {
                                         content: 'diff-syntax:{ before: mdn().syntax, after: syntax() }'
                                     } }
                                 ]
-                            },
+                            }
                         } },
                         { content: [
                             {

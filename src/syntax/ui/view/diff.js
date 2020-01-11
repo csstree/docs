@@ -25,7 +25,7 @@ discovery.view.define('diff', function(el, config, data) {
                 return;
             }
 
-            textContainer = el.appendChild(document.createElement('span'))
+            textContainer = el.appendChild(document.createElement('span'));
             textContainer.className = part.added ? 'added' : 'removed';
         }
 

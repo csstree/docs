@@ -18,7 +18,7 @@ document.body.appendChild(
                 markerUnits: 'strokeWidth',
                 markerWidth: '6',
                 markerHeight: '4',
-                orient: 'auto',
+                orient: 'auto'
             },
             [createSvgElement('path', { d: 'M 0 0 L 10 5 L 0 10 z', fill: '#bbb' })]
         )
@@ -70,7 +70,7 @@ discovery.view.define('match-graph', function(el, config, data) {
         var complex = false;
         var el;
         var contentEl;
-        var mainEl
+        var mainEl;
 
         el = createElement('div', 'node-wrapper', [
             contentEl = createElement('div', 'node-content', [
@@ -190,8 +190,8 @@ discovery.view.define('match-graph', function(el, config, data) {
             default:
                 mainEl.classList.add('node_default');
 
-                var nestedEl = el.appendChild(createElement('div', 'nested nested_labeled'))
-                
+                var nestedEl = el.appendChild(createElement('div', 'nested nested_labeled'));
+
                 mainEl.appendChild(createElement('div', 'node__type', node.type));
                 complex = true;
 
@@ -215,8 +215,8 @@ discovery.view.define('match-graph', function(el, config, data) {
                                 key +
                             '</span>' +
                             '<span>' +
-                                (isNested ?
-                                    '<span class="connection-dot"></span>'
+                                (isNested
+                                    ? '<span class="connection-dot"></span>'
                                     : typeof value === 'function' ? '[function]' : JSON.stringify(value)
                                 ) +
                             '</span>'
@@ -309,7 +309,7 @@ discovery.view.define('match-graph', function(el, config, data) {
                 if (y1 === y2) {
                     return [
                         'M', x1, y1,
-                        'H', x2 
+                        'H', x2
                     ].join(' ');
                 }
 

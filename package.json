@@ -1,41 +1,24 @@
 {
-  "license": "MIT",
-  "repository": "csstree/docs",
-  "devDependencies": {
-    "@discoveryjs/discovery": "1.0.0-beta.21",
-    "@discoveryjs/cli": "^1.1.1",
-    "css-tree": "1.0.0-alpha.37",
-    "diff": "^4.0.1",
-    "eslint": "^6.1.0",
-    "resolve": "^1.5.0"
-  },
-  "scripts": {
-    "build": "node scripts/build.js && npm run discovery:build",
-    "discovery": "discovery --model syntax",
-    "discovery:build": "discovery-build --model syntax -o docs/syntax --pretty-data"
-  },
-  "discovery": {
-    "favicon": "docs/favicon.png",
-    "models": {
-      "syntax": "src/syntax/config.js"
-    }
-  },
-  "eslintConfig": {
-    "env": {
-      "node": true,
-      "mocha": true,
-      "es6": true
+    "license": "MIT",
+    "repository": "csstree/docs",
+    "devDependencies": {
+        "@discoveryjs/discovery": "1.0.0-beta.27",
+        "@discoveryjs/cli": "^1.4.1",
+        "css-tree": "1.0.0-alpha.39",
+        "diff": "^4.0.1",
+        "eslint": "^6.1.0",
+        "resolve": "^1.5.0"
     },
-    "rules": {
-      "no-duplicate-case": 2,
-      "no-undef": 2,
-      "no-unused-vars": [
-        2,
-        {
-          "vars": "all",
-          "args": "after-used"
+    "scripts": {
+        "build": "node scripts/build.js && npm run discovery:build",
+        "discovery": "discovery --model syntax",
+        "discovery:build": "discovery-build --model syntax -o docs/syntax --pretty-data",
+        "lint": "eslint scripts src"
+    },
+    "discovery": {
+        "favicon": "docs/favicon.png",
+        "models": {
+            "syntax": "src/syntax/config.js"
         }
-      ]
     }
-  }
 }

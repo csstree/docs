@@ -13,7 +13,7 @@ function markupSyntax(syntax, match) {
             const entityDescriptor = discovery.resolveEntity(node);
             const error = !entityDescriptor || !entityDescriptor.entity.match;
 
-            str = `<a href="#${node.type}:${node.name}"${error ? ' class="error"': ''}>${escapeHtml(str)}</a>`;
+            str = `<a href="#${node.type}:${node.name}"${error ? ' class="error"' : ''}>${escapeHtml(str)}</a>`;
 
         }
 

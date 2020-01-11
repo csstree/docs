@@ -54,7 +54,7 @@ discovery.view.define('sidebar', {
                     {
                         when: 'type="Function" and syntax.terms.size() > 1',
                         view: 'html',
-                        data: '"<span class=variants> × " + syntax.terms.size() + "</span>"',
+                        data: '"<span class=variants> × " + syntax.terms.size() + "</span>"'
                     },
                     {
                         view: 'badge',
