@@ -20,5 +20,8 @@
         "models": {
             "syntax": "src/syntax/config.js"
         }
+    },
+    "dependencies": {
+        "@discoveryjs/view-plugin-highcharts": "^1.0.1"
     }
 }

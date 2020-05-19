@@ -5,6 +5,10 @@ module.exports = {
     name: 'CSS syntax reference (mdn/data & CSSTree)',
     data: fetchData,
     prepare: path.join(__dirname, 'prepare.js'),
+    plugins: [
+        '@discoveryjs/view-plugin-highcharts',
+        '@discoveryjs/view-plugin-highcharts/index.css'
+    ],
     view: {
         basedir: __dirname,
         libs: {
