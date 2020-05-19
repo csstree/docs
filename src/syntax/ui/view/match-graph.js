@@ -82,7 +82,7 @@ discovery.view.define('match-graph', function(el, config, data) {
             mainEl.classList.add('node_recursive');
             mainEl.innerHTML = 'Recursive';
             container.appendChild(el);
-            return complex;
+            return true;
         }
 
         if (node.type === 'If') {

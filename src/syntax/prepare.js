@@ -184,7 +184,7 @@ function syntaxRefs(syntax, typeDict, globalDict) {
     return refs;
 }
 
-discovery.setPrepare(function(data) {
+discovery.setPrepare(function(data, { defineObjectMarker, addQueryHelpers }) {
     const { properties, types } = csstree.lexer;
     const functions = Object.create(null);
     const typeOrder = ['Property', 'Type', 'Function'];
@@ -193,6 +193,16 @@ discovery.setPrepare(function(data) {
         Type: types,
         Function: functions
     };
+    const markers = Object.fromEntries(Object.keys(typeDict).map(type => [
+        type,
+        defineObjectMarker(type, {
+            refs: [value => `${value.type}:${value.name}`],
+            lookupRefs: [value => `${value.type}:${value.name}`],
+            ref: 'name',
+            title: obj => syntaxName(obj),
+            page: type
+        })
+    ]));
 
     csstree.lexer.validate();
     csstree.lexer.functions = functions;
@@ -207,30 +217,10 @@ discovery.setPrepare(function(data) {
 
     data.dict.forEach(item => {
         item.refs = syntaxRefs(item.syntax, typeDict, data.dict);
+        markers[item.type](item);
     });
 
-    const syntaxIndex = data.dict.reduce(
-        (map, item) => map
-            .set(item, item)
-            .set(`${item.type}:${item.name}`, item),
-        new Map()
-    );
-    discovery.addEntityResolver(value => {
-        if (value) {
-            value = syntaxIndex.get(value) || syntaxIndex.get(`${value.type}:${value.name}`);
-        }
-
-        if (value) {
-            return {
-                type: value.type,
-                id: value.name,
-                name: syntaxName(value),
-                entity: value
-            };
-        }
-    });
-
-    discovery.addQueryHelpers({
+    addQueryHelpers({
         formatName: syntaxName,
         typeSorting(current) {
             const idx = typeOrder.indexOf(current);

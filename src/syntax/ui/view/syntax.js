@@ -10,8 +10,8 @@ function escapeHtml(str) {
 function markupSyntax(syntax, match) {
     return csstree.definitionSyntax.generate(syntax, function(str, node) {
         if (node.type === 'Type' || node.type === 'Property') {
-            const entityDescriptor = discovery.resolveEntity(node);
-            const error = !entityDescriptor || !entityDescriptor.entity.match;
+            const entityDescriptor = discovery.objectMarkers.lookup(node);
+            const error = !entityDescriptor || !entityDescriptor.object.match;
 
             str = `<a href="#${node.type}:${node.name}"${error ? ' class="error"' : ''}>${escapeHtml(str)}</a>`;
 

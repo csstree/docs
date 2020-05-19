@@ -6,7 +6,7 @@ discovery.view.define('sidebar', {
         view: 'list',
         data: `
             dict.[no #.filter or name~=#.filter]
-            .group(<type>)
+            .group(=>type)
             .(
                 // prepare items
                 $items: value.({
@@ -15,7 +15,7 @@ discovery.view.define('sidebar', {
                     syntax,
                     missed: no match,
                     brokenRefs: refs.resolved.[no match]
-                }).sort(<name>);
+                }).sort(=>name);
 
                 // section info
                 {
@@ -24,7 +24,7 @@ discovery.view.define('sidebar', {
                     badSyntaxes: $items.[missed or brokenRefs]
                 }
             )
-            .sort(<type.typeSorting()>)
+            .sort(=>type.typeSorting())
         `,
         emptyText: 'No matches',
         item: {

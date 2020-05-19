@@ -94,6 +94,6 @@ const page = {
     ]
 };
 
-discovery.page.define('Property', page, { resolveLink: 'Property' });
-discovery.page.define('Type',     page, { resolveLink: 'Type' });
-discovery.page.define('Function', page, { resolveLink: 'Function' });
+discovery.page.define('Property', page);
+discovery.page.define('Type',     page);
+discovery.page.define('Function', page);
