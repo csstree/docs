@@ -1,6 +1,9 @@
 {
     "license": "MIT",
     "repository": "csstree/docs",
+    "dependencies": {
+        "@discoveryjs/view-plugin-highcharts": "^1.0.1"
+    },
     "devDependencies": {
         "@discoveryjs/discovery": "1.0.0-beta.41",
         "@discoveryjs/cli": "^1.13.1",
@@ -20,8 +23,5 @@
         "models": {
             "syntax": "src/syntax/config.js"
         }
-    },
-    "dependencies": {
-        "@discoveryjs/view-plugin-highcharts": "^1.0.1"
     }
 }
