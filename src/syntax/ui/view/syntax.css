@@ -1,18 +1,21 @@
 .view-syntax a {
     white-space: nowrap;
     color: #333;
-    text-decoration-color: #b8b8b8;
+    text-decoration-color: rgba(113, 113, 113, 0.5);
+}
+.discovery-root-darkmode .view-syntax a {
+    color: #aaa;
 }
 .view-syntax a:hover {
-    color: black;
+    color: var(--discovery-color);
     text-decoration-color: currentColor;
 }
 .view-syntax .error {
     color: #d00 !important;
 }
 .view-syntax .match {
-    background: #fff4ad;
-    box-shadow: 0 1px 0 2px #fff4ad;
+    background: #ffdd1136;
+    box-shadow: 0 0 0 2px #ffdd1136;
     white-space: nowrap;
     border-radius: 3px;
 }

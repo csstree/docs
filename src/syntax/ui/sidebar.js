@@ -13,7 +13,7 @@ discovery.view.define('sidebar', {
                     type,
                     name,
                     syntax,
-                    missed: no match,
+                    missed: no match ,
                     brokenRefs: refs.resolved.[no match]
                 }).sort(=>name);
 
@@ -37,8 +37,7 @@ discovery.view.define('sidebar', {
                     when: 'badSyntaxes',
                     className: 'danger-badge',
                     data: `{
-                        text: badSyntaxes.size(),
-                        color: "#ff4444"
+                        text: badSyntaxes.size()
                     }`
                 }
             ],

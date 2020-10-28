@@ -2,7 +2,6 @@
     display: none;
 }
 .view-syntax-tree .match {
-    background: #fe8;
     white-space: nowrap;
     padding: 2px 3px;
     border-radius: 3px;
@@ -12,7 +11,7 @@
     text-decoration-color: #b8b8b8;
 }
 .view-syntax-tree .view-syntax a:hover {
-    color: black;
+    color: var(--discovery-color);
     text-decoration-color: currentColor;
 }
 .view-syntax-tree .error {

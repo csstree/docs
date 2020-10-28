@@ -20,7 +20,7 @@
 .view-syntax-match-tree .match-tree-node > .label {
     display: block;
     text-align: center;
-    border-top: 1px solid green;
+    border-top: 1px solid rgba(0, 96, 0, 0.75);
     padding: 1px 6px 4px;
     line-height: 1;
     white-space: nowrap;
@@ -40,7 +40,7 @@
 .view-syntax-match-tree .match-tree-node_ASTNode > .label {
     opacity: 1;
     font-size: 14px;
-    background: #d4edda;
+    background: rgba(40, 165, 70, 0.2);
     margin-bottom: 2px;
     border: none;
     padding: 2px 6px;
@@ -48,5 +48,5 @@
 }
 .view-syntax-match-tree .match-tree-node_ASTNode:hover > .label,
 .view-syntax-match-tree .match-tree-node_ASTNode.pinned > .label {
-    background-color: #c3e6cb;
+    background-color: rgba(105, 192, 125, 0.4);
 }

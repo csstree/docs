@@ -2,10 +2,15 @@
     display: inline-block;
     padding: 3px 8px 3px;
     margin: 0 3px 2em 0;
-    background: #d7ecb1;
+    background: rgba(130, 195, 11, 0.32);
 }
 
 .page-default .versions .view-badge .prefix {
     padding: 5px 8px 6px;
     margin: -3px 6px -3px -8px;
+}
+
+.page-default .view-indicator .value {
+    font-family: Helvetica;
+    font-weight: 100;
 }

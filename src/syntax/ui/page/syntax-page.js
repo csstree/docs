@@ -70,7 +70,7 @@ const page = {
                                     {
                                         view: 'badge',
                                         when: 'type!="Function" and no mdn() and match',
-                                        data: '{ text: "Missed in mdn-data", color: "#ffbbaa" }'
+                                        data: '{ text: "Missed in mdn-data", color: "rgba(255, 52, 1, 0.335)" }'
                                     }
                                 ]
                             },

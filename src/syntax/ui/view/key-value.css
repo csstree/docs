@@ -1,7 +1,7 @@
 .view-key-value {
     display: table;
     border-collapse: collapse;
-    border: solid #fafafa;
+    border: solid rgba(205, 205, 205, 0.1);
     border-width: 4px 8px;
     margin: 1px 0;
 }
@@ -13,10 +13,10 @@
 .view-key-value-item-key,
 .view-key-value-item-value {
     display: table-cell;
-    background: #fafafa;
+    background: rgba(205, 205, 205, 0.1);
     background-clip: padding-box;
     border-width: 0;
-    border-bottom: 1px solid #eee;
+    border-bottom: 1px solid rgba(198, 198, 198, 0.3);
 }
 
 .view-key-value-item-key {

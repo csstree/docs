@@ -8,7 +8,9 @@ function escapeHtml(str) {
 }
 
 function buildMatchTrace(trace) {
-    var childrenSyntaxes = [];
+    let childrenSyntaxes = [];
+    let childrenClose = null;
+
     trace = trace.slice().reverse();
 
     if (trace[0].syntax === null) {
@@ -17,11 +19,12 @@ function buildMatchTrace(trace) {
 
     if (trace[0].syntax && trace[0].syntax.type === 'Function') {
         childrenSyntaxes = trace[1].match.slice(1, -1).map(match => match.syntax);
+        childrenClose = trace[1].match[trace[1].match.length - 1].syntax;
     }
 
-    var prevSyntax = trace.shift().syntax;
-    var matches = trace.map(function(match, idx) {
-        var syntax = match.syntax;
+    let prevSyntax = trace.shift().syntax;
+    const matches = trace.map(function(match, idx, array) {
+        let { syntax } = match;
 
         switch (syntax.type) {
             case 'Type':
@@ -30,33 +33,45 @@ function buildMatchTrace(trace) {
             case 'Property':
                 syntax = csstree.lexer.getProperty(syntax.name).syntax || syntax; // FIXME: should relay on model data
                 break;
+            case 'Function':
+                syntax = csstree.lexer.functions[syntax.name].syntax || syntax; // FIXME: should relay on model data
+                break;
         }
 
-        var syntaxStr = csstree.definitionSyntax.generate(syntax, function(str, node) {
+        const syntaxStr = csstree.definitionSyntax.generate(syntax, function(str, node) {
             if (node.type === 'Type' || node.type === 'Property') {
-                str = '<span style="white-space: nowrap">' + escapeHtml(str) + '</span>';
+                str = escapeHtml(str);
+            }
+
+            if (node.type === 'Type' || node.type === 'Property' ||
+                node.type === 'Keyword' || node.type === 'Function' ||
+                node.type === 'Multiplier') {
+                str = '<span class="atom">' + str + '</span>';
             }
 
             if (node === prevSyntax) {
-                var origStr = str;
-                var offset;
+                const origStr = str;
+                let offset;
 
                 if (node.type === 'Multiplier') {
                     offset = str.lastIndexOf('#');
                     str = '#';
                 }
 
-                if (idx > 0) {
-                    str = '<span class="tail"></span>' + str;
-                }
-
-                str = '<span class="match">' + str + '</span>';
+                str = [
+                    '<span class="match">',
+                    `<span class="${idx > 0 ? 'connector-up' : 'clear-up'}"></span>`,
+                    `<span class="${idx !== array.length - 1 ? 'connector-down' : 'clear-down'}"></span>`,
+                    '<span class="magick-box"></span>',
+                    '<span class="match-caption">' + str + '</span>',
+                    '</span>'
+                ].join('');
 
                 if (node.type === 'Multiplier') {
                     str = origStr.substr(0, offset) + str + origStr.substr(offset + 1);
                 }
-            } else if (childrenSyntaxes.indexOf(node) !== -1) {
-                str = '<span class="children-match">' + str + '</span>';
+            } else if (childrenSyntaxes.includes(node) || node === childrenClose) {
+                str = '<span class="children-match"><span class="match-caption">' + str + '</span></span>';
             }
 
             return str;
@@ -67,9 +82,7 @@ function buildMatchTrace(trace) {
         return (
             '<li>' +
                 '<span class="syntax">' +
-                    '<span class="lines">' +
-                        syntaxStr +
-                    '</span>' +
+                    syntaxStr +
                 '</span>' +
             '</li>'
         );

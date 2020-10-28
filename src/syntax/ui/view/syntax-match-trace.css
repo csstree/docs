@@ -5,68 +5,118 @@
 }
 .view-syntax-match-trace li {
     overflow: hidden;
-    line-height: 20px;
-    margin-bottom: -7px;
-}
-.view-syntax-match-trace li + li {
-    z-index: -1;
+    line-height: 25px;
+    margin-bottom: -4px;
 }
 .view-syntax-match-trace .syntax {
     display: inline-block;
-    padding: 15px 6px 6px;
+    padding: 10px 6px 10px;
     position: relative;
-    overflow: hidden;
 }
 .view-syntax-match-trace li:first-child .syntax {
     padding-top: 0;
 }
-.view-syntax-match-trace .lines {
-    background-color: rgba(255, 255, 255, .65);
-}
-.view-syntax-match-trace li:not(:last-child) .syntax::before {
-    content: '';
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    height: 4px;
-    border: solid #e5e6b5;
-    border-width: 0 1px 2px;
+.view-syntax-match-trace .atom {
+    white-space: nowrap;
 }
 .view-syntax-match-trace .match,
 .view-syntax-match-trace .children-match {
     display: inline-block;
-    background: #FF9;
     white-space: nowrap;
-    outline: 2px solid #FF9;
-    outline-width: 2px 1px;
     text-align: center;
+    --match-caption-color: rgba(118, 202, 126, .35);
 }
 .view-syntax-match-trace .children-match {
-    background-color: #CCF;
-    outline-color: #CCF;
+    --match-caption-color: rgba(85, 85, 255, 0.3);
 }
-.view-syntax-match-trace .match > .tail {
+.view-syntax-match-trace .match > .magick-box {
+    /* This block makes all precending blocks (connectors & trunk)
+       positioned to center of match block. That's a real magick! */
     display: block;
 }
-.view-syntax-match-trace li:not(:first-child) .match::before {
+.view-syntax-match-trace .match-caption {
+    position: relative;
+    z-index: 1;
+}
+.view-syntax-match-trace .match-caption::before {
     content: '';
     position: absolute;
-    height: 500px;
-    width: 2000px;
-    transform: translateX(-100%);
-    border: solid #e5e6b5;
-    border-width: 2px 2px 0 0;
-    top: 0;
+    top: -4px;
+    left: -1px;
+    right: -1px;
+    bottom: -4px;
+    background: linear-gradient(to top, var(--match-caption-color), var(--match-caption-color)) var(--discovery-background-color);
+    outline: 1px solid var(--discovery-background-color);
     z-index: -1;
 }
-.view-syntax-match-trace li:not(:first-child) .match::after {
+
+.view-syntax-match-trace .match::before { /* trunk */
     content: '';
     position: absolute;
-    margin-bottom: -500px;
-    margin-left: -200px;
-    width: 400px;
     z-index: -1;
-    background: white;
-    height: 500px;
+    top: 2px;
+    bottom: 2px;
+    width: 2px;
+    background-color: var(--match-caption-color);
+}
+.view-syntax-match-trace .clear-up,
+.view-syntax-match-trace .clear-down {
+    position: absolute;
+    z-index: -1;
+    height: 100%;
+    width: 2px;
+    background: var(--discovery-background-color);
+}
+.view-syntax-match-trace .clear-up {
+    transform: translateY(-100%);
+}
+
+.view-syntax-match-trace .connector-up,
+.view-syntax-match-trace .connector-down {
+    position: absolute;
+    width: 1000px;
+    height: 4px;
+    transform: translateX(-50%);
+    z-index: -2;
+}
+.view-syntax-match-trace .connector-up {
+    top: 0;
+    margin-left: 2px;
+}
+.view-syntax-match-trace .connector-down {
+    margin-left: 2px;
+    background: var(--match-caption-color);
+    bottom: 0;
+}
+
+.view-syntax-match-trace .connector-up::before,
+.view-syntax-match-trace .connector-down::before,
+.view-syntax-match-trace .connector-up::after,
+.view-syntax-match-trace .connector-down::after {
+    content: '';
+    position: absolute;
+    background: var(--discovery-background-color);
+    height: 2px;
+    z-index: 2;
+    top: 0;
+}
+
+.view-syntax-match-trace .connector-up::before {
+    left: 50%;
+    right: -100%;
+}
+.view-syntax-match-trace .connector-down::before {
+    left: -100%;
+    right: 50%;
+}
+  
+.view-syntax-match-trace .connector-up::after {
+    top: 2px;
+    left: -100%;
+    right: 50%;
+}
+.view-syntax-match-trace .connector-down::after {
+    top: 2px;
+    right: -100%;
+    left: 50%;
 }

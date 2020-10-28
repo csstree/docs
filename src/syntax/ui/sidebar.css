@@ -8,12 +8,13 @@
 
 .discovery-sidebar .missed {
     color: #a00;
+    text-decoration-color: #a008;
 }
 
 .discovery-sidebar .patched-badge {
     margin-left: 1ex;
     color: #635d33;
-    background-color: #e2dcb1;
+    background-color: rgba(182, 167, 60, 0.4);
     text-transform: uppercase;
     font-size: 10px;
     vertical-align: text-bottom;
@@ -29,4 +30,12 @@
 .discovery-sidebar .view-list-item > .danger-badge {
     font-size: 10px;
     vertical-align: text-bottom;
+}
+
+.discovery-root-darkmode .discovery-sidebar .missed:not(:hover) {
+    color: #ff5e5e;
+    text-decoration-color: #ff5e5e80;
+}
+.discovery-root-darkmode .discovery-sidebar .patched-badge {
+    color: #dcd7ad;
 }

@@ -52,8 +52,8 @@ function createMatchBlock(type, content, syntaxMatchTrace) {
 }
 
 function buildMatchResult(match, stack) {
-    var syntax = match.syntax || match;
-    var result;
+    const syntax = match.syntax || match;
+    let result;
 
     if (match.token) {
         result = createMatchBlock('ASTNode', match.token, stack.concat(match));
@@ -96,7 +96,7 @@ discovery.view.define('syntax-match-tree', function(el, config, data) {
         );
 
         if (pinned && pinnedEl) {
-            var cursor = pinnedEl;
+            let cursor = pinnedEl;
 
             while (cursor !== el) {
                 cursor.classList.add('pinned');

@@ -5,16 +5,16 @@
         "@discoveryjs/view-plugin-highcharts": "^1.0.1"
     },
     "devDependencies": {
-        "@discoveryjs/discovery": "1.0.0-beta.41",
-        "@discoveryjs/cli": "^1.13.1",
-        "css-tree": "1.0.0-alpha.39",
+        "@discoveryjs/discovery": "1.0.0-beta.46",
+        "@discoveryjs/cli": "^1.14.0",
+        "css-tree": "^1.0.0",
         "diff": "^4.0.1",
         "eslint": "^7.0.0",
         "resolve": "^1.5.0"
     },
     "scripts": {
         "build": "node scripts/build.js && npm run discovery:build",
-        "discovery": "discovery --model syntax",
+        "start": "discovery --model syntax",
         "discovery:build": "discovery-build --model syntax -o docs/syntax --pretty-data",
         "lint": "eslint scripts src"
     },

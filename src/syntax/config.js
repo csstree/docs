@@ -4,6 +4,7 @@ const fetchData = require('./data');
 module.exports = {
     name: 'CSS syntax reference (mdn/data & CSSTree)',
     data: fetchData,
+    darkmode: 'disabled',
     prepare: path.join(__dirname, 'prepare.js'),
     plugins: [
         '@discoveryjs/view-plugin-highcharts',

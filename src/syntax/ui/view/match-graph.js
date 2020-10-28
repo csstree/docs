@@ -13,14 +13,14 @@ document.body.appendChild(
             {
                 id: 'match-graph-connection-marker',
                 viewBox: '0 0 5 10',
-                refX: '9',
+                refX: '0',
                 refY: '5',
                 markerUnits: 'strokeWidth',
                 markerWidth: '6',
                 markerHeight: '4',
                 orient: 'auto'
             },
-            [createSvgElement('path', { d: 'M 0 0 L 10 5 L 0 10 z', fill: '#bbb' })]
+            [createSvgElement('path', { d: 'M 0 0 L 10 5 L 0 10 z', fill: 'rgba(150, 150, 150, 0.65)' })]
         )
     ])
 );
@@ -67,10 +67,10 @@ discovery.view.define('match-graph', function(el, config, data) {
             return walk(node.match, container);
         }
 
-        var complex = false;
-        var el;
-        var contentEl;
-        var mainEl;
+        let complex = false;
+        let el;
+        let contentEl;
+        let mainEl;
 
         el = createElement('div', 'node-wrapper', [
             contentEl = createElement('div', 'node-content', [
@@ -97,17 +97,19 @@ discovery.view.define('match-graph', function(el, config, data) {
         });
 
         switch (node.type) {
-            case 'Match':
+            case 'Match': {
                 mainEl.classList.add('node_match');
                 mainEl.innerHTML = node.type;
 
-                var toNode = null;
-                for (var i = ifStack.length - 1, prev = node; i >= 0; i--) {
-                    var ifStackItem = ifStack[i];
+                let toNode = null;
+                for (let i = ifStack.length - 1, prev = node; i >= 0; i--) {
+                    const ifStackItem = ifStack[i];
+
                     if (prev === ifStackItem.then) {
                         toNode = ifStackItem.then;
                         break;
                     }
+
                     prev = ifStackItem;
                 }
 
@@ -120,18 +122,21 @@ discovery.view.define('match-graph', function(el, config, data) {
                     });
                 }
                 break;
+            }
 
-            case 'Mismatch':
+            case 'Mismatch': {
                 mainEl.classList.add('node_mismatch');
                 mainEl.innerHTML = node.type;
 
-                var toNode = null;
-                for (var i = ifStack.length - 1, prev = node; i >= 0; i--) {
-                    var ifStackItem = ifStack[i];
+                let toNode = null;
+                for (let i = ifStack.length - 1, prev = node; i >= 0; i--) {
+                    const ifStackItem = ifStack[i];
+
                     if (prev === ifStackItem.then) {
                         toNode = ifStackItem.else;
                         break;
                     }
+
                     prev = ifStackItem;
                 }
 
@@ -144,6 +149,7 @@ discovery.view.define('match-graph', function(el, config, data) {
                     });
                 }
                 break;
+            }
 
             case 'DisallowEmpty':
                 mainEl.classList.add('node_disallow-empty');
@@ -156,9 +162,9 @@ discovery.view.define('match-graph', function(el, config, data) {
             case 'Function':
             case 'Token':
             case 'String':
-            case 'Comma':
+            case 'Comma': {
                 if (!node.match) {
-                    var key = false;
+                    let key = false;
 
                     switch (node.type) {
                         case 'Type':
@@ -186,28 +192,29 @@ discovery.view.define('match-graph', function(el, config, data) {
                         '<span class="node__key">' + key + '</span>';
                     break;
                 }
+            }
 
-            default:
+            default: {
                 mainEl.classList.add('node_default');
 
-                var nestedEl = el.appendChild(createElement('div', 'nested nested_labeled'));
+                const nestedEl = el.appendChild(createElement('div', 'nested nested_labeled'));
 
                 mainEl.appendChild(createElement('div', 'node__type', node.type));
                 complex = true;
 
-                var nestedSimpleEl = nestedEl;
-                var nestedOffset = {
+                let nestedSimpleEl = nestedEl;
+                const values = node.type === 'Enum' ? node.map : node;
+                const nestedOffset = {
                     count: 0
                 };
-                var values = node.type === 'Enum' ? node.map : node;
-                for (var key in values) {
+                for (const key in values) {
                     if (values === node && key === 'syntax' || key === 'type') {
                         continue;
                     }
 
-                    var value = values[key];
-                    var isNested = value && typeof value === 'object';
-                    var field = mainEl.appendChild(
+                    const value = values[key];
+                    const isNested = value && typeof value === 'object';
+                    const field = mainEl.appendChild(
                         createElement(
                             'div',
                             'node-field',
@@ -242,6 +249,7 @@ discovery.view.define('match-graph', function(el, config, data) {
                         });
                     }
                 }
+            }
         }
 
         container.appendChild(el);
@@ -253,14 +261,14 @@ discovery.view.define('match-graph', function(el, config, data) {
         return complex;
     }
 
-    var visited = new Map();
-    var elByNode = new Map();
-    var ifStack = [];
-    var laterConnections = [];
-    var connections = [];
+    const visited = new Map();
+    const elByNode = new Map();
+    const ifStack = [];
+    const laterConnections = [];
+    const connections = [];
 
-    var matchTreeConnectionsEl;
-    var matchTreeEl = createElement('div', 'graph');
+    const matchTreeEl = createElement('div', 'graph');
+    let matchTreeConnectionsEl;
 
     if (data) {
         walk(data, matchTreeEl);
@@ -293,18 +301,19 @@ discovery.view.define('match-graph', function(el, config, data) {
 
     // build connections
     setTimeout(() => {
-        var baseBox = matchTreeEl.getBoundingClientRect();
+        const baseBox = matchTreeEl.getBoundingClientRect();
+
         connections
             .map(function(connection) {
-                var from = connection.from.getBoundingClientRect();
-                var to = connection.to.getBoundingClientRect();
-                var back = from.right > to.left;
+                const from = connection.from.getBoundingClientRect();
+                const to = connection.to.getBoundingClientRect();
+                const back = from.right > to.left;
 
-                var x1 = from.right - baseBox.left - 3;
-                var y1 = from.top - baseBox.top + from.height / 2;
-                var x2 = (back ? to.right + 1 : to.left - 1) - baseBox.left;
-                var y2 = to.top - baseBox.top + 10;
-                var midX = back ? 16 : 12 + Math.abs(connection.num - connection.total.count) * 5;
+                const x1 = from.right - baseBox.left;
+                const y1 = from.top - baseBox.top + from.height / 2;
+                const x2 = (back ? to.right + 1 : to.left - 1) - baseBox.left - 7;
+                const y2 = to.top - baseBox.top + 10;
+                const midX = back ? 16 : 12 + Math.abs(connection.num - connection.total.count) * 5;
 
                 if (y1 === y2) {
                     return [
@@ -313,8 +322,8 @@ discovery.view.define('match-graph', function(el, config, data) {
                     ].join(' ');
                 }
 
-                var arc = Math.abs(y1 - y2) > 16 ? 8 : 0;
-                var arcY = y2 < y1 ? -arc : arc;
+                const arc = Math.abs(y1 - y2) > 16 ? 8 : 0;
+                const arcY = y2 < y1 ? -arc : arc;
 
                 return [
                     'M', x1, y1,
