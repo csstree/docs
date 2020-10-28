@@ -1,10 +1,10 @@
 {
     "name": "CSS syntax reference (mdn/data & CSSTree)",
-    "createdAt": "2020-10-18T12:25:09.205Z",
-    "elapsedTime": 9,
+    "createdAt": "2020-10-28T12:24:27.767Z",
+    "elapsedTime": 14,
     "data": {
         "csstree": {
-            "version": "1.0.0-rc",
+            "version": "1.0.0",
             "types": {
                 "absolute-size": "xx-small | x-small | small | medium | large | x-large | xx-large | xxx-large",
                 "alpha-value": "<number> | <percentage>",
@@ -78,7 +78,7 @@
                 "drop-shadow()": "drop-shadow( <length>{2,3} <color>? )",
                 "east-asian-variant-values": "[ jis78 | jis83 | jis90 | jis04 | simplified | traditional ]",
                 "east-asian-width-values": "[ full-width | proportional-width ]",
-                "element()": "element( <id-selector> )",
+                "element()": "element( <custom-ident> , [ first | start | last | first-except ]? ) | element( <id-selector> )",
                 "ellipse()": "ellipse( [ <shape-radius>{2} ]? [ at <position> ]? )",
                 "ending-shape": "circle | ellipse",
                 "env()": "env( <custom-ident> , <declaration-value>? )",
@@ -1564,6 +1564,10 @@
                 "content-list": {
                     "comment": "missed -> https://drafts.csswg.org/css-content/#typedef-content-list (document-url, <target> and leader() is omitted util stabilization)",
                     "syntax": "[ <string> | contents | <image> | <quote> | <target> | <leader()> | <attr()> | counter( <ident>, <'list-style-type'>? ) ]+"
+                },
+                "element()": {
+                    "comment": "https://drafts.csswg.org/css-gcpm/#element-syntax & https://drafts.csswg.org/css-images-4/#element-notation",
+                    "syntax": "element( <custom-ident> , [ first | start | last | first-except ]? ) | element( <id-selector> )"
                 },
                 "generic-voice": {
                     "comment": "https://www.w3.org/TR/css3-speech/#voice-family",
