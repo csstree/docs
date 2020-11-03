@@ -1,13 +1,18 @@
 /* global discovery */
 
 discovery.page.define('default', [
-    'h1:#.name',
     {
-        view: 'block',
-        className: 'versions',
+        view: 'page-header',
         content: [
-            'badge:{ prefix: "css-tree", text: csstree.version }',
-            'badge:{ prefix: "mdn-data", text: mdn.version }'
+            'h1:#.name',
+            {
+                view: 'block',
+                className: 'versions',
+                content: [
+                    'badge:{ prefix: "css-tree", text: csstree.version }',
+                    'badge:{ prefix: "mdn-data", text: mdn.version }'
+                ]
+            }
         ]
     },
     {

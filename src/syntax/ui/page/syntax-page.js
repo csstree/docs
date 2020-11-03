@@ -4,7 +4,11 @@ const page = {
     view: 'context',
     data: 'dict.pick(<type=#.page and name=#.id>)',
     content: [
-        'h1:formatName()',
+        {
+            view: 'page-header',
+            prelude: 'badge:{ text: type, color: "rgba(237, 177, 9, 0.35)" }',
+            content: 'h1:formatName()'
+        },
         {
             view: 'alert-danger',
             when: 'no match',

@@ -2,10 +2,8 @@
 
 discovery.page.define('problems', [
     {
-        view: 'h1',
-        content: [
-            'text:"Problems"'
-        ]
+        view: 'page-header',
+        content: 'h1:"Problems"'
     },
     {
         view: 'ol',
