@@ -1,10 +1,10 @@
 {
     "name": "CSS syntax reference (mdn/data & CSSTree)",
-    "createdAt": "2020-11-14T12:31:40.389Z",
-    "elapsedTime": 9,
+    "createdAt": "2020-11-14T12:37:15.296Z",
+    "elapsedTime": 7,
     "data": {
         "csstree": {
-            "version": "1.0.0",
+            "version": "1.0.1",
             "types": {
                 "absolute-size": "xx-small | x-small | small | medium | large | x-large | xx-large | xxx-large",
                 "alpha-value": "<number> | <percentage>",
