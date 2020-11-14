@@ -1,4 +1,6 @@
 /node_modules/
+docs/syntax/
+docs/csstree.js
 .idea
 .vscode
 *.cache
