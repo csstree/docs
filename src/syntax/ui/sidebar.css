@@ -2,12 +2,16 @@
     width: 300px;
 }
 
+.discovery-sidebar .nested {
+    padding-left: 20px;
+}
+
 .discovery-sidebar .variants {
     color: #888;
 }
 
-.discovery-sidebar .missed {
-    color: #a00;
+.discovery-sidebar .missed .view-link:first-child {
+    color: #d00;
     text-decoration-color: #a008;
 }
 

@@ -5,16 +5,22 @@ discovery.view.define('sidebar', {
     content: {
         view: 'list',
         data: `
-            dict.[no #.filter or name~=#.filter]
+            dict.[
+                type not in ["AtrulePrelude", "AtruleDescriptor"]
+                and (name~=#.filter or descriptors.values().name~=#.filter)
+            ]
             .group(=>type)
             .(
                 // prepare items
                 $items: value.({
                     type,
                     name,
+                    parent,
+                    nested: type = "Atrule" ? descriptors.values() : null,
                     syntax,
-                    missed: no match ,
-                    brokenRefs: refs.resolved.[no match]
+                    missed: no match and type != 'Atrule',
+                    brokenRefs: (type != "Atrule" ? $ : (descriptors.values() or []) + (prelude or []))
+                        .refs.resolved.[no match]
                 }).sort(=>name);
 
                 // section info
@@ -44,10 +50,12 @@ discovery.view.define('sidebar', {
             content: {
                 view: 'list',
                 data: 'items',
+                itemConfig: {
+                    className: data => data.missed ? 'missed' : ''
+                },
                 item: [
                     {
                         view: 'auto-link',
-                        className: data => data.missed ? 'missed' : '',
                         content: 'text-match:{ text, match: #.filter }'
                     },
                     {
@@ -64,7 +72,7 @@ discovery.view.define('sidebar', {
                     {
                         view: 'badge',
                         className: 'patched-badge',
-                        when: 'type != "Function" and no mdn()',
+                        when: 'type != "Function" and no mdn() and no missed',
                         data: '{ text: "added" }'
                     },
                     {
@@ -72,6 +80,14 @@ discovery.view.define('sidebar', {
                         className: 'danger-badge',
                         when: 'brokenRefs',
                         data: '{ text: brokenRefs.size() }'
+                    },
+                    {
+                        view: 'list',
+                        className: 'nested',
+                        when: '#.filter',
+                        data: 'nested.[name~=#.filter]',
+                        whenData: true,
+                        item: 'auto-link{ content: "text-match:{ text: entity.name, match: #.filter }" }'
                     }
                 ]
             }

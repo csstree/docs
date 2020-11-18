@@ -10,15 +10,14 @@ discovery.page.define('problems', [
         emptyText: 'No problems',
         data: `
             dict
-                .[no match or refs.resolved.[no match]]
-                .[no #.type or type=#.type]
-                .sort(<[match?1:0, type.typeSorting(), name]>)
+                .[isProblem()]
+                .sort(match desc, type.typeSorting() asc, name asc)
         `,
         itemConfig: {
             className: data => !data.match ? 'missed' : ''
         },
         item: [
-            'auto-link',
+            'auto-link{ fallback: "text:formatName()" }',
             'text:" = "',
             {
                 view: 'switch',

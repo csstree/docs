@@ -5,7 +5,7 @@ const functionSyntaxes = new WeakMap();
 const { definitionSyntax } = csstree;
 
 function syntaxName(syntax) {
-    const { type, name } = syntax || {};
+    const { type, name, parent } = syntax || {};
 
     switch (type) {
         case 'Property':
@@ -16,6 +16,15 @@ function syntaxName(syntax) {
 
         case 'Function':
             return name + '()';
+
+        case 'Atrule':
+            return '@' + name;
+
+        case 'AtrulePrelude':
+            return '@' + name + ':prelude';
+
+        case 'AtruleDescriptor':
+            return '@' + parent + '/' + name;
 
         default:
             return name;
@@ -133,7 +142,14 @@ function collectUsage(type, dict, defaultSyntax) {
         visited[type + ':' + name] = true;
         host = dict[name];
         hostStack.push(host);
-        processDescriptor(host);
+        if (type === 'Atrule') {
+            processDescriptor(host.prelude);
+            for (let descriptor in host.discriptors) {
+                processDescriptor(host.descriptors[descriptor]);
+            }
+        } else {
+            processDescriptor(host);
+        }
         hostStack.pop();
     }
 }
@@ -185,10 +201,25 @@ function syntaxRefs(syntax, typeDict, globalDict) {
 }
 
 discovery.setPrepare(function(data, { defineObjectMarker, addQueryHelpers }) {
-    const { properties, types } = csstree.lexer;
+    const { properties, types, atrules } = csstree.lexer;
     const functions = Object.create(null);
-    const typeOrder = ['Property', 'Type', 'Function'];
+    const typeOrder = ['Atrule', 'AtrulePrelude', 'AtruleDescriptor', 'Property', 'Type', 'Function'];
     const typeDict = {
+        Atrule: atrules,
+        AtrulePrelude: Object.fromEntries(
+            Object.entries(atrules)
+                .map(([key, { prelude }]) => prelude && [key, prelude])
+                .filter(Boolean)
+        ),
+        AtruleDescriptor: Object.fromEntries(
+            Object.entries(atrules).reduce(
+                (res, [key, { descriptors }]) =>
+                    descriptors
+                        ? res.concat(Object.entries(descriptors).map(([name, value]) => [key + '/' + name, value]))
+                        : res,
+                []
+            )
+        ),
         Property: properties,
         Type: types,
         Function: functions
@@ -206,19 +237,15 @@ discovery.setPrepare(function(data, { defineObjectMarker, addQueryHelpers }) {
 
     csstree.lexer.validate();
     csstree.lexer.functions = functions;
+    collectUsage('Atrule', atrules, csstree.lexer);
     collectUsage('Property', properties, csstree.lexer);
     collectUsage('Type', types, csstree.lexer);
 
-    data.dict = [
-        ...Object.values(properties),
-        ...Object.values(types),
-        ...Object.values(functions)
-    ];
-
-    data.dict.forEach(item => {
+    data.dict = [].concat(...Object.values(typeDict).map(dict => Object.values(dict)));
+    for (const item of data.dict) {
         item.refs = syntaxRefs(item.syntax, typeDict, data.dict);
         markers[item.type](item);
-    });
+    }
 
     addQueryHelpers({
         formatName: syntaxName,
@@ -227,10 +254,22 @@ discovery.setPrepare(function(data, { defineObjectMarker, addQueryHelpers }) {
 
             return idx !== -1 ? idx : Infinity;
         },
+        isProblem: discovery.queryFn('(no match and type != "Atrule") or refs.resolved.[no match]'),
         mdn(current) {
             if (current) {
-                if (current.type === 'Property' || current.type === 'Type') {
-                    return data.mdn[current.type === 'Property' ? 'properties' : 'syntaxes'][current.name] || null;
+                switch (current.type) {
+                    case 'Atrule':
+                    case 'AtrulePrelude':
+                        return data.mdn.atRules['@' + current.name] || null;
+
+                    case 'AtruleDescriptor': {
+                        const atrule = data.mdn.atRules['@' + current.parent];
+                        return (atrule && atrule.descriptors && atrule.descriptors[current.name]) || null;
+                    }
+
+                    case 'Property':
+                    case 'Type':
+                        return data.mdn[current.type === 'Property' ? 'properties' : 'syntaxes'][current.name] || null;
                 }
             }
             return null;

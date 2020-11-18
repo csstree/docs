@@ -14,7 +14,6 @@ function markupSyntax(syntax, match) {
             const error = !entityDescriptor || !entityDescriptor.object.match;
 
             str = `<a href="#${node.type}:${node.name}"${error ? ' class="error"' : ''}>${escapeHtml(str)}</a>`;
-
         }
 
         if (match && match.type === node.type && match.name === node.name) {

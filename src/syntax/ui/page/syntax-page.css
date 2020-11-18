@@ -1,3 +1,6 @@
+.page-Atrule .view-alert-danger,
+.page-AtrulePrelude .view-alert-danger,
+.page-AtruleDescriptor .view-alert-danger,
 .page-Property .view-alert-danger,
 .page-Type .view-alert-danger,
 .page-Function .view-alert-danger {
@@ -6,6 +9,9 @@
     white-space: pre-wrap;
 }
 
+.page-Atrule > *,
+.page-AtrulePrelude > *,
+.page-AtruleDescriptor > *,
 .page-Property > *,
 .page-Type > *,
 .page-Function > * {
@@ -34,6 +40,9 @@
     display: block;
 }
 
+.page-Atrule .view-header .view-badge,
+.page-AtrulePrelude .view-header .view-badge,
+.page-AtruleDescriptor .view-header .view-badge,
 .page-Property .view-header .view-badge,
 .page-Type .view-header .view-badge,
 .page-Function .view-header .view-badge {
@@ -69,4 +78,7 @@
 }
 .syntax-section .view-tab.active {
     padding-bottom: 5px;
+}
+.descriptor-table td:first-child {
+    white-space: nowrap;
 }

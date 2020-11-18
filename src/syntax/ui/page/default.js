@@ -21,7 +21,7 @@ discovery.page.define('default', [
             { title: 'Properties', query: 'dict.[type="Property"]' },
             { title: 'Types', query: 'dict.[type="Type"]' },
             { title: 'Functions', query: 'dict.[type="Function"]' },
-            { title: 'Problems', query: 'dict.[no match or refs.resolved.[no match]]', href: '#problems' }
+            { title: 'Problems', query: 'dict.[isProblem()]', href: '#problems' }
         ],
         content: {
             view: 'inline-list',

@@ -2,7 +2,7 @@
 
 const page = {
     view: 'context',
-    data: 'dict.pick(<type=#.page and name=#.id>)',
+    data: 'dict[=>type=#.page and name=#.id]',
     content: [
         {
             view: 'page-header',
@@ -11,7 +11,7 @@ const page = {
         },
         {
             view: 'alert-danger',
-            when: 'no match',
+            when: 'no match and type != "Atrule"',
             content: 'text:"Syntax definition is missed"'
         },
         'syntax-test',
@@ -86,18 +86,52 @@ const page = {
             ]
         },
         {
+            view: 'context',
+            when: 'type = "Atrule"',
+            content: [
+                {
+                    view: 'context',
+                    when: 'prelude',
+                    content: [
+                        'h3:"Prelude"',
+                        'syntax:prelude'
+                    ]
+                },
+                {
+                    view: 'context',
+                    when: 'descriptors',
+                    content: [
+                        'h3:"Descriptors"',
+                        {
+                            view: 'table',
+                            className: 'descriptor-table',
+                            data: 'descriptors.values()',
+                            cols: [
+                                { header: 'Name', content: ['auto-link{ content: "text:entity.name" }'] },
+                                { header: 'Syntax', content: 'syntax' }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        },
+        {
             view: 'match-graph',
             when: 'match',
             data: 'match'
         },
         {
             view: 'section',
+            when: 'not type ~= /^Atrule/',
             header: 'text:"Used by"',
             content: 'used-by'
         }
     ]
 };
 
+discovery.page.define('Atrule',   page);
+discovery.page.define('AtruleDescriptor', page);
+discovery.page.define('AtrulePrelude', page);
 discovery.page.define('Property', page);
 discovery.page.define('Type',     page);
 discovery.page.define('Function', page);
