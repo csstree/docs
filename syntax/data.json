@@ -1,10 +1,10 @@
 {
     "name": "CSS syntax reference (mdn/data & CSSTree)",
-    "createdAt": "2020-11-14T22:49:43.844Z",
-    "elapsedTime": 9,
+    "createdAt": "2020-11-18T02:44:49.553Z",
+    "elapsedTime": 11,
     "data": {
         "csstree": {
-            "version": "1.0.1",
+            "version": "1.1.0",
             "types": {
                 "absolute-size": "xx-small | x-small | small | medium | large | x-large | xx-large | xxx-large",
                 "alpha-value": "<number> | <percentage>",
@@ -296,6 +296,7 @@
                 "mask-image": "<mask-reference>#",
                 "name-repeat": "repeat( [ <positive-integer> | auto-fill ], <line-names>+)",
                 "paint": "none | <color> | <url> [ none | <color> ]? | context-fill | context-stroke",
+                "page-size": "A5 | A4 | A3 | B5 | B4 | JIS-B5 | JIS-B4 | letter | legal | ledger",
                 "ratio": "<integer> / <integer>",
                 "right": "<length> | auto",
                 "svg-length": "<percentage> | <length> | <number>",
@@ -317,7 +318,7 @@
             },
             "atrules": {
                 "charset": {
-                    "prelude": "\"<charset>\"",
+                    "prelude": "<string>",
                     "descriptors": null
                 },
                 "counter-style": {
@@ -351,7 +352,7 @@
                         "font-weight": "<font-weight-absolute>{1,2}",
                         "font-variant": "normal | none | [ <common-lig-values> || <discretionary-lig-values> || <historical-lig-values> || <contextual-alt-values> || stylistic(<feature-value-name>) || historical-forms || styleset(<feature-value-name>#) || character-variant(<feature-value-name>#) || swash(<feature-value-name>) || ornaments(<feature-value-name>) || annotation(<feature-value-name>) || [ small-caps | all-small-caps | petite-caps | all-petite-caps | unicase | titling-caps ] || <numeric-figure-values> || <numeric-spacing-values> || <numeric-fraction-values> || ordinal || slashed-zero || <east-asian-variant-values> || <east-asian-width-values> || ruby ]",
                         "src": "[ <url> [ format( <string># ) ]? | local( <family-name> ) ]#",
-                        "unicode-range": "<unicode-range>#"
+                        "unicode-range": "<urange>#"
                     }
                 },
                 "font-feature-values": {
@@ -380,6 +381,14 @@
                         "bleed": "auto | <length>",
                         "marks": "none | [ crop || cross ]",
                         "size": "<length>{1,2} | auto | [ <page-size> || [ portrait | landscape ] ]"
+                    }
+                },
+                "property": {
+                    "prelude": "<custom-property-name>",
+                    "descriptors": {
+                        "syntax": "<string>",
+                        "inherits": "true | false",
+                        "initial-value": "<string>"
                     }
                 },
                 "supports": {
@@ -508,6 +517,7 @@
                 "align-content": "normal | <baseline-position> | <content-distribution> | <overflow-position>? <content-position>",
                 "align-items": "normal | stretch | <baseline-position> | [ <overflow-position>? <self-position> ]",
                 "align-self": "auto | normal | stretch | <baseline-position> | <overflow-position>? <self-position>",
+                "align-tracks": "[ normal | <baseline-position> | <content-distribution> | <overflow-position>? <content-position> ]#",
                 "all": "initial | inherit | unset | revert",
                 "animation": "<single-animation>#",
                 "animation-delay": "<time>#",
@@ -709,6 +719,7 @@
                 "justify-content": "normal | <content-distribution> | <overflow-position>? [ <content-position> | left | right ]",
                 "justify-items": "normal | stretch | <baseline-position> | <overflow-position>? [ <self-position> | left | right ] | legacy | legacy && [ left | right | center ]",
                 "justify-self": "auto | normal | stretch | <baseline-position> | <overflow-position>? [ <self-position> | left | right ]",
+                "justify-tracks": "[ normal | <content-distribution> | <overflow-position>? [ <content-position> | left | right ] ]#",
                 "left": "<length> | <percentage> | auto",
                 "letter-spacing": "normal | <length-percentage>",
                 "line-break": "auto | loose | normal | strict | anywhere",
@@ -748,6 +759,8 @@
                 "mask-repeat": "<repeat-style>#",
                 "mask-size": "<bg-size>#",
                 "mask-type": "luminance | alpha",
+                "masonry-auto-flow": "[ pack | next ] || [ definite-first | ordered ]",
+                "math-style": "normal | compact",
                 "max-block-size": "<'max-width'>",
                 "max-height": "none | <length-percentage> | min-content | max-content | fit-content(<length-percentage>)",
                 "max-inline-size": "<'max-width'>",
@@ -763,7 +776,7 @@
                 "offset": "[ <'offset-position'>? [ <'offset-path'> [ <'offset-distance'> || <'offset-rotate'> ]? ]? ]! [ / <'offset-anchor'> ]?",
                 "offset-anchor": "auto | <position>",
                 "offset-distance": "<length-percentage>",
-                "offset-path": "none | ray( [ <angle> && <size>? && contain? ] ) | <path()> | <url> | [ <basic-shape> || <geometry-box> ]",
+                "offset-path": "none | ray( [ <angle> && <size> && contain? ] ) | <path()> | <url> | [ <basic-shape> || <geometry-box> ]",
                 "offset-position": "auto | <position>",
                 "offset-rotate": "[ auto | reverse ] || <angle>",
                 "opacity": "<alpha-value>",
@@ -819,6 +832,7 @@
                 "ruby-position": "over | under | inter-character",
                 "scale": "none | <number>{1,3}",
                 "scrollbar-color": "auto | dark | light | <color>{2}",
+                "scrollbar-gutter": "auto | [ stable | always ] && both? && force?",
                 "scrollbar-width": "auto | thin | none",
                 "scroll-behavior": "auto | smooth",
                 "scroll-margin": "<length>{1,4}",
@@ -893,7 +907,7 @@
                 "transition-property": "none | <single-transition-property>#",
                 "transition-timing-function": "<timing-function>#",
                 "translate": "none | <length-percentage> [ <length-percentage> <length>? ]?",
-                "unicode-bidi": "normal | embed | isolate | bidi-override | isolate-override | plaintext | -moz-isolate | -moz-isolate-override | -moz-plaintext | -webkit-isolate",
+                "unicode-bidi": "normal | embed | isolate | bidi-override | isolate-override | plaintext | -moz-isolate | -moz-isolate-override | -moz-plaintext | -webkit-isolate | -webkit-isolate-override | -webkit-plaintext",
                 "user-select": "auto | text | none | contain | all",
                 "vertical-align": "baseline | sub | super | text-top | text-bottom | middle | top | bottom | <percentage> | <length>",
                 "visibility": "visible | hidden | collapse",
@@ -986,6 +1000,19 @@
             }
         },
         "patch": {
+            "atrules": {
+                "charset": {
+                    "prelude": "<string>"
+                },
+                "font-face": {
+                    "descriptors": {
+                        "unicode-range": {
+                            "comment": "replaces <unicode-range>, an old production name",
+                            "syntax": "<urange>#"
+                        }
+                    }
+                }
+            },
             "properties": {
                 "-moz-background-clip": {
                     "comment": "deprecated syntax in old Firefox, https://developer.mozilla.org/en/docs/Web/CSS/background-clip",
@@ -1163,11 +1190,11 @@
                 },
                 "display": {
                     "comment": "extended with -ms-flexbox",
-                    "syntax": "[ <display-outside> || <display-inside> ] | <display-listitem> | <display-internal> | <display-box> | <display-legacy> | <-non-standard-display>"
+                    "syntax": "| <-non-standard-display>"
                 },
                 "position": {
                     "comment": "extended with -webkit-sticky",
-                    "syntax": "static | relative | absolute | sticky | fixed | -webkit-sticky"
+                    "syntax": "| -webkit-sticky"
                 },
                 "dominant-baseline": {
                     "comment": "added SVG property",
@@ -1182,7 +1209,7 @@
                         "https://developer.mozilla.org/en/docs/Web/CSS/image-rendering",
                         "https://www.w3.org/TR/SVG/painting.html#ImageRenderingProperty"
                     ],
-                    "syntax": "auto | crisp-edges | pixelated | optimizeSpeed | optimizeQuality | <-non-standard-image-rendering>"
+                    "syntax": "| optimizeSpeed | optimizeQuality | <-non-standard-image-rendering>"
                 },
                 "fill": {
                     "comment": "added SVG property",
@@ -1207,7 +1234,7 @@
                 },
                 "filter": {
                     "comment": "extend with IE legacy syntaxes",
-                    "syntax": "none | <filter-function-list> | <-ms-filter-function-list>"
+                    "syntax": "| <-ms-filter-function-list>"
                 },
                 "glyph-orientation-horizontal": {
                     "comment": "added SVG property",
@@ -1269,17 +1296,13 @@
                     "comment": "fix auto -> none (https://github.com/mdn/data/pull/431); extend by non-standard width keywords https://developer.mozilla.org/en-US/docs/Web/CSS/max-width",
                     "syntax": "none | <length-percentage> | min-content | max-content | fit-content(<length-percentage>) | <-non-standard-width>"
                 },
-                "max-height": {
-                    "comment": "fix auto -> none (https://github.com/mdn/data/pull/431)",
-                    "syntax": "none | <length-percentage> | min-content | max-content | fit-content(<length-percentage>)"
-                },
                 "min-width": {
                     "comment": "extend by non-standard width keywords https://developer.mozilla.org/en-US/docs/Web/CSS/width",
                     "syntax": "auto | <length-percentage> | min-content | max-content | fit-content(<length-percentage>) | <-non-standard-width>"
                 },
                 "overflow": {
                     "comment": "extend by vendor keywords https://developer.mozilla.org/en-US/docs/Web/CSS/overflow",
-                    "syntax": "[ visible | hidden | clip | scroll | auto ]{1,2} | <-non-standard-overflow>"
+                    "syntax": "| <-non-standard-overflow>"
                 },
                 "pause": {
                     "comment": "https://www.w3.org/TR/css3-speech/#property-index",
@@ -1389,7 +1412,7 @@
                 },
                 "unicode-bidi": {
                     "comment": "added prefixed keywords https://developer.mozilla.org/en-US/docs/Web/CSS/unicode-bidi",
-                    "syntax": "normal | embed | isolate | bidi-override | isolate-override | plaintext | -moz-isolate | -moz-isolate-override | -moz-plaintext | -webkit-isolate"
+                    "syntax": "| -moz-isolate | -moz-isolate-override | -moz-plaintext | -webkit-isolate | -webkit-isolate-override | -webkit-plaintext"
                 },
                 "unicode-range": {
                     "comment": "added missed property https://developer.mozilla.org/en-US/docs/Web/CSS/%40font-face/unicode-range",
@@ -1429,7 +1452,7 @@
                 },
                 "writing-mode": {
                     "comment": "extend with SVG keywords",
-                    "syntax": "horizontal-tb | vertical-rl | vertical-lr | sideways-rl | sideways-lr | <svg-writing-mode>"
+                    "syntax": "| <svg-writing-mode>"
                 }
             },
             "syntaxes": {
@@ -1582,11 +1605,11 @@
                     "references": [
                         "https://webkit.org/blog/3709/using-the-system-font-in-web-content/"
                     ],
-                    "syntax": "serif | sans-serif | cursive | fantasy | monospace | -apple-system"
+                    "syntax": "| -apple-system"
                 },
                 "gradient": {
                     "comment": "added legacy syntaxes support",
-                    "syntax": "<linear-gradient()> | <repeating-linear-gradient()> | <radial-gradient()> | <repeating-radial-gradient()> | <conic-gradient()> | <-legacy-gradient>"
+                    "syntax": "| <-legacy-gradient>"
                 },
                 "left": {
                     "comment": "missed; not sure we should add it, but no others except `shape` is using it so it's ok for now; https://drafts.fxtf.org/css-masking-1/#funcdef-clip-rect",
@@ -1602,11 +1625,15 @@
                 },
                 "named-color": {
                     "comment": "added non standard color names",
-                    "syntax": "transparent | aliceblue | antiquewhite | aqua | aquamarine | azure | beige | bisque | black | blanchedalmond | blue | blueviolet | brown | burlywood | cadetblue | chartreuse | chocolate | coral | cornflowerblue | cornsilk | crimson | cyan | darkblue | darkcyan | darkgoldenrod | darkgray | darkgreen | darkgrey | darkkhaki | darkmagenta | darkolivegreen | darkorange | darkorchid | darkred | darksalmon | darkseagreen | darkslateblue | darkslategray | darkslategrey | darkturquoise | darkviolet | deeppink | deepskyblue | dimgray | dimgrey | dodgerblue | firebrick | floralwhite | forestgreen | fuchsia | gainsboro | ghostwhite | gold | goldenrod | gray | green | greenyellow | grey | honeydew | hotpink | indianred | indigo | ivory | khaki | lavender | lavenderblush | lawngreen | lemonchiffon | lightblue | lightcoral | lightcyan | lightgoldenrodyellow | lightgray | lightgreen | lightgrey | lightpink | lightsalmon | lightseagreen | lightskyblue | lightslategray | lightslategrey | lightsteelblue | lightyellow | lime | limegreen | linen | magenta | maroon | mediumaquamarine | mediumblue | mediumorchid | mediumpurple | mediumseagreen | mediumslateblue | mediumspringgreen | mediumturquoise | mediumvioletred | midnightblue | mintcream | mistyrose | moccasin | navajowhite | navy | oldlace | olive | olivedrab | orange | orangered | orchid | palegoldenrod | palegreen | paleturquoise | palevioletred | papayawhip | peachpuff | peru | pink | plum | powderblue | purple | rebeccapurple | red | rosybrown | royalblue | saddlebrown | salmon | sandybrown | seagreen | seashell | sienna | silver | skyblue | slateblue | slategray | slategrey | snow | springgreen | steelblue | tan | teal | thistle | tomato | turquoise | violet | wheat | white | whitesmoke | yellow | yellowgreen | <-non-standard-color>"
+                    "syntax": "| <-non-standard-color>"
                 },
                 "paint": {
                     "comment": "used by SVG https://www.w3.org/TR/SVG/painting.html#SpecifyingPaint",
                     "syntax": "none | <color> | <url> [ none | <color> ]? | context-fill | context-stroke"
+                },
+                "page-size": {
+                    "comment": "https://www.w3.org/TR/css-page-3/#typedef-page-size-page-size",
+                    "syntax": "A5 | A4 | A3 | B5 | B4 | JIS-B5 | JIS-B4 | letter | legal | ledger"
                 },
                 "ratio": {
                     "comment": "missed, https://drafts.csswg.org/mediaqueries-4/#typedef-ratio",
@@ -1690,7 +1717,7 @@
             }
         },
         "mdn": {
-            "version": "2.0.12",
+            "version": "2.0.14",
             "atRules": {
                 "@charset": {
                     "syntax": "@charset \"<charset>\";",
@@ -1712,7 +1739,7 @@
                         "additive-symbols": {
                             "syntax": "[ <integer> && <symbol> ]#",
                             "media": "all",
-                            "initial": "N/A",
+                            "initial": "n/a (required)",
                             "percentages": "no",
                             "computed": "asSpecified",
                             "order": "orderOfAppearance",
@@ -1784,7 +1811,7 @@
                         "symbols": {
                             "syntax": "<symbol>+",
                             "media": "all",
-                            "initial": "N/A",
+                            "initial": "n/a (required)",
                             "percentages": "no",
                             "computed": "asSpecified",
                             "order": "orderOfAppearance",
@@ -2020,6 +2047,47 @@
                     },
                     "status": "standard",
                     "mdn_url": "https://developer.mozilla.org/docs/Web/CSS/@page"
+                },
+                "@property": {
+                    "syntax": "@property <custom-property-name> {\n  <declaration-list>\n}",
+                    "interfaces": [
+                        "CSS",
+                        "CSSPropertyRule"
+                    ],
+                    "groups": [
+                        "CSS Houdini"
+                    ],
+                    "descriptors": {
+                        "syntax": {
+                            "syntax": "<string>",
+                            "media": "all",
+                            "percentages": "no",
+                            "initial": "n/a (required)",
+                            "computed": "asSpecified",
+                            "order": "uniqueOrder",
+                            "status": "experimental"
+                        },
+                        "inherits": {
+                            "syntax": "true | false",
+                            "media": "all",
+                            "percentages": "no",
+                            "initial": "auto",
+                            "computed": "asSpecified",
+                            "order": "uniqueOrder",
+                            "status": "experimental"
+                        },
+                        "initial-value": {
+                            "syntax": "<string>",
+                            "media": "all",
+                            "initial": "n/a (required)",
+                            "percentages": "no",
+                            "computed": "asSpecified",
+                            "order": "uniqueOrder",
+                            "status": "experimental"
+                        }
+                    },
+                    "status": "experimental",
+                    "mdn_url": "https://developer.mozilla.org/docs/Web/CSS/@property"
                 },
                 "@supports": {
                     "syntax": "@supports <supports-condition> {\n  <group-rule-body>\n}",
@@ -2309,6 +2377,24 @@
                     ],
                     "status": "standard",
                     "mdn_url": "https://developer.mozilla.org/docs/Web/CSS/Column_combinator"
+                },
+                "Pseudo-classes": {
+                    "syntax": ":",
+                    "groups": [
+                        "Pseudo",
+                        "Selectors"
+                    ],
+                    "status": "standard",
+                    "mdn_url": "https://developer.mozilla.org/docs/Web/CSS/Pseudo-classes"
+                },
+                "Pseudo-elements": {
+                    "syntax": "::",
+                    "groups": [
+                        "Pseudo",
+                        "Selectors"
+                    ],
+                    "status": "standard",
+                    "mdn_url": "https://developer.mozilla.org/docs/Web/CSS/Pseudo-elements"
                 },
                 ":active": {
                     "syntax": ":active",
@@ -5120,6 +5206,22 @@
                     "order": "uniqueOrder",
                     "status": "standard",
                     "mdn_url": "https://developer.mozilla.org/docs/Web/CSS/align-self"
+                },
+                "align-tracks": {
+                    "syntax": "[ normal | <baseline-position> | <content-distribution> | <overflow-position>? <content-position> ]#",
+                    "media": "visual",
+                    "inherited": false,
+                    "animationType": "discrete",
+                    "percentages": "no",
+                    "groups": [
+                        "CSS Grid Layout"
+                    ],
+                    "initial": "normal",
+                    "appliesto": "gridContainersWithMasonryLayoutInTheirBlockAxis",
+                    "computed": "asSpecified",
+                    "order": "uniqueOrder",
+                    "status": "experimental",
+                    "mdn_url": "https://developer.mozilla.org/docs/Web/CSS/align-tracks"
                 },
                 "all": {
                     "syntax": "initial | inherit | unset | revert",
@@ -8716,7 +8818,7 @@
                     "groups": [
                         "CSS Images"
                     ],
-                    "initial": "0deg",
+                    "initial": "from-image",
                     "appliesto": "allElements",
                     "computed": "angleRoundedToNextQuarter",
                     "order": "uniqueOrder",
@@ -8993,6 +9095,22 @@
                     "order": "uniqueOrder",
                     "status": "standard",
                     "mdn_url": "https://developer.mozilla.org/docs/Web/CSS/justify-self"
+                },
+                "justify-tracks": {
+                    "syntax": "[ normal | <content-distribution> | <overflow-position>? [ <content-position> | left | right ] ]#",
+                    "media": "visual",
+                    "inherited": false,
+                    "animationType": "discrete",
+                    "percentages": "no",
+                    "groups": [
+                        "CSS Grid Layout"
+                    ],
+                    "initial": "normal",
+                    "appliesto": "gridContainersWithMasonryLayoutInTheirInlineAxis",
+                    "computed": "asSpecified",
+                    "order": "uniqueOrder",
+                    "status": "experimental",
+                    "mdn_url": "https://developer.mozilla.org/docs/Web/CSS/justify-tracks"
                 },
                 "left": {
                     "syntax": "<length> | <percentage> | auto",
@@ -9723,6 +9841,38 @@
                     "status": "standard",
                     "mdn_url": "https://developer.mozilla.org/docs/Web/CSS/mask-type"
                 },
+                "masonry-auto-flow": {
+                    "syntax": "[ pack | next ] || [ definite-first | ordered ]",
+                    "media": "visual",
+                    "inherited": false,
+                    "animationType": "discrete",
+                    "percentages": "no",
+                    "groups": [
+                        "CSS Grid Layout"
+                    ],
+                    "initial": "pack",
+                    "appliesto": "gridContainersWithMasonryLayout",
+                    "computed": "asSpecified",
+                    "order": "uniqueOrder",
+                    "status": "experimental",
+                    "mdn_url": "https://developer.mozilla.org/docs/Web/CSS/masonry-auto-flow"
+                },
+                "math-style": {
+                    "syntax": "normal | compact",
+                    "media": "visual",
+                    "inherited": true,
+                    "animationType": "notAnimatable",
+                    "percentages": "no",
+                    "groups": [
+                        "MathML"
+                    ],
+                    "initial": "normal",
+                    "appliesto": "allElements",
+                    "computed": "asSpecified",
+                    "order": "perGrammar",
+                    "status": "standard",
+                    "mdn_url": "https://developer.mozilla.org/docs/Web/CSS/math-style"
+                },
                 "max-block-size": {
                     "syntax": "<'max-width'>",
                     "media": "visual",
@@ -9740,7 +9890,7 @@
                     "mdn_url": "https://developer.mozilla.org/docs/Web/CSS/max-block-size"
                 },
                 "max-height": {
-                    "syntax": "auto | <length> | <percentage> | min-content | max-content | fit-content(<length-percentage>)",
+                    "syntax": "none | <length-percentage> | min-content | max-content | fit-content(<length-percentage>)",
                     "media": "visual",
                     "inherited": false,
                     "animationType": "lpc",
@@ -9787,7 +9937,7 @@
                     "status": "experimental"
                 },
                 "max-width": {
-                    "syntax": "auto | <length> | <percentage> | min-content | max-content | fit-content(<length-percentage>)",
+                    "syntax": "none | <length-percentage> | min-content | max-content | fit-content(<length-percentage>)",
                     "media": "visual",
                     "inherited": false,
                     "animationType": "lpc",
@@ -9986,7 +10136,7 @@
                     "mdn_url": "https://developer.mozilla.org/docs/Web/CSS/offset-distance"
                 },
                 "offset-path": {
-                    "syntax": "none | ray( [ <angle> && <size>? && contain? ] ) | <path()> | <url> | [ <basic-shape> || <geometry-box> ]",
+                    "syntax": "none | ray( [ <angle> && <size> && contain? ] ) | <path()> | <url> | [ <basic-shape> || <geometry-box> ]",
                     "media": "visual",
                     "inherited": false,
                     "animationType": "angleOrBasicShapeOrPath",
@@ -10964,6 +11114,22 @@
                     "order": "perGrammar",
                     "status": "standard",
                     "mdn_url": "https://developer.mozilla.org/docs/Web/CSS/scrollbar-color"
+                },
+                "scrollbar-gutter": {
+                    "syntax": "auto | [ stable | always ] && both? && force?",
+                    "media": "visual",
+                    "inherited": false,
+                    "animationType": "discrete",
+                    "percentages": "no",
+                    "groups": [
+                        "CSS Overflow"
+                    ],
+                    "initial": "auto",
+                    "appliesto": "allElements",
+                    "computed": "asSpecified",
+                    "order": "perGrammar",
+                    "status": "standard",
+                    "mdn_url": "https://developer.mozilla.org/docs/Web/CSS/scrollbar-gutter"
                 },
                 "scrollbar-width": {
                     "syntax": "auto | thin | none",
