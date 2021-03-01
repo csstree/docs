@@ -1,8 +1,8 @@
 /* eslint-env browser */
-/* global discovery, csstree, ga */
-
-const functionSyntaxes = new WeakMap();
+/* global discovery, ga */
+const csstree = require('css-tree');
 const { definitionSyntax } = csstree;
+const functionSyntaxes = new WeakMap();
 
 function syntaxName(syntax) {
     const { type, name, parent } = syntax || {};

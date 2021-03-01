@@ -1,24 +1,15 @@
-const path = require('path');
-const fetchData = require('./data');
-
 module.exports = {
     name: 'CSS syntax reference (mdn/data & CSSTree)',
-    data: fetchData,
+    basedir: __dirname,
     darkmode: 'disabled',
-    prepare: path.join(__dirname, 'prepare.js'),
-    plugins: [
-        '@discoveryjs/view-plugin-highcharts',
-        '@discoveryjs/view-plugin-highcharts/index.css'
-    ],
+    data: './data',
+    prepare: './prepare',
     view: {
-        basedir: __dirname,
-        libs: {
-            csstree: '../../node_modules/css-tree/dist/csstree.min.js',
-            difflib: '../../node_modules/diff/dist/diff.js'
-        },
         assets: [
             'ui/sidebar.css',
             'ui/sidebar.js',
+            'ui/view/chart.css',
+            'ui/view/chart.js',
             'ui/page/default.css',
             'ui/page/default.js',
             'ui/page/problems.css',

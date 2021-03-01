@@ -1,6 +1,6 @@
 /* eslint-env browser */
-/* global discovery, difflib */
-
+/* global discovery */
+const difflib = require('diff');
 const diffType = {
     char: difflib.diffChars,
     word: difflib.diffWords,

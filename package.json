@@ -1,13 +1,12 @@
 {
     "license": "MIT",
     "repository": "csstree/docs",
-    "dependencies": {
-        "@discoveryjs/view-plugin-highcharts": "^1.0.1"
-    },
+    "dependencies": {},
     "devDependencies": {
-        "@discoveryjs/discovery": "1.0.0-beta.51",
-        "@discoveryjs/cli": "^1.15.0",
-        "css-tree": "^1.1.1",
+        "highcharts": "^8.0.0",
+        "@discoveryjs/discovery": "1.0.0-beta.56",
+        "@discoveryjs/cli": "^2.0.0-beta.8",
+        "css-tree": "^1.1.2",
         "diff": "^4.0.1",
         "eslint": "^7.0.0",
         "resolve": "^1.5.0"
