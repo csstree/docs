@@ -1,5 +1,5 @@
 /* eslint-env browser */
-/* global discovery, ga */
+/* global ga */
 const csstree = require('css-tree');
 const { definitionSyntax } = csstree;
 const functionSyntaxes = new WeakMap();
@@ -200,7 +200,7 @@ function syntaxRefs(syntax, typeDict, globalDict) {
     return refs;
 }
 
-discovery.setPrepare(function(data, { defineObjectMarker, addQueryHelpers }) {
+module.exports = function(data, { defineObjectMarker, addQueryHelpers, query }) {
     const { properties, types, atrules } = csstree.lexer;
     const functions = Object.create(null);
     const typeOrder = ['Atrule', 'AtrulePrelude', 'AtruleDescriptor', 'Property', 'Type', 'Function'];
@@ -254,7 +254,7 @@ discovery.setPrepare(function(data, { defineObjectMarker, addQueryHelpers }) {
 
             return idx !== -1 ? idx : Infinity;
         },
-        isProblem: discovery.queryFn('(no match and type != "Atrule") or refs.resolved.[no match]'),
+        isProblem: current => query('(no match and type != "Atrule") or refs.resolved.[no match]', current),
         mdn(current) {
             if (current) {
                 switch (current.type) {
@@ -350,7 +350,7 @@ discovery.setPrepare(function(data, { defineObjectMarker, addQueryHelpers }) {
             };
         }
     });
-});
+};
 
 if (/^csstree.github.io$/i.test(location.host)) {
     /* eslint-disable */
