@@ -74,7 +74,7 @@
 .view-syntax-match-trace .connector-up,
 .view-syntax-match-trace .connector-down {
     position: absolute;
-    width: 1000px;
+    width: 200vw;
     height: 4px;
     transform: translateX(-50%);
     z-index: -2;
