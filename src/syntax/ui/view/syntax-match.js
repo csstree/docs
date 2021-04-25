@@ -4,7 +4,7 @@
 discovery.view.define('syntax-match', function(el, config, data, context) {
     function updatePinned(pinned) {
         if (typeof selector === 'string') {
-            [].slice.call(document.querySelectorAll(selector)).forEach(el =>
+            [].slice.call(discovery.dom.container.querySelectorAll(selector)).forEach(el =>
                 el.classList.toggle('syntax-match-trace-pinned', Boolean(pinned))
             );
         }

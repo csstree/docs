@@ -124,8 +124,12 @@ discovery.view.define('syntax-match-tree', function(el, config, data) {
     el.appendChild(buildMatchResult(data, []));
 
     el.addEventListener('mouseenter', function(e) {
-        setTrace(findSyntaxMatchTrace(e.target));
-        setPinned(e.target);
+        const trace = findSyntaxMatchTrace(e.target);
+
+        if (!pinned || trace) {
+            setTrace(trace);
+            setPinned(e.target);
+        }
     }, true);
     el.addEventListener('mouseleave', function() {
         clearTimeout(resetTimer);
@@ -137,10 +141,10 @@ discovery.view.define('syntax-match-tree', function(el, config, data) {
         }
     }, true);
 
-    document.addEventListener('click', function handler(e) {
+    const removeClickHandler = discovery.addHostElEventListener('click', function handler(e) {
         // self terminating event listener
-        if (!document.body.contains(el)) {
-            document.removeEventListener('click', handler, true);
+        if (!discovery.dom.container.contains(el)) {
+            removeClickHandler();
             return;
         }
 

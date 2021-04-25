@@ -6,7 +6,7 @@
 //         <path d="M 0 0 L 10 5 L 0 10 z" fill="#bbb"/>
 //     </marker>
 // </svg>
-document.body.appendChild(
+discovery.dom.container.appendChild(
     createSvgElement('svg', { style: 'position:absolute;z-index:-1;width:0;height:0' }, [
         createSvgElement(
             'marker',
