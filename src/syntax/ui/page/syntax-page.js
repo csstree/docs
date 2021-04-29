@@ -90,11 +90,14 @@ const page = {
             when: 'type = "Atrule"',
             content: [
                 {
-                    view: 'context',
-                    when: 'prelude',
+                    view: 'block',
+                    className: ['view-section', 'syntax-section'],
+                    data: 'prelude',
+                    whenData: true,
                     content: [
                         'h3:"Prelude"',
-                        'syntax:prelude'
+                        'syntax',
+                        'auto-link{ content: "text:`See detail and test a value`"  }'
                     ]
                 },
                 {
