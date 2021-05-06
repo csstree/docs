@@ -3,7 +3,7 @@
     "repository": "csstree/docs",
     "dependencies": {},
     "devDependencies": {
-        "highcharts": "^8.0.0",
+        "highcharts": "^9.0.0",
         "@discoveryjs/discovery": "1.0.0-beta.61",
         "@discoveryjs/cli": "^2.0.0-beta.12",
         "css-tree": "^1.1.3",
