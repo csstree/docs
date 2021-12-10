@@ -1,12 +1,12 @@
-var fs = require('fs');
-var path = require('path');
-var exec = require('child_process').execSync;
-var resolve = require('resolve');
+const fs = require('fs');
+const path = require('path');
+const exec = require('child_process').execSync;
+const resolve = require('resolve');
 
-var CSSTREE_DIR = path.dirname(resolve.sync('css-tree/package.json'));
-var CSSTREE_DIST = path.join(CSSTREE_DIR, 'dist/csstree.min.js');
-var DEST_DIR = path.join(__dirname, '../docs');
-var CSSTREE_DEST = path.join(DEST_DIR, 'csstree.js');
+const CSSTREE_DIR = path.dirname(resolve.sync('css-tree/package.json'));
+const CSSTREE_DIST = path.join(CSSTREE_DIR, 'dist/csstree.js');
+const DEST_DIR = path.join(__dirname, '../docs');
+const CSSTREE_DEST = path.join(DEST_DIR, 'csstree.js');
 
 // build CSSTree when using a dev version
 if (fs.existsSync(path.join(CSSTREE_DIR, 'scripts'))) {

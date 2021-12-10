@@ -198,24 +198,24 @@
         }
 
         function validate() {
-            var css = sourceInput.value.trim();
-            var parseErrors = [];
-            var ast;
+            const css = sourceInput.value;
+            const noContent = css.trim().length === 0;
+            const parseErrors = [];
+            let ast;
 
-            document.getElementById('intro').style.display = css ? 'none' : '';
-            document.getElementById('result').style.display = css ? '' : 'none';
+            document.getElementById('intro').style.display = noContent ? '' : 'none';
+            document.getElementById('result').style.display = noContent ? 'none' : '';
             fillIssueBlock.style.display = 'none';
             wellDoneBlock.style.display = 'none';
 
-            if (!css) {
+            if (noContent) {
                 return;
             }
 
             try {
                 ast = csstree.parse(css, {
                     positions: true,
-                    tolerant: true,
-                    onParseError: function(e, fallbackNode) {
+                    onParseError(e, fallbackNode) {
                         parseErrors.push(e);
                     }
                 });
@@ -223,54 +223,55 @@
                 result.classList.add('error');
                 resultHeader.innerHTML = 'Ooops, I can\'t parse your CSS:';
                 resultBlock.innerHTML = escapeHtml(e.formattedMessage || e.message)
-                    .replace(/^(Parse error: )([^\r\n]*)/, function(m, prefix, message) {
-                        return prefix + createSourceLink(message, e.offset);
-                    });
+                    .replace(/^(Parse error: )([^\r\n]*)/, (m, prefix, message) =>
+                        prefix + createSourceLink(message, e.offset)
+                    );
                 return;
             }
 
             result.classList.remove('error');
             resultHeader.innerHTML = 'OK, that\'s what I know about your CSS:';
 
-            var declCount = 0;
-            var uniqueDecls = {};
-            var decls = [];
-            var props = {};
-            var errors = {};
-            var fails = 0;
+            const uniqueDecls = new Map();
+            const decls = [];
+            const props = new Set();
+            const errors = Object.create(null);
+            let declCount = 0;
 
             csstree.walk(ast, function(node) {
                 if (node.type === 'Declaration') {
+                    const id = csstree.generate(node);
+
                     declCount++;
 
-                    var id = csstree.generate(node);
-                    if (id in uniqueDecls) {
-                        uniqueDecls[id]++;
+                    if (uniqueDecls.has(id)) {
+                        uniqueDecls.set(id, uniqueDecls.get(id) + 1);
                         return;
                     }
 
                     node.value.important = false;
-                    uniqueDecls[id] = 1;
+                    props.add(node.property);
+                    uniqueDecls.set(id, 1);
                     decls.push({
-                        id: id,
-                        node: node,
+                        id,
+                        node,
                         property: node.property,
                         value: node.value
                     });
-                    props[node.property] = true;
                 }
             });
 
-            var syntax = csstree.lexer;
-            var warns = [];
-            decls.forEach(function(decl) {
-                var node = decl.value;
-                var match = syntax.matchProperty(decl.property, node);
-                var error = match.error;
+            const syntax = csstree.lexer;
+            const warns = [];
+
+            for (const decl of decls) {
+                const node = decl.value;
+                const match = syntax.matchProperty(decl.property, node);
+                const error = match.error;
 
                 if (error !== null) {
-                    var type = error.rawMessage || error.message;
-                    var message = error.message;
+                    let type = error.rawMessage || error.message;
+                    let message = error.message;
 
                     if (/^Unknown property/.test(message)) {
                         type = 'Unknown property';
@@ -284,16 +285,15 @@
 
                     errors[type] = (errors[type] || 0) + 1;
                     warns.push({
-                        decl: decl,
-                        message: message
+                        decl,
+                        message
                     });
                 }
-            });
-            var fails = warns.length;
-            var uniqueDeclCount = decls.length;
-            var maxErrorCountLength = String(Math.max.apply(null, Object.keys(errors).map(function(k) {
-                return errors[k];
-            }))).length;
+            }
+
+            const fails = warns.length;
+            const uniqueDeclCount = decls.length;
+            const maxErrorCountLength = String(Math.max(...Object.values(errors))).length;
 
             // clean results
             resultBlock.innerHTML = '';
@@ -308,7 +308,7 @@
             });
 
             // warn summary
-            var summaryBlock = document.createElement('div');
+            const summaryBlock = document.createElement('div');
             summaryBlock.innerHTML = [
                 'Unique properties: ' + Object.keys(props).length,
                 'Unique declarations: ' + uniqueDeclCount + ' (total: ' + declCount + ')',
@@ -322,14 +322,16 @@
 
             // warn list
             warns.forEach(function(warn) {
-                var warnBlock = document.createElement('div');
-                var count = uniqueDecls[warn.decl.id];
+                const warnBlock = document.createElement('div');
+                const count = uniqueDecls.get(warn.decl.id);
+
                 warnBlock.innerHTML = escapeHtml(warn.message)
                     .replace(/^[^\r\n]+/, '<span class="warn-type">$&</span>' + (count > 1 ? ' \u00d7 ' + count : ''))
                     .replace(/ value(:[^\r\n]*)/, createSourceLink(warn.decl.property, warn.decl.node.loc.start.offset) + '$1')
                     .replace(/(Unknown property: )\S+/, '$1' + createSourceLink(warn.decl.property, warn.decl.node.loc.start.offset))
                     .replace('------^', repeat('-', warn.decl.property.length) + '^');
                 warnBlock.className = 'warn';
+
                 resultBlock.appendChild(warnBlock);
             });
 
@@ -340,14 +342,14 @@
             }
         }
 
-        var sourceInput = document.getElementById('source');
-        var resultBlock = document.getElementById('result-output');
-        var resultHeader = document.getElementById('result-header');
-        var fillIssueBlock = document.getElementById('fill-issue');
-        var wellDoneBlock = document.getElementById('well-done');
+        const sourceInput = document.getElementById('source');
+        const resultBlock = document.getElementById('result-output');
+        const resultHeader = document.getElementById('result-header');
+        const fillIssueBlock = document.getElementById('fill-issue');
+        const wellDoneBlock = document.getElementById('well-done');
 
         sourceInput.addEventListener('input', validate, false);
-        resultBlock.addEventListener('click', function(e) {
+        resultBlock.addEventListener('click', (e) => {
             if (e.target.classList.contains('link-to-source')) {
                 if (sourceInput.setSelectionRange) {
                     sourceInput.setSelectionRange(e.target.dataset.offset, e.target.dataset.offset);
@@ -355,11 +357,12 @@
                 sourceInput.focus();
             }
         }, false);
+
         validate();
 
         if (window.FileReader && window.DataTransfer) {
             sourceInput.placeholder += ' or drop CSS file';
-            document.addEventListener('dragover', function(e) {
+            document.addEventListener('dragover', (e) => {
                 if (e.dataTransfer.items && e.dataTransfer.items[0]) {
                     if (e.dataTransfer.items[0].kind == 'file') {
                         e.preventDefault();
@@ -371,14 +374,14 @@
                     if (e.dataTransfer.items[0].kind == 'file') {
                         e.preventDefault();
 
-                        var file = e.dataTransfer.items[0].getAsFile();
+                        const file = e.dataTransfer.items[0].getAsFile();
 
                         if (!/\.css$/.test(file.name)) {
                             alert('Only CSS files may be loaded.');
                             return;
                         }
 
-                        var reader = new FileReader();
+                        const reader = new FileReader();
 
                         reader.readAsText(file);
                         reader.addEventListener('load', function() {
@@ -390,7 +393,7 @@
             });
             document.addEventListener('dragend', function(e) {
                 if (e.dataTransfer.items) {
-                    for (var i = 0; i < e.dataTransfer.items.length; i++) {
+                    for (let i = 0; i < e.dataTransfer.items.length; i++) {
                         e.dataTransfer.items.remove(i);
                     }
                 } else {

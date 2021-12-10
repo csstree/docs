@@ -61,7 +61,7 @@ function collectUsage(type, dict, defaultSyntax) {
             const stack = [];
 
             definitionSyntax.walk(descriptor.syntax, {
-                enter: function(node) {
+                enter(node) {
                     if (
                         (node.type === 'Token' && node.value === '(') ||
                         (node.type === 'Type' && node.name === 'function-token')
@@ -122,7 +122,7 @@ function collectUsage(type, dict, defaultSyntax) {
                         stack.push(node);
                     }
                 },
-                leave: function(node) {
+                leave(node) {
                     stack.pop();
                     if (node.type === 'Token' && node.value === ')') {
                         host = hostStack.pop() || host;
