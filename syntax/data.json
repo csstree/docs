@@ -1,10 +1,10 @@
 {
     "name": "CSS syntax reference (mdn/data & CSSTree)",
-    "createdAt": "2021-04-29T11:03:34.892Z",
+    "createdAt": "2021-12-10T23:35:04.963Z",
     "elapsedTime": 10,
     "data": {
         "csstree": {
-            "version": "1.1.3",
+            "version": "2.0.2",
             "types": {
                 "absolute-size": "xx-small | x-small | small | medium | large | x-large | xx-large | xxx-large",
                 "alpha-value": "<number> | <percentage>",
@@ -57,14 +57,14 @@
                 "conic-gradient()": "conic-gradient( [ from <angle> ]? [ at <position> ]?, <angular-color-stop-list> )",
                 "contextual-alt-values": "[ contextual | no-contextual ]",
                 "content-distribution": "space-between | space-around | space-evenly | stretch",
-                "content-list": "[ <string> | contents | <image> | <quote> | <target> | <leader()> | <attr()> | counter( <ident>, <'list-style-type'>? ) ]+",
+                "content-list": "[ <string> | contents | <image> | <counter> | <quote> | <target> | <leader()> ]+",
                 "content-position": "center | start | end | flex-start | flex-end",
                 "content-replacement": "<image>",
                 "contrast()": "contrast( [ <number-percentage> ] )",
-                "counter()": "counter( <custom-ident>, <counter-style>? )",
+                "counter()": "counter( <counter-name>, <counter-style>? )",
                 "counter-style": "<counter-style-name> | symbols()",
                 "counter-style-name": "<custom-ident>",
-                "counters()": "counters( <custom-ident>, <string>, <counter-style>? )",
+                "counters()": "counters( <counter-name>, <string>, <counter-style>? )",
                 "cross-fade()": "cross-fade( <cf-mixing-image> , <cf-final-image>? )",
                 "cubic-bezier-timing-function": "ease | ease-in | ease-out | ease-in-out | cubic-bezier(<number [0,1]>, <number>, <number [0,1]>, <number>)",
                 "deprecated-system-color": "ActiveBorder | ActiveCaption | AppWorkspace | Background | ButtonFace | ButtonHighlight | ButtonShadow | ButtonText | CaptionText | GrayText | Highlight | HighlightText | InactiveBorder | InactiveCaption | InactiveCaptionText | InfoBackground | InfoText | Menu | MenuText | Scrollbar | ThreeDDarkShadow | ThreeDFace | ThreeDHighlight | ThreeDLightShadow | ThreeDShadow | Window | WindowFrame | WindowText",
@@ -97,7 +97,7 @@
                 "final-bg-layer": "<'background-color'> || <bg-image> || <bg-position> [ / <bg-size> ]? || <repeat-style> || <attachment> || <box> || <box>",
                 "fit-content()": "fit-content( [ <length> | <percentage> ] )",
                 "fixed-breadth": "<length-percentage>",
-                "fixed-repeat": "repeat( [ <positive-integer> ] , [ <line-names>? <fixed-size> ]+ <line-names>? )",
+                "fixed-repeat": "repeat( [ <integer [1,∞]> ] , [ <line-names>? <fixed-size> ]+ <line-names>? )",
                 "fixed-size": "<fixed-breadth> | minmax( <fixed-breadth> , <track-breadth> ) | minmax( <inflexible-breadth> , <fixed-breadth> )",
                 "font-stretch-absolute": "normal | ultra-condensed | extra-condensed | condensed | semi-condensed | semi-expanded | expanded | extra-expanded | ultra-expanded | <percentage>",
                 "font-variant-css21": "[ normal | small-caps ]",
@@ -119,7 +119,7 @@
                 "image": "<url> | <image()> | <image-set()> | <element()> | <paint()> | <cross-fade()> | <gradient>",
                 "image()": "image( <image-tags>? [ <image-src>? , <color>? ]! )",
                 "image-set()": "image-set( <image-set-option># )",
-                "image-set-option": "[ <image> | <string> ] <resolution>",
+                "image-set-option": "[ <image> | <string> ] [ <resolution> || type(<string>) ]",
                 "image-src": "<url> | <string>",
                 "image-tags": "ltr | rtl",
                 "inflexible-breadth": "<length> | <percentage> | min-content | max-content | auto",
@@ -180,6 +180,7 @@
                 "page-margin-box-type": "@top-left-corner | @top-left | @top-center | @top-right | @top-right-corner | @bottom-left-corner | @bottom-left | @bottom-center | @bottom-right | @bottom-right-corner | @left-top | @left-middle | @left-bottom | @right-top | @right-middle | @right-bottom",
                 "page-selector-list": "[ <page-selector># ]?",
                 "page-selector": "<pseudo-page>+ | <ident> <pseudo-page>*",
+                "page-size": "A5 | A4 | A3 | B5 | B4 | JIS-B5 | JIS-B4 | letter | legal | ledger",
                 "path()": "path( [ <fill-rule>, ]? <string> )",
                 "paint()": "paint( <ident>, <declaration-value>? )",
                 "perspective()": "perspective( <length> )",
@@ -220,12 +221,12 @@
                 "shape": "rect( <top>, <right>, <bottom>, <left> ) | rect( <top> <right> <bottom> <left> )",
                 "shape-box": "<box> | margin-box",
                 "side-or-corner": "[ left | right ] || [ top | bottom ]",
-                "single-animation": "<time> || <timing-function> || <time> || <single-animation-iteration-count> || <single-animation-direction> || <single-animation-fill-mode> || <single-animation-play-state> || [ none | <keyframes-name> ]",
+                "single-animation": "<time> || <easing-function> || <time> || <single-animation-iteration-count> || <single-animation-direction> || <single-animation-fill-mode> || <single-animation-play-state> || [ none | <keyframes-name> ]",
                 "single-animation-direction": "normal | reverse | alternate | alternate-reverse",
                 "single-animation-fill-mode": "none | forwards | backwards | both",
                 "single-animation-iteration-count": "infinite | <number>",
                 "single-animation-play-state": "running | paused",
-                "single-transition": "[ none | <single-transition-property> ] || <time> || <timing-function> || <time>",
+                "single-transition": "[ none | <single-transition-property> ] || <time> || <easing-function> || <time>",
                 "single-transition-property": "all | <custom-ident>",
                 "size": "closest-side | farthest-side | closest-corner | farthest-corner | <length> | <length-percentage>{2}",
                 "step-position": "jump-start | jump-end | jump-none | jump-both | start | end",
@@ -242,10 +243,10 @@
                 "target-counters()": "target-counters( [ <string> | <url> ] , <custom-ident> , <string> , <counter-style>? )",
                 "target-text()": "target-text( [ <string> | <url> ] , [ content | before | after | first-letter ]? )",
                 "time-percentage": "<time> | <percentage>",
-                "timing-function": "linear | <cubic-bezier-timing-function> | <step-timing-function>",
+                "easing-function": "linear | <cubic-bezier-timing-function> | <step-timing-function>",
                 "track-breadth": "<length-percentage> | <flex> | min-content | max-content | auto",
                 "track-list": "[ <line-names>? [ <track-size> | <track-repeat> ] ]+ <line-names>?",
-                "track-repeat": "repeat( [ <positive-integer> ] , [ <line-names>? <track-size> ]+ <line-names>? )",
+                "track-repeat": "repeat( [ <integer [1,∞]> ] , [ <line-names>? <track-size> ]+ <line-names>? )",
                 "track-size": "<track-breadth> | minmax( <inflexible-breadth> , <track-breadth> ) | fit-content( [ <length> | <percentage> ] )",
                 "transform-function": "<matrix()> | <translate()> | <translateX()> | <translateY()> | <scale()> | <scaleX()> | <scaleY()> | <rotate()> | <skew()> | <skewX()> | <skewY()> | <matrix3d()> | <translate3d()> | <translateZ()> | <scale3d()> | <scaleZ()> | <rotate3d()> | <rotateX()> | <rotateY()> | <rotateZ()> | <perspective()>",
                 "transform-list": "<transform-function>+",
@@ -258,6 +259,7 @@
                 "type-selector": "<wq-name> | <ns-prefix>? '*'",
                 "var()": "var( <custom-property-name> , <declaration-value>? )",
                 "viewport-length": "auto | <length-percentage>",
+                "visual-box": "content-box | padding-box | border-box",
                 "wq-name": "<ns-prefix>? <ident-token>",
                 "-legacy-gradient": "<-webkit-gradient()> | <-legacy-linear-gradient> | <-legacy-repeating-linear-gradient> | <-legacy-radial-gradient> | <-legacy-repeating-radial-gradient>",
                 "-legacy-linear-gradient": "-moz-linear-gradient( <-legacy-linear-gradient-arguments> ) | -webkit-linear-gradient( <-legacy-linear-gradient-arguments> ) | -o-linear-gradient( <-legacy-linear-gradient-arguments> )",
@@ -290,13 +292,14 @@
                 "attr-fallback": "<any-value>",
                 "border-radius": "<length-percentage>{1,2}",
                 "bottom": "<length> | auto",
+                "counter": "<counter()> | <counters()>",
+                "counter-name": "<custom-ident>",
                 "generic-voice": "[ <age>? <gender> <integer>? ]",
                 "gender": "male | female | neutral",
                 "left": "<length> | auto",
                 "mask-image": "<mask-reference>#",
                 "name-repeat": "repeat( [ <positive-integer> | auto-fill ], <line-names>+)",
                 "paint": "none | <color> | <url> [ none | <color> ]? | context-fill | context-stroke",
-                "page-size": "A5 | A4 | A3 | B5 | B4 | JIS-B5 | JIS-B4 | letter | legal | ledger",
                 "ratio": "<integer> / <integer>",
                 "right": "<length> | auto",
                 "svg-length": "<percentage> | <length> | <number>",
@@ -319,7 +322,7 @@
             "atrules": {
                 "charset": {
                     "prelude": "<string>",
-                    "descriptors": null
+                    "descriptors": {}
                 },
                 "counter-style": {
                     "prelude": "<counter-style-name>",
@@ -338,11 +341,13 @@
                 },
                 "document": {
                     "prelude": "[ <url> | url-prefix(<string>) | domain(<string>) | media-document(<string>) | regexp(<string>) ]#",
-                    "descriptors": null
+                    "descriptors": {}
                 },
                 "font-face": {
                     "prelude": null,
                     "descriptors": {
+                        "ascent-override": "normal | <percentage>",
+                        "descent-override": "normal | <percentage>",
                         "font-display": "[ auto | block | swap | fallback | optional ]",
                         "font-family": "<family-name>",
                         "font-feature-settings": "normal | <feature-tag-value>#",
@@ -351,29 +356,31 @@
                         "font-style": "normal | italic | oblique <angle>{0,2}",
                         "font-weight": "<font-weight-absolute>{1,2}",
                         "font-variant": "normal | none | [ <common-lig-values> || <discretionary-lig-values> || <historical-lig-values> || <contextual-alt-values> || stylistic(<feature-value-name>) || historical-forms || styleset(<feature-value-name>#) || character-variant(<feature-value-name>#) || swash(<feature-value-name>) || ornaments(<feature-value-name>) || annotation(<feature-value-name>) || [ small-caps | all-small-caps | petite-caps | all-petite-caps | unicase | titling-caps ] || <numeric-figure-values> || <numeric-spacing-values> || <numeric-fraction-values> || ordinal || slashed-zero || <east-asian-variant-values> || <east-asian-width-values> || ruby ]",
+                        "line-gap-override": "normal | <percentage>",
+                        "size-adjust": "<percentage>",
                         "src": "[ <url> [ format( <string># ) ]? | local( <family-name> ) ]#",
                         "unicode-range": "<urange>#"
                     }
                 },
                 "font-feature-values": {
                     "prelude": "<family-name>#",
-                    "descriptors": null
+                    "descriptors": {}
                 },
                 "import": {
                     "prelude": "[ <string> | <url> ] [ <media-query-list> ]?",
-                    "descriptors": null
+                    "descriptors": {}
                 },
                 "keyframes": {
                     "prelude": "<keyframes-name>",
-                    "descriptors": null
+                    "descriptors": {}
                 },
                 "media": {
                     "prelude": "<media-query-list>",
-                    "descriptors": null
+                    "descriptors": {}
                 },
                 "namespace": {
                     "prelude": "<namespace-prefix>? [ <string> | <url> ]",
-                    "descriptors": null
+                    "descriptors": {}
                 },
                 "page": {
                     "prelude": "<page-selector-list>",
@@ -393,7 +400,7 @@
                 },
                 "supports": {
                     "prelude": "<supports-condition>",
-                    "descriptors": null
+                    "descriptors": {}
                 },
                 "viewport": {
                     "prelude": null,
@@ -471,7 +478,7 @@
                 "-moz-border-top-colors": "<color>+ | none",
                 "-moz-context-properties": "none | [ fill | fill-opacity | stroke | stroke-opacity ]#",
                 "-moz-float-edge": "border-box | content-box | margin-box | padding-box",
-                "-moz-force-broken-image-icon": "<integer [0,1]>",
+                "-moz-force-broken-image-icon": "0 | 1",
                 "-moz-image-region": "<shape> | auto",
                 "-moz-orient": "inline | block | horizontal | vertical",
                 "-moz-outline-radius": "<outline-radius>{1,4} [ / <outline-radius>{1,4} ]?",
@@ -487,8 +494,8 @@
                 "-moz-window-dragging": "drag | no-drag",
                 "-moz-window-shadow": "default | menu | tooltip | sheet | none",
                 "-webkit-appearance": "none | button | button-bevel | caps-lock-indicator | caret | checkbox | default-button | inner-spin-button | listbox | listitem | media-controls-background | media-controls-fullscreen-background | media-current-time-display | media-enter-fullscreen-button | media-exit-fullscreen-button | media-fullscreen-button | media-mute-button | media-overlay-play-button | media-play-button | media-seek-back-button | media-seek-forward-button | media-slider | media-sliderthumb | media-time-remaining-display | media-toggle-closed-captions-button | media-volume-slider | media-volume-slider-container | media-volume-sliderthumb | menulist | menulist-button | menulist-text | menulist-textfield | meter | progress-bar | progress-bar-value | push-button | radio | scrollbarbutton-down | scrollbarbutton-left | scrollbarbutton-right | scrollbarbutton-up | scrollbargripper-horizontal | scrollbargripper-vertical | scrollbarthumb-horizontal | scrollbarthumb-vertical | scrollbartrack-horizontal | scrollbartrack-vertical | searchfield | searchfield-cancel-button | searchfield-decoration | searchfield-results-button | searchfield-results-decoration | slider-horizontal | slider-vertical | sliderthumb-horizontal | sliderthumb-vertical | square-button | textarea | textfield | -apple-pay-button",
-                "-webkit-border-before": "<'border-width'> || <'border-style'> || <'color'>",
-                "-webkit-border-before-color": "<'color'>",
+                "-webkit-border-before": "<'border-width'> || <'border-style'> || <color>",
+                "-webkit-border-before-color": "<color>",
                 "-webkit-border-before-style": "<'border-style'>",
                 "-webkit-border-before-width": "<'border-width'>",
                 "-webkit-box-reflect": "[ above | below | right | left ]? <length>? <image>?",
@@ -514,6 +521,7 @@
                 "-webkit-text-stroke-width": "<length>",
                 "-webkit-touch-callout": "default | none",
                 "-webkit-user-modify": "read-only | read-write | read-write-plaintext-only",
+                "accent-color": "auto | <color>",
                 "align-content": "normal | <baseline-position> | <content-distribution> | <overflow-position>? <content-position>",
                 "align-items": "normal | stretch | <baseline-position> | [ <overflow-position>? <self-position> ]",
                 "align-self": "auto | normal | stretch | <baseline-position> | <overflow-position>? <self-position>",
@@ -527,7 +535,7 @@
                 "animation-iteration-count": "<single-animation-iteration-count>#",
                 "animation-name": "[ none | <keyframes-name> ]#",
                 "animation-play-state": "<single-animation-play-state>#",
-                "animation-timing-function": "<timing-function>#",
+                "animation-timing-function": "<easing-function>#",
                 "appearance": "none | auto | textfield | menulist-button | <compat-auto>",
                 "aspect-ratio": "auto | <ratio>",
                 "azimuth": "<angle> | [ [ left-side | far-left | left | center-left | center | center-right | right | far-right | right-side ] || behind ] | leftwards | rightwards",
@@ -548,15 +556,15 @@
                 "block-overflow": "clip | ellipsis | <string>",
                 "block-size": "<'width'>",
                 "border": "<line-width> || <line-style> || <color>",
-                "border-block": "<'border-top-width'> || <'border-top-style'> || <'color'>",
+                "border-block": "<'border-top-width'> || <'border-top-style'> || <color>",
                 "border-block-color": "<'border-top-color'>{1,2}",
                 "border-block-style": "<'border-top-style'>",
                 "border-block-width": "<'border-top-width'>",
-                "border-block-end": "<'border-top-width'> || <'border-top-style'> || <'color'>",
+                "border-block-end": "<'border-top-width'> || <'border-top-style'> || <color>",
                 "border-block-end-color": "<'border-top-color'>",
                 "border-block-end-style": "<'border-top-style'>",
                 "border-block-end-width": "<'border-top-width'>",
-                "border-block-start": "<'border-top-width'> || <'border-top-style'> || <'color'>",
+                "border-block-start": "<'border-top-width'> || <'border-top-style'> || <color>",
                 "border-block-start-color": "<'border-top-color'>",
                 "border-block-start-style": "<'border-top-style'>",
                 "border-block-start-width": "<'border-top-width'>",
@@ -576,15 +584,15 @@
                 "border-image-slice": "<number-percentage>{1,4} && fill?",
                 "border-image-source": "none | <image>",
                 "border-image-width": "[ <length-percentage> | <number> | auto ]{1,4}",
-                "border-inline": "<'border-top-width'> || <'border-top-style'> || <'color'>",
-                "border-inline-end": "<'border-top-width'> || <'border-top-style'> || <'color'>",
+                "border-inline": "<'border-top-width'> || <'border-top-style'> || <color>",
+                "border-inline-end": "<'border-top-width'> || <'border-top-style'> || <color>",
                 "border-inline-color": "<'border-top-color'>{1,2}",
                 "border-inline-style": "<'border-top-style'>",
                 "border-inline-width": "<'border-top-width'>",
                 "border-inline-end-color": "<'border-top-color'>",
                 "border-inline-end-style": "<'border-top-style'>",
                 "border-inline-end-width": "<'border-top-width'>",
-                "border-inline-start": "<'border-top-width'> || <'border-top-style'> || <'color'>",
+                "border-inline-start": "<'border-top-width'> || <'border-top-style'> || <color>",
                 "border-inline-start-color": "<'border-top-color'>",
                 "border-inline-start-style": "<'border-top-style'>",
                 "border-inline-start-width": "<'border-top-width'>",
@@ -630,6 +638,7 @@
                 "clip-path": "<clip-source> | [ <basic-shape> || <geometry-box> ] | none",
                 "color": "<color>",
                 "color-adjust": "economy | exact",
+                "color-scheme": "normal | [ light | dark | <custom-ident> ]+",
                 "column-count": "<integer> | auto",
                 "column-fill": "auto | balance | balance-all",
                 "column-gap": "normal | <length-percentage>",
@@ -641,10 +650,11 @@
                 "column-width": "<length> | auto",
                 "columns": "<'column-width'> || <'column-count'>",
                 "contain": "none | strict | content | [ size || layout || style || paint ]",
-                "content": "normal | none | [ <content-replacement> | <content-list> ] [/ <string> ]?",
-                "counter-increment": "[ <custom-ident> <integer>? ]+ | none",
-                "counter-reset": "[ <custom-ident> <integer>? ]+ | none",
-                "counter-set": "[ <custom-ident> <integer>? ]+ | none",
+                "content": "normal | none | [ <content-replacement> | <content-list> ] [/ [ <string> | <counter> ]+ ]?",
+                "content-visibility": "visible | auto | hidden",
+                "counter-increment": "[ <counter-name> <integer>? ]+ | none",
+                "counter-reset": "[ <counter-name> <integer>? ]+ | none",
+                "counter-set": "[ <counter-name> <integer>? ]+ | none",
                 "cursor": "[ [ <url> [ <x> <y> ]? , ]* [ auto | default | none | context-menu | help | pointer | progress | wait | cell | crosshair | text | vertical-text | alias | copy | move | no-drop | not-allowed | e-resize | n-resize | ne-resize | nw-resize | s-resize | se-resize | sw-resize | w-resize | ew-resize | ns-resize | nesw-resize | nwse-resize | col-resize | row-resize | all-scroll | zoom-in | zoom-out | grab | grabbing | hand | -webkit-grab | -webkit-grabbing | -webkit-zoom-in | -webkit-zoom-out | -moz-grab | -moz-grabbing | -moz-zoom-in | -moz-zoom-out ] ]",
                 "direction": "ltr | rtl",
                 "display": "[ <display-outside> || <display-inside> ] | <display-listitem> | <display-internal> | <display-box> | <display-legacy> | <-non-standard-display>",
@@ -666,11 +676,11 @@
                 "font-optical-sizing": "auto | none",
                 "font-variation-settings": "normal | [ <string> <number> ]#",
                 "font-size": "<absolute-size> | <relative-size> | <length-percentage>",
-                "font-size-adjust": "none | <number>",
+                "font-size-adjust": "none | [ ex-height | cap-height | ch-width | ic-width | ic-height ]? [ from-font | <number> ]",
                 "font-smooth": "auto | never | always | <absolute-size> | <length>",
                 "font-stretch": "<font-stretch-absolute>",
                 "font-style": "normal | italic | oblique <angle>?",
-                "font-synthesis": "none | [ weight || style ]",
+                "font-synthesis": "none | [ weight || style || small-caps ]",
                 "font-variant": "normal | none | [ <common-lig-values> || <discretionary-lig-values> || <historical-lig-values> || <contextual-alt-values> || stylistic( <feature-value-name> ) || historical-forms || styleset( <feature-value-name># ) || character-variant( <feature-value-name># ) || swash( <feature-value-name> ) || ornaments( <feature-value-name> ) || annotation( <feature-value-name> ) || [ small-caps | all-small-caps | petite-caps | all-petite-caps | unicase | titling-caps ] || <numeric-figure-values> || <numeric-spacing-values> || <numeric-fraction-values> || ordinal || slashed-zero || <east-asian-variant-values> || <east-asian-width-values> || ruby ]",
                 "font-variant-alternates": "normal | [ stylistic( <feature-value-name> ) || historical-forms || styleset( <feature-value-name># ) || character-variant( <feature-value-name># ) || swash( <feature-value-name> ) || ornaments( <feature-value-name> ) || annotation( <feature-value-name> ) ]",
                 "font-variant-caps": "normal | small-caps | all-small-caps | petite-caps | all-petite-caps | unicase | titling-caps",
@@ -679,6 +689,7 @@
                 "font-variant-numeric": "normal | [ <numeric-figure-values> || <numeric-spacing-values> || <numeric-fraction-values> || ordinal || slashed-zero ]",
                 "font-variant-position": "normal | sub | super",
                 "font-weight": "<font-weight-absolute> | bolder | lighter",
+                "forced-color-adjust": "auto | none",
                 "gap": "<'row-gap'> <'column-gap'>?",
                 "grid": "<'grid-template'> | <'grid-template-rows'> / [ auto-flow && dense? ] <'grid-auto-columns'>? | [ auto-flow && dense? ] <'grid-auto-rows'>? / <'grid-template-columns'>",
                 "grid-area": "<grid-line> [ / <grid-line> ]{0,3}",
@@ -699,7 +710,7 @@
                 "grid-template-columns": "none | <track-list> | <auto-track-list> | subgrid <line-name-list>?",
                 "grid-template-rows": "none | <track-list> | <auto-track-list> | subgrid <line-name-list>?",
                 "hanging-punctuation": "none | [ first || [ force-end | allow-end ] || last ]",
-                "height": "auto | <length> | <percentage> | min-content | max-content | fit-content(<length-percentage>)",
+                "height": "auto | <length> | <percentage> | min-content | max-content | fit-content | fit-content(<length-percentage>)",
                 "hyphens": "none | manual | auto",
                 "image-orientation": "from-image | <angle> | [ <angle>? flip ]",
                 "image-rendering": "auto | crisp-edges | pixelated | optimizeSpeed | optimizeQuality | <-non-standard-image-rendering>",
@@ -727,7 +738,7 @@
                 "line-height": "normal | <number> | <length> | <percentage>",
                 "line-height-step": "<length>",
                 "list-style": "<'list-style-type'> || <'list-style-position'> || <'list-style-image'>",
-                "list-style-image": "<url> | none",
+                "list-style-image": "<image> | none",
                 "list-style-position": "inside | outside",
                 "list-style-type": "<counter-style> | <string> | none",
                 "margin": "[ <length> | <percentage> | auto ]{1,4}",
@@ -762,14 +773,14 @@
                 "masonry-auto-flow": "[ pack | next ] || [ definite-first | ordered ]",
                 "math-style": "normal | compact",
                 "max-block-size": "<'max-width'>",
-                "max-height": "none | <length-percentage> | min-content | max-content | fit-content(<length-percentage>)",
+                "max-height": "none | <length-percentage> | min-content | max-content | fit-content | fit-content(<length-percentage>)",
                 "max-inline-size": "<'max-width'>",
                 "max-lines": "none | <integer>",
-                "max-width": "none | <length-percentage> | min-content | max-content | fit-content(<length-percentage>) | <-non-standard-width>",
+                "max-width": "none | <length-percentage> | min-content | max-content | fit-content | fit-content(<length-percentage>) | <-non-standard-width>",
                 "min-block-size": "<'min-width'>",
-                "min-height": "auto | <length> | <percentage> | min-content | max-content | fit-content(<length-percentage>)",
+                "min-height": "auto | <length> | <percentage> | min-content | max-content | fit-content | fit-content(<length-percentage>)",
                 "min-inline-size": "<'min-width'>",
-                "min-width": "auto | <length-percentage> | min-content | max-content | fit-content(<length-percentage>) | <-non-standard-width>",
+                "min-width": "auto | <length> | <percentage> | min-content | max-content | fit-content | fit-content(<length-percentage>) | <-non-standard-width>",
                 "mix-blend-mode": "<blend-mode>",
                 "object-fit": "fill | contain | cover | none | scale-down",
                 "object-position": "<position>",
@@ -791,6 +802,7 @@
                 "overflow-anchor": "auto | none",
                 "overflow-block": "visible | hidden | clip | scroll | auto",
                 "overflow-clip-box": "padding-box | content-box",
+                "overflow-clip-margin": "<visual-box> || <length [0,∞]>",
                 "overflow-inline": "visible | hidden | clip | scroll | auto",
                 "overflow-wrap": "normal | break-word | anywhere",
                 "overflow-x": "visible | hidden | clip | scroll | auto",
@@ -829,10 +841,10 @@
                 "row-gap": "normal | <length-percentage>",
                 "ruby-align": "start | center | space-between | space-around",
                 "ruby-merge": "separate | collapse | auto",
-                "ruby-position": "over | under | inter-character",
+                "ruby-position": "[ alternate || [ over | under ] ] | inter-character",
                 "scale": "none | <number>{1,3}",
-                "scrollbar-color": "auto | dark | light | <color>{2}",
-                "scrollbar-gutter": "auto | [ stable | always ] && both? && force?",
+                "scrollbar-color": "auto | <color>{2}",
+                "scrollbar-gutter": "auto | stable && both-edges?",
                 "scrollbar-width": "auto | thin | none",
                 "scroll-behavior": "auto | smooth",
                 "scroll-margin": "<length>{1,4}",
@@ -868,7 +880,7 @@
                 "scroll-snap-type-y": "none | mandatory | proximity",
                 "shape-image-threshold": "<alpha-value>",
                 "shape-margin": "<length-percentage>",
-                "shape-outside": "none | <shape-box> || <basic-shape> | <image>",
+                "shape-outside": "none | [ <shape-box> || <basic-shape> ] | <image>",
                 "tab-size": "<integer> | <length>",
                 "table-layout": "auto | fixed",
                 "text-align": "start | end | left | right | center | justify | match-parent",
@@ -905,7 +917,7 @@
                 "transition-delay": "<time>#",
                 "transition-duration": "<time>#",
                 "transition-property": "none | <single-transition-property>#",
-                "transition-timing-function": "<timing-function>#",
+                "transition-timing-function": "<easing-function>#",
                 "translate": "none | <length-percentage> [ <length-percentage> <length>? ]?",
                 "unicode-bidi": "normal | embed | isolate | bidi-override | isolate-override | plaintext | -moz-isolate | -moz-isolate-override | -moz-plaintext | -webkit-isolate | -webkit-isolate-override | -webkit-plaintext",
                 "user-select": "auto | text | none | contain | all",
@@ -913,10 +925,10 @@
                 "visibility": "visible | hidden | collapse",
                 "white-space": "normal | pre | nowrap | pre-wrap | pre-line | break-spaces",
                 "widows": "<integer>",
-                "width": "auto | <length> | <percentage> | min-content | max-content | fit-content(<length-percentage>) | fit-content | -moz-fit-content | -webkit-fit-content",
+                "width": "auto | <length> | <percentage> | min-content | max-content | fit-content | fit-content(<length-percentage>) | fill | stretch | intrinsic | -moz-max-content | -webkit-max-content | -moz-fit-content | -webkit-fit-content",
                 "will-change": "auto | <animateable-feature>#",
                 "word-break": "normal | break-all | keep-all | break-word",
-                "word-spacing": "normal | <length-percentage>",
+                "word-spacing": "normal | <length>",
                 "word-wrap": "normal | break-word",
                 "writing-mode": "horizontal-tb | vertical-rl | vertical-lr | sideways-rl | sideways-lr | <svg-writing-mode>",
                 "z-index": "auto | <integer>",
@@ -1169,6 +1181,31 @@
                     ],
                     "syntax": "nonzero | evenodd"
                 },
+                "content": {
+                    "comment": "https://www.w3.org/TR/css-content-3/#content-property",
+                    "syntax": "normal | none | [ <content-replacement> | <content-list> ] [/ [ <string> | <counter> ]+ ]?"
+                },
+                "counter-reset": {
+                    "comment": "<custom-ident> -> <counter-name>",
+                    "references": [
+                        "https://www.w3.org/TR/css-lists-3/#counter-reset"
+                    ],
+                    "syntax": "[ <counter-name> <integer>? ]+ | none"
+                },
+                "counter-increment": {
+                    "comment": "<custom-ident> -> <counter-name>",
+                    "references": [
+                        "https://www.w3.org/TR/css-lists-3/#propdef-counter-increment"
+                    ],
+                    "syntax": "[ <counter-name> <integer>? ]+ | none"
+                },
+                "counter-set": {
+                    "comment": "<custom-ident> -> <counter-name>",
+                    "references": [
+                        "https://www.w3.org/TR/css-lists-3/#propdef-counter-set"
+                    ],
+                    "syntax": "[ <counter-name> <integer>? ]+ | none"
+                },
                 "cue": {
                     "comment": "https://www.w3.org/TR/css3-speech/#property-index",
                     "syntax": "<'cue-before'> <'cue-after'>?"
@@ -1293,16 +1330,19 @@
                     "syntax": "none | <url>"
                 },
                 "max-width": {
-                    "comment": "fix auto -> none (https://github.com/mdn/data/pull/431); extend by non-standard width keywords https://developer.mozilla.org/en-US/docs/Web/CSS/max-width",
-                    "syntax": "none | <length-percentage> | min-content | max-content | fit-content(<length-percentage>) | <-non-standard-width>"
+                    "comment": "extend by non-standard width keywords https://developer.mozilla.org/en-US/docs/Web/CSS/max-width",
+                    "syntax": "| <-non-standard-width>"
                 },
                 "width": {
-                    "comment": "per spec fit-content should be a function, however browsers are supporting it as a keyword (https://github.com/csstree/stylelint-validator/issues/29)",
-                    "syntax": "| fit-content | -moz-fit-content | -webkit-fit-content"
+                    "references": [
+                        "https://developer.mozilla.org/en-US/docs/Web/CSS/width",
+                        "https://github.com/csstree/stylelint-validator/issues/29"
+                    ],
+                    "syntax": "| fill | stretch | intrinsic | -moz-max-content | -webkit-max-content | -moz-fit-content | -webkit-fit-content"
                 },
                 "min-width": {
                     "comment": "extend by non-standard width keywords https://developer.mozilla.org/en-US/docs/Web/CSS/width",
-                    "syntax": "auto | <length-percentage> | min-content | max-content | fit-content(<length-percentage>) | <-non-standard-width>"
+                    "syntax": "| <-non-standard-width>"
                 },
                 "overflow": {
                     "comment": "extend by vendor keywords https://developer.mozilla.org/en-US/docs/Web/CSS/overflow",
@@ -1589,8 +1629,30 @@
                     "syntax": "<length> | auto"
                 },
                 "content-list": {
-                    "comment": "missed -> https://drafts.csswg.org/css-content/#typedef-content-list (document-url, <target> and leader() is omitted util stabilization)",
-                    "syntax": "[ <string> | contents | <image> | <quote> | <target> | <leader()> | <attr()> | counter( <ident>, <'list-style-type'>? ) ]+"
+                    "comment": "add missed <counter> -> https://drafts.csswg.org/css-content/#typedef-content-list",
+                    "syntax": "[ <string> | contents | <image> | <counter> | <quote> | <target> | <leader()> ]+"
+                },
+                "counter": {
+                    "comment": "missed",
+                    "syntax": "<counter()> | <counters()>"
+                },
+                "counter()": {
+                    "comment": "<custom-ident> -> <counter-name>",
+                    "references": [
+                        "https://www.w3.org/TR/css-lists-3/#counter-functions"
+                    ],
+                    "syntax": "counter( <counter-name>, <counter-style>? )"
+                },
+                "counters()": {
+                    "comment": "<custom-ident> -> <counter-name>",
+                    "references": [
+                        "https://www.w3.org/TR/css-lists-3/#counter-functions"
+                    ],
+                    "syntax": "counters( <counter-name>, <string>, <counter-style>? )"
+                },
+                "counter-name": {
+                    "comment": "missed",
+                    "syntax": "<custom-ident>"
                 },
                 "element()": {
                     "comment": "https://drafts.csswg.org/css-gcpm/#element-syntax & https://drafts.csswg.org/css-images-4/#element-notation",
@@ -1634,10 +1696,6 @@
                 "paint": {
                     "comment": "used by SVG https://www.w3.org/TR/SVG/painting.html#SpecifyingPaint",
                     "syntax": "none | <color> | <url> [ none | <color> ]? | context-fill | context-stroke"
-                },
-                "page-size": {
-                    "comment": "https://www.w3.org/TR/css-page-3/#typedef-page-size-page-size",
-                    "syntax": "A5 | A4 | A3 | B5 | B4 | JIS-B5 | JIS-B4 | letter | legal | ledger"
                 },
                 "ratio": {
                     "comment": "missed, https://drafts.csswg.org/mediaqueries-4/#typedef-ratio",
@@ -1721,7 +1779,7 @@
             }
         },
         "mdn": {
-            "version": "2.0.14",
+            "version": "2.0.23",
             "atRules": {
                 "@charset": {
                     "syntax": "@charset \"<charset>\";",
@@ -1847,7 +1905,7 @@
                     "mdn_url": "https://developer.mozilla.org/docs/Web/CSS/@document"
                 },
                 "@font-face": {
-                    "syntax": "@font-face {\n  [ font-family: <family-name>; ] ||\n  [ src: <src>; ] ||\n  [ unicode-range: <unicode-range>; ] ||\n  [ font-variant: <font-variant>; ] ||\n  [ font-feature-settings: <font-feature-settings>; ] ||\n  [ font-variation-settings: <font-variation-settings>; ] ||\n  [ font-stretch: <font-stretch>; ] ||\n  [ font-weight: <font-weight>; ] ||\n  [ font-style: <font-style>; ]\n}",
+                    "syntax": "@font-face {\n  [ font-family: <family-name>; ] ||\n  [ src: <src>; ] ||\n  [ unicode-range: <unicode-range>; ] ||\n  [ font-variant: <font-variant>; ] ||\n  [ font-feature-settings: <font-feature-settings>; ] ||\n  [ font-variation-settings: <font-variation-settings>; ] ||\n  [ font-stretch: <font-stretch>; ] ||\n  [ font-weight: <font-weight>; ] ||\n  [ font-style: <font-style>; ] ||\n  [ size-adjust: <size-adjust>; ] ||\n  [ ascent-override: <ascent-override>; ] ||\n  [ descent-override: <descent-override>; ] ||\n  [ line-gap-override: <line-gap-override>; ]\n}",
                     "interfaces": [
                         "CSSFontFaceRule"
                     ],
@@ -1855,6 +1913,24 @@
                         "CSS Fonts"
                     ],
                     "descriptors": {
+                        "ascent-override": {
+                            "syntax": "normal | <percentage>",
+                            "media": "all",
+                            "initial": "normal",
+                            "percentages": "asSpecified",
+                            "computed": "asSpecified",
+                            "order": "orderOfAppearance",
+                            "status": "experimental"
+                        },
+                        "descent-override": {
+                            "syntax": "normal | <percentage>",
+                            "media": "all",
+                            "initial": "normal",
+                            "percentages": "asSpecified",
+                            "computed": "asSpecified",
+                            "order": "orderOfAppearance",
+                            "status": "experimental"
+                        },
                         "font-display": {
                             "syntax": "[ auto | block | swap | fallback | optional ]",
                             "media": "visual",
@@ -1926,6 +2002,24 @@
                             "computed": "asSpecified",
                             "order": "orderOfAppearance",
                             "status": "standard"
+                        },
+                        "line-gap-override": {
+                            "syntax": "normal | <percentage>",
+                            "media": "all",
+                            "initial": "normal",
+                            "percentages": "asSpecified",
+                            "computed": "asSpecified",
+                            "order": "orderOfAppearance",
+                            "status": "experimental"
+                        },
+                        "size-adjust": {
+                            "syntax": "<percentage>",
+                            "media": "all",
+                            "initial": "100%",
+                            "percentages": "asSpecified",
+                            "computed": "asSpecified",
+                            "order": "orderOfAppearance",
+                            "status": "experimental"
                         },
                         "src": {
                             "syntax": "[ <url> [ format( <string># ) ]? | local( <family-name> ) ]#",
@@ -2415,7 +2509,7 @@
                         "Pseudo-classes",
                         "Selectors"
                     ],
-                    "status": "experimental",
+                    "status": "standard",
                     "mdn_url": "https://developer.mozilla.org/docs/Web/CSS/:any-link"
                 },
                 ":checked": {
@@ -2426,6 +2520,15 @@
                     ],
                     "status": "standard",
                     "mdn_url": "https://developer.mozilla.org/docs/Web/CSS/:checked"
+                },
+                ":current": {
+                    "syntax": ":current",
+                    "groups": [
+                        "Pseudo-classes",
+                        "Selectors"
+                    ],
+                    "status": "experimental",
+                    "mdn_url": "https://developer.mozilla.org/docs/Web/CSS/:current"
                 },
                 ":blank": {
                     "syntax": ":blank",
@@ -2455,7 +2558,7 @@
                     "mdn_url": "https://developer.mozilla.org/docs/Web/CSS/:defined"
                 },
                 ":dir": {
-                    "syntax": ":dir( ltr | rtl )",
+                    "syntax": ":dir( [ ltr | rtl ] )",
                     "groups": [
                         "Pseudo-classes",
                         "Selectors"
@@ -2526,6 +2629,15 @@
                     "status": "standard",
                     "mdn_url": "https://developer.mozilla.org/docs/Web/CSS/:fullscreen"
                 },
+                ":future": {
+                    "syntax": ":future",
+                    "groups": [
+                        "Pseudo-classes",
+                        "Selectors"
+                    ],
+                    "status": "standard",
+                    "mdn_url": "https://developer.mozilla.org/docs/Web/CSS/:future"
+                },
                 ":focus": {
                     "syntax": ":focus",
                     "groups": [
@@ -2541,7 +2653,7 @@
                         "Pseudo-classes",
                         "Selectors"
                     ],
-                    "status": "experimental",
+                    "status": "standard",
                     "mdn_url": "https://developer.mozilla.org/docs/Web/CSS/:focus-visible"
                 },
                 ":focus-within": {
@@ -2550,7 +2662,7 @@
                         "Pseudo-classes",
                         "Selectors"
                     ],
-                    "status": "experimental",
+                    "status": "standard",
                     "mdn_url": "https://developer.mozilla.org/docs/Web/CSS/:focus-within"
                 },
                 ":has": {
@@ -2563,7 +2675,7 @@
                     "mdn_url": "https://developer.mozilla.org/docs/Web/CSS/:has"
                 },
                 ":host()": {
-                    "syntax": ":host( <compound-selector-list> )",
+                    "syntax": ":host( <compound-selector> )",
                     "groups": [
                         "Pseudo-classes",
                         "Selectors"
@@ -2572,7 +2684,7 @@
                     "mdn_url": "https://developer.mozilla.org/docs/Web/CSS/:host()"
                 },
                 ":host-context()": {
-                    "syntax": ":host-context( <compound-selector-list> )",
+                    "syntax": ":host-context( <compound-selector> )",
                     "groups": [
                         "Pseudo-classes",
                         "Selectors"
@@ -2671,6 +2783,15 @@
                     "status": "standard",
                     "mdn_url": "https://developer.mozilla.org/docs/Web/CSS/:link"
                 },
+                ":local-link": {
+                    "syntax": ":local-link",
+                    "groups": [
+                        "Pseudo-classes",
+                        "Selectors"
+                    ],
+                    "status": "experimental",
+                    "mdn_url": "https://developer.mozilla.org/docs/Web/CSS/:local-link"
+                },
                 ":not": {
                     "syntax": ":not( <complex-selector-list> )",
                     "groups": [
@@ -2689,6 +2810,15 @@
                     "status": "standard",
                     "mdn_url": "https://developer.mozilla.org/docs/Web/CSS/:nth-child"
                 },
+                ":nth-col": {
+                    "syntax": ":nth-col",
+                    "groups": [
+                        "Pseudo-classes",
+                        "Selectors"
+                    ],
+                    "status": "experimental",
+                    "mdn_url": "https://developer.mozilla.org/docs/Web/CSS/:nth-col"
+                },
                 ":nth-last-child": {
                     "syntax": ":nth-last-child( <nth> [ of <complex-selector-list> ]? )",
                     "groups": [
@@ -2697,6 +2827,15 @@
                     ],
                     "status": "standard",
                     "mdn_url": "https://developer.mozilla.org/docs/Web/CSS/:nth-last-child"
+                },
+                ":nth-last-col": {
+                    "syntax": ":nth-last-col",
+                    "groups": [
+                        "Pseudo-classes",
+                        "Selectors"
+                    ],
+                    "status": "experimental",
+                    "mdn_url": "https://developer.mozilla.org/docs/Web/CSS/:nth-last-col"
                 },
                 ":nth-last-of-type": {
                     "syntax": ":nth-last-of-type( <nth> )",
@@ -2752,6 +2891,24 @@
                     "status": "standard",
                     "mdn_url": "https://developer.mozilla.org/docs/Web/CSS/:out-of-range"
                 },
+                ":past": {
+                    "syntax": ":past",
+                    "groups": [
+                        "Pseudo-classes",
+                        "Selectors"
+                    ],
+                    "status": "experimental",
+                    "mdn_url": "https://developer.mozilla.org/docs/Web/CSS/:past"
+                },
+                ":paused": {
+                    "syntax": ":paused",
+                    "groups": [
+                        "Pseudo-classes",
+                        "Selectors"
+                    ],
+                    "status": "experimental",
+                    "mdn_url": "https://developer.mozilla.org/docs/Web/CSS/:paused"
+                },
                 ":placeholder-shown": {
                     "syntax": ":placeholder-shown",
                     "groups": [
@@ -2760,6 +2917,15 @@
                     ],
                     "status": "experimental",
                     "mdn_url": "https://developer.mozilla.org/docs/Web/CSS/:placeholder-shown"
+                },
+                ":playing": {
+                    "syntax": ":checked",
+                    "groups": [
+                        "Pseudo-classes",
+                        "Selectors"
+                    ],
+                    "status": "experimental",
+                    "mdn_url": "https://developer.mozilla.org/docs/Web/CSS/:playing"
                 },
                 ":read-only": {
                     "syntax": ":read-only",
@@ -2825,6 +2991,42 @@
                     ],
                     "status": "standard",
                     "mdn_url": "https://developer.mozilla.org/docs/Web/CSS/:target"
+                },
+                "::target-text": {
+                    "syntax": "::target-text",
+                    "groups": [
+                        "Pseudo-elements",
+                        "Selectors"
+                    ],
+                    "status": "experimental",
+                    "mdn_url": "https://developer.mozilla.org/docs/Web/CSS/::target-text"
+                },
+                ":target-within": {
+                    "syntax": ":target-within",
+                    "groups": [
+                        "Pseudo-classes",
+                        "Selectors"
+                    ],
+                    "status": "experimental",
+                    "mdn_url": "https://developer.mozilla.org/docs/Web/CSS/:target-within"
+                },
+                ":user-invalid": {
+                    "syntax": ":user-invalid",
+                    "groups": [
+                        "Pseudo-classes",
+                        "Selectors"
+                    ],
+                    "status": "experimental",
+                    "mdn_url": "https://developer.mozilla.org/docs/Web/CSS/:user-invalid"
+                },
+                ":user-valid": {
+                    "syntax": ":user-valid",
+                    "groups": [
+                        "Pseudo-classes",
+                        "Selectors"
+                    ],
+                    "status": "experimental",
+                    "mdn_url": "https://developer.mozilla.org/docs/Web/CSS/:user-valid"
                 },
                 ":valid": {
                     "syntax": ":valid",
@@ -3172,6 +3374,15 @@
                     "status": "experimental",
                     "mdn_url": "https://developer.mozilla.org/docs/Web/CSS/::part"
                 },
+                ":picture-in-picture": {
+                    "syntax": ":picture-in-picture",
+                    "groups": [
+                        "Pseudo-classes",
+                        "Selectors"
+                    ],
+                    "status": "experimental",
+                    "mdn_url": "https://developer.mozilla.org/docs/Web/CSS/:picture-in-picture"
+                },
                 "::placeholder": {
                     "syntax": "::placeholder",
                     "groups": [
@@ -3191,7 +3402,7 @@
                     "mdn_url": "https://developer.mozilla.org/docs/Web/CSS/::selection"
                 },
                 "::slotted": {
-                    "syntax": "::slotted( <compound-selector-list> )",
+                    "syntax": "::slotted( <compound-selector> )",
                     "groups": [
                         "Pseudo-elements",
                         "Selectors"
@@ -4426,7 +4637,7 @@
                     "mdn_url": "https://developer.mozilla.org/docs/Web/CSS/-moz-float-edge"
                 },
                 "-moz-force-broken-image-icon": {
-                    "syntax": "<integer [0,1]>",
+                    "syntax": "0 | 1",
                     "media": "visual",
                     "inherited": false,
                     "animationType": "discrete",
@@ -4702,7 +4913,7 @@
                     "mdn_url": "https://developer.mozilla.org/docs/Web/CSS/appearance"
                 },
                 "-webkit-border-before": {
-                    "syntax": "<'border-width'> || <'border-style'> || <'color'>",
+                    "syntax": "<'border-width'> || <'border-style'> || <color>",
                     "media": "visual",
                     "inherited": true,
                     "animationType": "discrete",
@@ -4728,7 +4939,7 @@
                     "mdn_url": "https://developer.mozilla.org/docs/Web/CSS/-webkit-border-before"
                 },
                 "-webkit-border-before-color": {
-                    "syntax": "<'color'>",
+                    "syntax": "<color>",
                     "media": "visual",
                     "inherited": true,
                     "animationType": "discrete",
@@ -5163,6 +5374,22 @@
                     "order": "uniqueOrder",
                     "status": "nonstandard"
                 },
+                "accent-color": {
+                    "syntax": "auto | <color>",
+                    "media": "interactive",
+                    "inherited": true,
+                    "animationType": "byComputedValueType",
+                    "percentages": "no",
+                    "groups": [
+                        "CSS Basic User Interface"
+                    ],
+                    "initial": "auto",
+                    "appliesto": "allElements",
+                    "computed": "asAutoOrColor",
+                    "order": "perGrammar",
+                    "status": "standard",
+                    "mdn_url": "https://developer.mozilla.org/docs/Web/CSS/accent-color"
+                },
                 "align-content": {
                     "syntax": "normal | <baseline-position> | <content-distribution> | <overflow-position>? <content-position>",
                     "media": "visual",
@@ -5390,7 +5617,7 @@
                     "mdn_url": "https://developer.mozilla.org/docs/Web/CSS/animation-play-state"
                 },
                 "animation-timing-function": {
-                    "syntax": "<timing-function>#",
+                    "syntax": "<easing-function>#",
                     "media": "visual",
                     "inherited": false,
                     "animationType": "discrete",
@@ -5672,7 +5899,10 @@
                     ],
                     "initial": "0% 0%",
                     "appliesto": "allElements",
-                    "computed": "listEachItemTwoKeywordsOriginOffsets",
+                    "computed": [
+                        "background-position-x",
+                        "background-position-y"
+                    ],
                     "order": "uniqueOrder",
                     "alsoAppliesTo": [
                         "::first-letter",
@@ -5819,7 +6049,7 @@
                     "mdn_url": "https://developer.mozilla.org/docs/Web/CSS/border"
                 },
                 "border-block": {
-                    "syntax": "<'border-top-width'> || <'border-top-style'> || <'color'>",
+                    "syntax": "<'border-top-width'> || <'border-top-style'> || <color>",
                     "media": "visual",
                     "inherited": false,
                     "animationType": "discrete",
@@ -5891,7 +6121,7 @@
                     "mdn_url": "https://developer.mozilla.org/docs/Web/CSS/border-block-width"
                 },
                 "border-block-end": {
-                    "syntax": "<'border-top-width'> || <'border-top-style'> || <'color'>",
+                    "syntax": "<'border-top-width'> || <'border-top-style'> || <color>",
                     "media": "visual",
                     "inherited": false,
                     "animationType": [
@@ -5967,7 +6197,7 @@
                     "mdn_url": "https://developer.mozilla.org/docs/Web/CSS/border-block-end-width"
                 },
                 "border-block-start": {
-                    "syntax": "<'border-top-width'> || <'border-top-style'> || <'color'>",
+                    "syntax": "<'border-top-width'> || <'border-top-style'> || <color>",
                     "media": "visual",
                     "inherited": false,
                     "animationType": [
@@ -6386,7 +6616,7 @@
                     "mdn_url": "https://developer.mozilla.org/docs/Web/CSS/border-image-width"
                 },
                 "border-inline": {
-                    "syntax": "<'border-top-width'> || <'border-top-style'> || <'color'>",
+                    "syntax": "<'border-top-width'> || <'border-top-style'> || <color>",
                     "media": "visual",
                     "inherited": false,
                     "animationType": "discrete",
@@ -6410,7 +6640,7 @@
                     "mdn_url": "https://developer.mozilla.org/docs/Web/CSS/border-inline"
                 },
                 "border-inline-end": {
-                    "syntax": "<'border-top-width'> || <'border-top-style'> || <'color'>",
+                    "syntax": "<'border-top-width'> || <'border-top-style'> || <color>",
                     "media": "visual",
                     "inherited": false,
                     "animationType": [
@@ -6534,7 +6764,7 @@
                     "mdn_url": "https://developer.mozilla.org/docs/Web/CSS/border-inline-end-width"
                 },
                 "border-inline-start": {
-                    "syntax": "<'border-top-width'> || <'border-top-style'> || <'color'>",
+                    "syntax": "<'border-top-width'> || <'border-top-style'> || <color>",
                     "media": "visual",
                     "inherited": false,
                     "animationType": [
@@ -7256,7 +7486,7 @@
                     "animationType": "discrete",
                     "percentages": "no",
                     "groups": [
-                        "CSS Basic User Interface"
+                        "CSS Box Model"
                     ],
                     "initial": "content-box",
                     "appliesto": "allElementsAcceptingWidthOrHeight",
@@ -7429,6 +7659,22 @@
                     "order": "perGrammar",
                     "status": "standard",
                     "mdn_url": "https://developer.mozilla.org/docs/Web/CSS/color-adjust"
+                },
+                "color-scheme": {
+                    "syntax": "normal | [ light | dark | <custom-ident> ]+",
+                    "media": "visual",
+                    "inherited": true,
+                    "animationType": "discrete",
+                    "percentages": "no",
+                    "groups": [
+                        "CSS Color"
+                    ],
+                    "initial": "normal",
+                    "appliesto": "allElementsAndText",
+                    "computed": "asSpecified",
+                    "order": "perGrammar",
+                    "status": "standard",
+                    "mdn_url": "https://developer.mozilla.org/docs/Web/CSS/color-scheme"
                 },
                 "column-count": {
                     "syntax": "<integer> | auto",
@@ -7637,11 +7883,27 @@
                         "CSS Generated Content"
                     ],
                     "initial": "normal",
-                    "appliesto": "beforeAndAfterPseudos",
+                    "appliesto": "allElementsTreeAbidingPseudoElementsPageMarginBoxes",
                     "computed": "normalOnElementsForPseudosNoneAbsoluteURIStringOrAsSpecified",
                     "order": "uniqueOrder",
                     "status": "standard",
                     "mdn_url": "https://developer.mozilla.org/docs/Web/CSS/content"
+                },
+                "content-visibility": {
+                    "syntax": "visible | auto | hidden",
+                    "media": "all",
+                    "inherited": false,
+                    "animationType": "discrete",
+                    "percentages": "no",
+                    "groups": [
+                        "CSS Containment"
+                    ],
+                    "initial": "visible",
+                    "appliesto": "elementsForWhichLayoutContainmentCanApply",
+                    "computed": "asSpecified",
+                    "order": "perGrammar",
+                    "status": "standard",
+                    "mdn_url": "https://developer.mozilla.org/docs/Web/CSS/content-visibility"
                 },
                 "counter-increment": {
                     "syntax": "[ <custom-ident> <integer>? ]+ | none",
@@ -7730,7 +7992,7 @@
                     "syntax": "[ <display-outside> || <display-inside> ] | <display-listitem> | <display-internal> | <display-box> | <display-legacy>",
                     "media": "all",
                     "inherited": false,
-                    "animationType": "discrete",
+                    "animationType": "notAnimatable",
                     "percentages": "no",
                     "groups": [
                         "CSS Display"
@@ -8116,7 +8378,7 @@
                     "mdn_url": "https://developer.mozilla.org/docs/Web/CSS/font-size"
                 },
                 "font-size-adjust": {
-                    "syntax": "none | <number>",
+                    "syntax": "none | [ ex-height | cap-height | ch-width | ic-width | ic-height ]? [ from-font | <number> ]",
                     "media": "visual",
                     "inherited": true,
                     "animationType": "number",
@@ -8195,7 +8457,7 @@
                     "mdn_url": "https://developer.mozilla.org/docs/Web/CSS/font-style"
                 },
                 "font-synthesis": {
-                    "syntax": "none | [ weight || style ]",
+                    "syntax": "none | [ weight || style || small-caps ]",
                     "media": "visual",
                     "inherited": true,
                     "animationType": "discrete",
@@ -8382,6 +8644,22 @@
                     ],
                     "status": "standard",
                     "mdn_url": "https://developer.mozilla.org/docs/Web/CSS/font-weight"
+                },
+                "forced-color-adjust": {
+                    "syntax": "auto | none",
+                    "media": "visual",
+                    "inherited": true,
+                    "animationType": "notAnimatable",
+                    "percentages": "no",
+                    "groups": [
+                        "CSS Color"
+                    ],
+                    "initial": "auto",
+                    "appliesto": "allElementsAndText",
+                    "computed": "asSpecified",
+                    "order": "perGrammar",
+                    "status": "experimental",
+                    "mdn_url": "https://developer.mozilla.org/docs/Web/CSS/forced-color-adjust"
                 },
                 "gap": {
                     "syntax": "<'row-gap'> <'column-gap'>?",
@@ -8782,7 +9060,7 @@
                     "mdn_url": "https://developer.mozilla.org/docs/Web/CSS/hanging-punctuation"
                 },
                 "height": {
-                    "syntax": "auto | <length> | <percentage> | min-content | max-content | fit-content(<length-percentage>)",
+                    "syntax": "auto | <length> | <percentage> | min-content | max-content | fit-content | fit-content(<length-percentage>)",
                     "media": "visual",
                     "inherited": false,
                     "animationType": "lpc",
@@ -8929,7 +9207,7 @@
                     "media": "visual",
                     "inherited": false,
                     "animationType": "lpc",
-                    "percentages": "logicalHeightOfContainingBlock",
+                    "percentages": "logicalHeightOrWidthOfContainingBlock",
                     "groups": [
                         "CSS Logical Properties"
                     ],
@@ -9245,7 +9523,7 @@
                     "mdn_url": "https://developer.mozilla.org/docs/Web/CSS/list-style"
                 },
                 "list-style-image": {
-                    "syntax": "<url> | none",
+                    "syntax": "<image> | none",
                     "media": "visual",
                     "inherited": true,
                     "animationType": "discrete",
@@ -9255,7 +9533,7 @@
                     ],
                     "initial": "none",
                     "appliesto": "listItems",
-                    "computed": "noneOrImageWithAbsoluteURI",
+                    "computed": "theKeywordListStyleImageNoneOrComputedValue",
                     "order": "uniqueOrder",
                     "status": "standard",
                     "mdn_url": "https://developer.mozilla.org/docs/Web/CSS/list-style-image"
@@ -9894,7 +10172,7 @@
                     "mdn_url": "https://developer.mozilla.org/docs/Web/CSS/max-block-size"
                 },
                 "max-height": {
-                    "syntax": "none | <length-percentage> | min-content | max-content | fit-content(<length-percentage>)",
+                    "syntax": "none | <length-percentage> | min-content | max-content | fit-content | fit-content(<length-percentage>)",
                     "media": "visual",
                     "inherited": false,
                     "animationType": "lpc",
@@ -9941,7 +10219,7 @@
                     "status": "experimental"
                 },
                 "max-width": {
-                    "syntax": "none | <length-percentage> | min-content | max-content | fit-content(<length-percentage>)",
+                    "syntax": "none | <length-percentage> | min-content | max-content | fit-content | fit-content(<length-percentage>)",
                     "media": "visual",
                     "inherited": false,
                     "animationType": "lpc",
@@ -9973,7 +10251,7 @@
                     "mdn_url": "https://developer.mozilla.org/docs/Web/CSS/min-block-size"
                 },
                 "min-height": {
-                    "syntax": "auto | <length> | <percentage> | min-content | max-content | fit-content(<length-percentage>)",
+                    "syntax": "auto | <length> | <percentage> | min-content | max-content | fit-content | fit-content(<length-percentage>)",
                     "media": "visual",
                     "inherited": false,
                     "animationType": "lpc",
@@ -10005,7 +10283,7 @@
                     "mdn_url": "https://developer.mozilla.org/docs/Web/CSS/min-inline-size"
                 },
                 "min-width": {
-                    "syntax": "auto | <length> | <percentage> | min-content | max-content | fit-content(<length-percentage>)",
+                    "syntax": "auto | <length> | <percentage> | min-content | max-content | fit-content | fit-content(<length-percentage>)",
                     "media": "visual",
                     "inherited": false,
                     "animationType": "lpc",
@@ -10410,6 +10688,21 @@
                     "status": "nonstandard",
                     "mdn_url": "https://developer.mozilla.org/docs/Mozilla/CSS/overflow-clip-box"
                 },
+                "overflow-clip-margin": {
+                    "syntax": "<visual-box> || <length [0,∞]>",
+                    "media": "visual",
+                    "inherited": false,
+                    "animationType": "discrete",
+                    "percentages": "no",
+                    "groups": [
+                        "CSS Overflow"
+                    ],
+                    "initial": "0px",
+                    "appliesto": "allElements",
+                    "computed": "theComputedLength",
+                    "order": "perGrammar",
+                    "status": "standard"
+                },
                 "overflow-inline": {
                     "syntax": "visible | hidden | clip | scroll | auto",
                     "media": "visual",
@@ -10484,7 +10777,10 @@
                     ],
                     "initial": "auto",
                     "appliesto": "nonReplacedBlockAndInlineBlockElements",
-                    "computed": "asSpecified",
+                    "computed": [
+                        "overscroll-behavior-x",
+                        "overscroll-behavior-y"
+                    ],
                     "order": "uniqueOrder",
                     "status": "standard",
                     "mdn_url": "https://developer.mozilla.org/docs/Web/CSS/overscroll-behavior"
@@ -10932,7 +11228,7 @@
                     "animationType": "discrete",
                     "percentages": "no",
                     "groups": [
-                        "Pointer Events"
+                        "CSS Basic User Interface"
                     ],
                     "initial": "auto",
                     "appliesto": "allElements",
@@ -11071,7 +11367,7 @@
                     "status": "experimental"
                 },
                 "ruby-position": {
-                    "syntax": "over | under | inter-character",
+                    "syntax": "[ alternate || [ over | under ] ] | inter-character",
                     "media": "visual",
                     "inherited": true,
                     "animationType": "discrete",
@@ -11079,7 +11375,7 @@
                     "groups": [
                         "CSS Ruby"
                     ],
-                    "initial": "over",
+                    "initial": "alternate",
                     "appliesto": "rubyAnnotationsContainers",
                     "computed": "asSpecified",
                     "order": "uniqueOrder",
@@ -11104,7 +11400,7 @@
                     "mdn_url": "https://developer.mozilla.org/docs/Web/CSS/scale"
                 },
                 "scrollbar-color": {
-                    "syntax": "auto | dark | light | <color>{2}",
+                    "syntax": "auto | <color>{2}",
                     "media": "visual",
                     "inherited": true,
                     "animationType": "color",
@@ -11120,7 +11416,7 @@
                     "mdn_url": "https://developer.mozilla.org/docs/Web/CSS/scrollbar-color"
                 },
                 "scrollbar-gutter": {
-                    "syntax": "auto | [ stable | always ] && both? && force?",
+                    "syntax": "auto | stable && both-edges?",
                     "media": "visual",
                     "inherited": false,
                     "animationType": "discrete",
@@ -11129,7 +11425,7 @@
                         "CSS Overflow"
                     ],
                     "initial": "auto",
-                    "appliesto": "allElements",
+                    "appliesto": "scrollingBoxes",
                     "computed": "asSpecified",
                     "order": "perGrammar",
                     "status": "standard",
@@ -11696,7 +11992,7 @@
                     "mdn_url": "https://developer.mozilla.org/docs/Web/CSS/shape-margin"
                 },
                 "shape-outside": {
-                    "syntax": "none | <shape-box> || <basic-shape> | <image>",
+                    "syntax": "none | [ <shape-box> || <basic-shape> ] | <image>",
                     "media": "visual",
                     "inherited": false,
                     "animationType": "basicShapeOtherwiseNo",
@@ -12369,7 +12665,7 @@
                     "mdn_url": "https://developer.mozilla.org/docs/Web/CSS/transition-property"
                 },
                 "transition-timing-function": {
-                    "syntax": "<timing-function>#",
+                    "syntax": "<easing-function>#",
                     "media": "interactive",
                     "inherited": false,
                     "animationType": "discrete",
@@ -12430,7 +12726,7 @@
                     "appliesto": "allElements",
                     "computed": "asSpecified",
                     "order": "uniqueOrder",
-                    "status": "nonstandard",
+                    "status": "standard",
                     "mdn_url": "https://developer.mozilla.org/docs/Web/CSS/user-select"
                 },
                 "vertical-align": {
@@ -12503,7 +12799,7 @@
                     "mdn_url": "https://developer.mozilla.org/docs/Web/CSS/widows"
                 },
                 "width": {
-                    "syntax": "auto | <length> | <percentage> | min-content | max-content | fit-content(<length-percentage>)",
+                    "syntax": "auto | <length> | <percentage> | min-content | max-content | fit-content | fit-content(<length-percentage>)",
                     "media": "visual",
                     "inherited": false,
                     "animationType": "lpc",
@@ -12551,7 +12847,7 @@
                     "mdn_url": "https://developer.mozilla.org/docs/Web/CSS/word-break"
                 },
                 "word-spacing": {
-                    "syntax": "normal | <length-percentage>",
+                    "syntax": "normal | <length>",
                     "media": "visual",
                     "inherited": true,
                     "animationType": "length",
@@ -12912,7 +13208,7 @@
                     "syntax": "<length-percentage>"
                 },
                 "fixed-repeat": {
-                    "syntax": "repeat( [ <positive-integer> ] , [ <line-names>? <fixed-size> ]+ <line-names>? )"
+                    "syntax": "repeat( [ <integer [1,∞]> ] , [ <line-names>? <fixed-size> ]+ <line-names>? )"
                 },
                 "fixed-size": {
                     "syntax": "<fixed-breadth> | minmax( <fixed-breadth> , <track-breadth> ) | minmax( <inflexible-breadth> , <fixed-breadth> )"
@@ -12978,7 +13274,7 @@
                     "syntax": "image-set( <image-set-option># )"
                 },
                 "image-set-option": {
-                    "syntax": "[ <image> | <string> ] <resolution>"
+                    "syntax": "[ <image> | <string> ] [ <resolution> || type(<string>) ]"
                 },
                 "image-src": {
                     "syntax": "<url> | <string>"
@@ -13160,6 +13456,9 @@
                 "page-selector": {
                     "syntax": "<pseudo-page>+ | <ident> <pseudo-page>*"
                 },
+                "page-size": {
+                    "syntax": "A5 | A4 | A3 | B5 | B4 | JIS-B5 | JIS-B4 | letter | legal | ledger"
+                },
                 "path()": {
                     "syntax": "path( [ <fill-rule>, ]? <string> )"
                 },
@@ -13281,7 +13580,7 @@
                     "syntax": "[ left | right ] || [ top | bottom ]"
                 },
                 "single-animation": {
-                    "syntax": "<time> || <timing-function> || <time> || <single-animation-iteration-count> || <single-animation-direction> || <single-animation-fill-mode> || <single-animation-play-state> || [ none | <keyframes-name> ]"
+                    "syntax": "<time> || <easing-function> || <time> || <single-animation-iteration-count> || <single-animation-direction> || <single-animation-fill-mode> || <single-animation-play-state> || [ none | <keyframes-name> ]"
                 },
                 "single-animation-direction": {
                     "syntax": "normal | reverse | alternate | alternate-reverse"
@@ -13296,7 +13595,7 @@
                     "syntax": "running | paused"
                 },
                 "single-transition": {
-                    "syntax": "[ none | <single-transition-property> ] || <time> || <timing-function> || <time>"
+                    "syntax": "[ none | <single-transition-property> ] || <time> || <easing-function> || <time>"
                 },
                 "single-transition-property": {
                     "syntax": "all | <custom-ident>"
@@ -13346,7 +13645,7 @@
                 "time-percentage": {
                     "syntax": "<time> | <percentage>"
                 },
-                "timing-function": {
+                "easing-function": {
                     "syntax": "linear | <cubic-bezier-timing-function> | <step-timing-function>"
                 },
                 "track-breadth": {
@@ -13356,7 +13655,7 @@
                     "syntax": "[ <line-names>? [ <track-size> | <track-repeat> ] ]+ <line-names>?"
                 },
                 "track-repeat": {
-                    "syntax": "repeat( [ <positive-integer> ] , [ <line-names>? <track-size> ]+ <line-names>? )"
+                    "syntax": "repeat( [ <integer [1,∞]> ] , [ <line-names>? <track-size> ]+ <line-names>? )"
                 },
                 "track-size": {
                     "syntax": "<track-breadth> | minmax( <inflexible-breadth> , <track-breadth> ) | fit-content( [ <length> | <percentage> ] )"
@@ -13393,6 +13692,9 @@
                 },
                 "viewport-length": {
                     "syntax": "auto | <length-percentage>"
+                },
+                "visual-box": {
+                    "syntax": "content-box | padding-box | border-box"
                 },
                 "wq-name": {
                     "syntax": "<ns-prefix>? <ident-token>"
