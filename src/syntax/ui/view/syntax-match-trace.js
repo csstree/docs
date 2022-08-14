@@ -34,6 +34,9 @@ function buildMatchTrace(trace) {
             case 'Property':
                 syntax = csstree.lexer.getProperty(syntax.name).syntax || syntax; // FIXME: should relay on model data
                 break;
+            case 'AtrulePrelude':
+                syntax = csstree.lexer.getAtrule(syntax.name).prelude.syntax || syntax; // FIXME: should relay on model data
+                break;
             case 'Function':
                 syntax = csstree.lexer.functions[syntax.name].syntax || syntax; // FIXME: should relay on model data
                 break;
