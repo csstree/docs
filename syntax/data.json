@@ -1,10 +1,10 @@
 {
     "name": "CSS syntax reference (mdn/data & CSSTree)",
-    "createdAt": "2021-12-10T23:35:04.963Z",
-    "elapsedTime": 10,
+    "createdAt": "2022-08-14T15:06:00.308Z",
+    "elapsedTime": 11,
     "data": {
         "csstree": {
-            "version": "2.0.2",
+            "version": "2.2.0",
             "types": {
                 "absolute-size": "xx-small | x-small | small | medium | large | x-large | xx-large | xxx-large",
                 "alpha-value": "<number> | <percentage>",
@@ -40,7 +40,7 @@
                 "clamp()": "clamp( <calc-sum>#{3} )",
                 "class-selector": "'.' <ident-token>",
                 "clip-source": "<url>",
-                "color": "<rgb()> | <rgba()> | <hsl()> | <hsla()> | <hex-color> | <named-color> | currentcolor | <deprecated-system-color>",
+                "color": "<rgb()> | <rgba()> | <hsl()> | <hsla()> | <hwb()> | <lab()> | <lch()> | <hex-color> | <named-color> | currentcolor | <deprecated-system-color>",
                 "color-stop": "<color-stop-length> | <color-stop-angle>",
                 "color-stop-angle": "<angle-percentage>{1,2}",
                 "color-stop-length": "<length-percentage>{1,2}",
@@ -57,11 +57,13 @@
                 "conic-gradient()": "conic-gradient( [ from <angle> ]? [ at <position> ]?, <angular-color-stop-list> )",
                 "contextual-alt-values": "[ contextual | no-contextual ]",
                 "content-distribution": "space-between | space-around | space-evenly | stretch",
-                "content-list": "[ <string> | contents | <image> | <counter> | <quote> | <target> | <leader()> ]+",
+                "content-list": "[ <string> | contents | <image> | <counter> | <quote> | <target> | <leader()> | <attr()> ]+",
                 "content-position": "center | start | end | flex-start | flex-end",
                 "content-replacement": "<image>",
                 "contrast()": "contrast( [ <number-percentage> ] )",
+                "counter": "<counter()> | <counters()>",
                 "counter()": "counter( <counter-name>, <counter-style>? )",
+                "counter-name": "<custom-ident>",
                 "counter-style": "<counter-style-name> | symbols()",
                 "counter-style-name": "<custom-ident>",
                 "counters()": "counters( <counter-name>, <string>, <counter-style>? )",
@@ -107,7 +109,7 @@
                 "generic-family": "serif | sans-serif | cursive | fantasy | monospace | -apple-system",
                 "generic-name": "serif | sans-serif | cursive | fantasy | monospace",
                 "geometry-box": "<shape-box> | fill-box | stroke-box | view-box",
-                "gradient": "<linear-gradient()> | <repeating-linear-gradient()> | <radial-gradient()> | <repeating-radial-gradient()> | <conic-gradient()> | <-legacy-gradient>",
+                "gradient": "<linear-gradient()> | <repeating-linear-gradient()> | <radial-gradient()> | <repeating-radial-gradient()> | <conic-gradient()> | <repeating-conic-gradient()> | <-legacy-gradient>",
                 "grayscale()": "grayscale( <number-percentage> )",
                 "grid-line": "auto | <custom-ident> | [ <integer> && <custom-ident>? ] | [ span && [ <integer> || <custom-ident> ] ]",
                 "historical-lig-values": "[ historical-ligatures | no-historical-ligatures ]",
@@ -115,6 +117,7 @@
                 "hsla()": "hsla( <hue> <percentage> <percentage> [ / <alpha-value> ]? ) | hsla( <hue>, <percentage>, <percentage>, <alpha-value>? )",
                 "hue": "<number> | <angle>",
                 "hue-rotate()": "hue-rotate( <angle> )",
+                "hwb()": "hwb( [<hue> | none] [<percentage> | none] [<percentage> | none] [ / [<alpha-value> | none] ]? )",
                 "id-selector": "<hash-token>",
                 "image": "<url> | <image()> | <image-set()> | <element()> | <paint()> | <cross-fade()> | <gradient>",
                 "image()": "image( <image-tags>? [ <image-src>? , <color>? ]! )",
@@ -129,6 +132,8 @@
                 "keyframe-block": "<keyframe-selector># {\n  <declaration-list>\n}",
                 "keyframe-block-list": "<keyframe-block>+",
                 "keyframe-selector": "from | to | <percentage>",
+                "layer()": "layer( <layer-name> )",
+                "layer-name": "<ident> [ '.' <ident> ]*",
                 "leader()": "leader( <leader-type> )",
                 "leader-type": "dotted | solid | space | <string>",
                 "length-percentage": "<length> | <percentage>",
@@ -164,6 +169,7 @@
                 "mf-value": "<number> | <dimension> | <ident> | <ratio>",
                 "min()": "min( <calc-sum># )",
                 "minmax()": "minmax( [ <length> | <percentage> | min-content | max-content | auto ] , [ <length> | <percentage> | <flex> | min-content | max-content | auto ] )",
+                "name-repeat": "repeat( [ <integer [1,∞]> | auto-fill ], <line-names>+ )",
                 "named-color": "transparent | aliceblue | antiquewhite | aqua | aquamarine | azure | beige | bisque | black | blanchedalmond | blue | blueviolet | brown | burlywood | cadetblue | chartreuse | chocolate | coral | cornflowerblue | cornsilk | crimson | cyan | darkblue | darkcyan | darkgoldenrod | darkgray | darkgreen | darkgrey | darkkhaki | darkmagenta | darkolivegreen | darkorange | darkorchid | darkred | darksalmon | darkseagreen | darkslateblue | darkslategray | darkslategrey | darkturquoise | darkviolet | deeppink | deepskyblue | dimgray | dimgrey | dodgerblue | firebrick | floralwhite | forestgreen | fuchsia | gainsboro | ghostwhite | gold | goldenrod | gray | green | greenyellow | grey | honeydew | hotpink | indianred | indigo | ivory | khaki | lavender | lavenderblush | lawngreen | lemonchiffon | lightblue | lightcoral | lightcyan | lightgoldenrodyellow | lightgray | lightgreen | lightgrey | lightpink | lightsalmon | lightseagreen | lightskyblue | lightslategray | lightslategrey | lightsteelblue | lightyellow | lime | limegreen | linen | magenta | maroon | mediumaquamarine | mediumblue | mediumorchid | mediumpurple | mediumseagreen | mediumslateblue | mediumspringgreen | mediumturquoise | mediumvioletred | midnightblue | mintcream | mistyrose | moccasin | navajowhite | navy | oldlace | olive | olivedrab | orange | orangered | orchid | palegoldenrod | palegreen | paleturquoise | palevioletred | papayawhip | peachpuff | peru | pink | plum | powderblue | purple | rebeccapurple | red | rosybrown | royalblue | saddlebrown | salmon | sandybrown | seagreen | seashell | sienna | silver | skyblue | slateblue | slategray | slategrey | snow | springgreen | steelblue | tan | teal | thistle | tomato | turquoise | violet | wheat | white | whitesmoke | yellow | yellowgreen | <-non-standard-color>",
                 "namespace-prefix": "<ident>",
                 "ns-prefix": "[ <ident-token> | '*' ]? '|'",
@@ -195,6 +201,7 @@
                 "relative-selector-list": "<relative-selector>#",
                 "relative-size": "larger | smaller",
                 "repeat-style": "repeat-x | repeat-y | [ repeat | space | round | no-repeat ]{1,2}",
+                "repeating-conic-gradient()": "repeating-conic-gradient( [ from <angle> ]? [ at <position> ]?, <angular-color-stop-list> )",
                 "repeating-linear-gradient()": "repeating-linear-gradient( [ <angle> | to <side-or-corner> ]? , <color-stop-list> )",
                 "repeating-radial-gradient()": "repeating-radial-gradient( [ <ending-shape> || <size> ]? [ at <position> ]? , <color-stop-list> )",
                 "rgb()": "rgb( <percentage>{3} [ / <alpha-value> ]? ) | rgb( <number>{3} [ / <alpha-value> ]? ) | rgb( <percentage>#{3} , <alpha-value>? ) | rgb( <number>#{3} , <alpha-value>? )",
@@ -226,6 +233,7 @@
                 "single-animation-fill-mode": "none | forwards | backwards | both",
                 "single-animation-iteration-count": "infinite | <number>",
                 "single-animation-play-state": "running | paused",
+                "single-animation-timeline": "auto | none | <timeline-name>",
                 "single-transition": "[ none | <single-transition-property> ] || <time> || <easing-function> || <time>",
                 "single-transition-property": "all | <custom-ident>",
                 "size": "closest-side | farthest-side | closest-corner | farthest-corner | <length> | <length-percentage>{2}",
@@ -243,6 +251,7 @@
                 "target-counters()": "target-counters( [ <string> | <url> ] , <custom-ident> , <string> , <counter-style>? )",
                 "target-text()": "target-text( [ <string> | <url> ] , [ content | before | after | first-letter ]? )",
                 "time-percentage": "<time> | <percentage>",
+                "timeline-name": "<custom-ident> | <string>",
                 "easing-function": "linear | <cubic-bezier-timing-function> | <step-timing-function>",
                 "track-breadth": "<length-percentage> | <flex> | min-content | max-content | auto",
                 "track-list": "[ <line-names>? [ <track-size> | <track-repeat> ] ]+ <line-names>?",
@@ -290,17 +299,18 @@
                 "age": "child | young | old",
                 "attr-name": "<wq-name>",
                 "attr-fallback": "<any-value>",
+                "bg-clip": "<box> | border | text",
                 "border-radius": "<length-percentage>{1,2}",
                 "bottom": "<length> | auto",
-                "counter": "<counter()> | <counters()>",
-                "counter-name": "<custom-ident>",
                 "generic-voice": "[ <age>? <gender> <integer>? ]",
                 "gender": "male | female | neutral",
+                "lab()": "lab( [<percentage> | <number> | none] [ <percentage> | <number> | none] [ <percentage> | <number> | none] [ / [<alpha-value> | none] ]? )",
+                "lch()": "lch( [<percentage> | <number> | none] [ <percentage> | <number> | none] [ <hue> | none] [ / [<alpha-value> | none] ]? )",
                 "left": "<length> | auto",
                 "mask-image": "<mask-reference>#",
-                "name-repeat": "repeat( [ <positive-integer> | auto-fill ], <line-names>+)",
                 "paint": "none | <color> | <url> [ none | <color> ]? | context-fill | context-stroke",
-                "ratio": "<integer> / <integer>",
+                "ratio": "<number [0,∞]> [ / <number [0,∞]> ]?",
+                "reversed-counter-name": "reversed( <counter-name> )",
                 "right": "<length> | auto",
                 "svg-length": "<percentage> | <length> | <number>",
                 "svg-writing-mode": "lr-tb | rl-tb | tb-rl | lr | rl | tb",
@@ -367,11 +377,15 @@
                     "descriptors": {}
                 },
                 "import": {
-                    "prelude": "[ <string> | <url> ] [ <media-query-list> ]?",
+                    "prelude": "[ <string> | <url> ]\n        [ layer | layer(<layer-name>) ]?\n        [ supports( [ <supports-condition> | <declaration> ] ) ]?\n        <media-query-list>?",
                     "descriptors": {}
                 },
                 "keyframes": {
                     "prelude": "<keyframes-name>",
+                    "descriptors": {}
+                },
+                "layer": {
+                    "prelude": "[ <layer-name># | <layer-name>?   ]",
                     "descriptors": {}
                 },
                 "media": {
@@ -397,6 +411,10 @@
                         "inherits": "true | false",
                         "initial-value": "<string>"
                     }
+                },
+                "scroll-timeline": {
+                    "prelude": "<timeline-name>",
+                    "descriptors": {}
                 },
                 "supports": {
                     "prelude": "<supports-condition>",
@@ -526,7 +544,7 @@
                 "align-items": "normal | stretch | <baseline-position> | [ <overflow-position>? <self-position> ]",
                 "align-self": "auto | normal | stretch | <baseline-position> | <overflow-position>? <self-position>",
                 "align-tracks": "[ normal | <baseline-position> | <content-distribution> | <overflow-position>? <content-position> ]#",
-                "all": "initial | inherit | unset | revert",
+                "all": "initial | inherit | unset | revert | revert-layer",
                 "animation": "<single-animation>#",
                 "animation-delay": "<time>#",
                 "animation-direction": "<single-animation-direction>#",
@@ -536,6 +554,7 @@
                 "animation-name": "[ none | <keyframes-name> ]#",
                 "animation-play-state": "<single-animation-play-state>#",
                 "animation-timing-function": "<easing-function>#",
+                "animation-timeline": "<single-animation-timeline>#",
                 "appearance": "none | auto | textfield | menulist-button | <compat-auto>",
                 "aspect-ratio": "auto | <ratio>",
                 "azimuth": "<angle> | [ [ left-side | far-left | left | center-left | center | center-right | right | far-right | right-side ] || behind ] | leftwards | rightwards",
@@ -544,7 +563,7 @@
                 "background": "[ <bg-layer> , ]* <final-bg-layer>",
                 "background-attachment": "<attachment>#",
                 "background-blend-mode": "<blend-mode>#",
-                "background-clip": "<box>#",
+                "background-clip": "<bg-clip>#",
                 "background-color": "<color>",
                 "background-image": "<bg-image>#",
                 "background-origin": "<box>#",
@@ -637,8 +656,8 @@
                 "clip": "<shape> | auto",
                 "clip-path": "<clip-source> | [ <basic-shape> || <geometry-box> ] | none",
                 "color": "<color>",
-                "color-adjust": "economy | exact",
-                "color-scheme": "normal | [ light | dark | <custom-ident> ]+",
+                "print-color-adjust": "economy | exact",
+                "color-scheme": "normal | [ light | dark | <custom-ident> ]+ && only?",
                 "column-count": "<integer> | auto",
                 "column-fill": "auto | balance | balance-all",
                 "column-gap": "normal | <length-percentage>",
@@ -653,7 +672,7 @@
                 "content": "normal | none | [ <content-replacement> | <content-list> ] [/ [ <string> | <counter> ]+ ]?",
                 "content-visibility": "visible | auto | hidden",
                 "counter-increment": "[ <counter-name> <integer>? ]+ | none",
-                "counter-reset": "[ <counter-name> <integer>? ]+ | none",
+                "counter-reset": "[ <counter-name> <integer>? | <reversed-counter-name> <integer>? ]+ | none",
                 "counter-set": "[ <counter-name> <integer>? ]+ | none",
                 "cursor": "[ [ <url> [ <x> <y> ]? , ]* [ auto | default | none | context-menu | help | pointer | progress | wait | cell | crosshair | text | vertical-text | alias | copy | move | no-drop | not-allowed | e-resize | n-resize | ne-resize | nw-resize | s-resize | se-resize | sw-resize | w-resize | ew-resize | ns-resize | nesw-resize | nwse-resize | col-resize | row-resize | all-scroll | zoom-in | zoom-out | grab | grabbing | hand | -webkit-grab | -webkit-grabbing | -webkit-zoom-in | -webkit-zoom-out | -moz-grab | -moz-grabbing | -moz-zoom-in | -moz-zoom-out ] ]",
                 "direction": "ltr | rtl",
@@ -711,6 +730,7 @@
                 "grid-template-rows": "none | <track-list> | <auto-track-list> | subgrid <line-name-list>?",
                 "hanging-punctuation": "none | [ first || [ force-end | allow-end ] || last ]",
                 "height": "auto | <length> | <percentage> | min-content | max-content | fit-content | fit-content(<length-percentage>)",
+                "hyphenate-character": "auto | <string>",
                 "hyphens": "none | manual | auto",
                 "image-orientation": "from-image | <angle> | [ <angle>? flip ]",
                 "image-rendering": "auto | crisp-edges | pixelated | optimizeSpeed | optimizeQuality | <-non-standard-image-rendering>",
@@ -719,6 +739,7 @@
                 "initial-letter": "normal | [ <number> <integer>? ]",
                 "initial-letter-align": "[ auto | alphabetic | hanging | ideographic ]",
                 "inline-size": "<'width'>",
+                "input-security": "auto | none",
                 "inset": "<'top'>{1,4}",
                 "inset-block": "<'top'>{1,2}",
                 "inset-block-end": "<'top'>",
@@ -781,7 +802,7 @@
                 "min-height": "auto | <length> | <percentage> | min-content | max-content | fit-content | fit-content(<length-percentage>)",
                 "min-inline-size": "<'min-width'>",
                 "min-width": "auto | <length> | <percentage> | min-content | max-content | fit-content | fit-content(<length-percentage>) | <-non-standard-width>",
-                "mix-blend-mode": "<blend-mode>",
+                "mix-blend-mode": "<blend-mode> | plus-lighter",
                 "object-fit": "fill | contain | cover | none | scale-down",
                 "object-position": "<position>",
                 "offset": "[ <'offset-position'>? [ <'offset-path'> [ <'offset-distance'> || <'offset-rotate'> ]? ]? ]! [ / <'offset-anchor'> ]?",
@@ -1163,6 +1184,13 @@
                     ],
                     "syntax": "auto | baseline | before-edge | text-before-edge | middle | central | after-edge | text-after-edge | ideographic | alphabetic | hanging | mathematical"
                 },
+                "background-clip": {
+                    "comment": "used <bg-clip> from CSS Backgrounds and Borders 4 since it adds new values",
+                    "references": [
+                        "https://github.com/csstree/csstree/issues/190"
+                    ],
+                    "syntax": "<bg-clip>#"
+                },
                 "baseline-shift": {
                     "comment": "added SVG property",
                     "references": [
@@ -1180,31 +1208,6 @@
                         "https://www.w3.org/TR/SVG/masking.html#ClipRuleProperty"
                     ],
                     "syntax": "nonzero | evenodd"
-                },
-                "content": {
-                    "comment": "https://www.w3.org/TR/css-content-3/#content-property",
-                    "syntax": "normal | none | [ <content-replacement> | <content-list> ] [/ [ <string> | <counter> ]+ ]?"
-                },
-                "counter-reset": {
-                    "comment": "<custom-ident> -> <counter-name>",
-                    "references": [
-                        "https://www.w3.org/TR/css-lists-3/#counter-reset"
-                    ],
-                    "syntax": "[ <counter-name> <integer>? ]+ | none"
-                },
-                "counter-increment": {
-                    "comment": "<custom-ident> -> <counter-name>",
-                    "references": [
-                        "https://www.w3.org/TR/css-lists-3/#propdef-counter-increment"
-                    ],
-                    "syntax": "[ <counter-name> <integer>? ]+ | none"
-                },
-                "counter-set": {
-                    "comment": "<custom-ident> -> <counter-name>",
-                    "references": [
-                        "https://www.w3.org/TR/css-lists-3/#propdef-counter-set"
-                    ],
-                    "syntax": "[ <counter-name> <integer>? ]+ | none"
                 },
                 "cue": {
                     "comment": "https://www.w3.org/TR/css3-speech/#property-index",
@@ -1499,7 +1502,7 @@
                     "syntax": "| <svg-writing-mode>"
                 }
             },
-            "syntaxes": {
+            "types": {
                 "-legacy-gradient": {
                     "comment": "added collection of legacy gradient syntaxes",
                     "syntax": "<-webkit-gradient()> | <-legacy-linear-gradient> | <-legacy-repeating-linear-gradient> | <-legacy-radial-gradient> | <-legacy-repeating-radial-gradient>"
@@ -1620,6 +1623,10 @@
                 "attr-fallback": {
                     "syntax": "<any-value>"
                 },
+                "bg-clip": {
+                    "comment": "missed, https://drafts.csswg.org/css-backgrounds-4/#typedef-bg-clip",
+                    "syntax": "<box> | border | text"
+                },
                 "border-radius": {
                     "comment": "missed, https://drafts.csswg.org/css-backgrounds-3/#the-border-radius",
                     "syntax": "<length-percentage>{1,2}"
@@ -1629,30 +1636,8 @@
                     "syntax": "<length> | auto"
                 },
                 "content-list": {
-                    "comment": "add missed <counter> -> https://drafts.csswg.org/css-content/#typedef-content-list",
-                    "syntax": "[ <string> | contents | <image> | <counter> | <quote> | <target> | <leader()> ]+"
-                },
-                "counter": {
-                    "comment": "missed",
-                    "syntax": "<counter()> | <counters()>"
-                },
-                "counter()": {
-                    "comment": "<custom-ident> -> <counter-name>",
-                    "references": [
-                        "https://www.w3.org/TR/css-lists-3/#counter-functions"
-                    ],
-                    "syntax": "counter( <counter-name>, <counter-style>? )"
-                },
-                "counters()": {
-                    "comment": "<custom-ident> -> <counter-name>",
-                    "references": [
-                        "https://www.w3.org/TR/css-lists-3/#counter-functions"
-                    ],
-                    "syntax": "counters( <counter-name>, <string>, <counter-style>? )"
-                },
-                "counter-name": {
-                    "comment": "missed",
-                    "syntax": "<custom-ident>"
+                    "comment": "added attr(), see https://github.com/csstree/csstree/issues/201",
+                    "syntax": "[ <string> | contents | <image> | <counter> | <quote> | <target> | <leader()> | <attr()> ]+"
                 },
                 "element()": {
                     "comment": "https://drafts.csswg.org/css-gcpm/#element-syntax & https://drafts.csswg.org/css-images-4/#element-notation",
@@ -1677,6 +1662,14 @@
                     "comment": "added legacy syntaxes support",
                     "syntax": "| <-legacy-gradient>"
                 },
+                "lab()": {
+                    "comment": "missed; https://www.w3.org/TR/css-color-4/#specifying-lab-lch",
+                    "syntax": "lab( [<percentage> | <number> | none] [ <percentage> | <number> | none] [ <percentage> | <number> | none] [ / [<alpha-value> | none] ]? )"
+                },
+                "lch()": {
+                    "comment": "missed; https://www.w3.org/TR/css-color-4/#specifying-lab-lch",
+                    "syntax": "lch( [<percentage> | <number> | none] [ <percentage> | <number> | none] [ <hue> | none] [ / [<alpha-value> | none] ]? )"
+                },
                 "left": {
                     "comment": "missed; not sure we should add it, but no others except `shape` is using it so it's ok for now; https://drafts.fxtf.org/css-masking-1/#funcdef-clip-rect",
                     "syntax": "<length> | auto"
@@ -1684,10 +1677,6 @@
                 "mask-image": {
                     "comment": "missed; https://drafts.fxtf.org/css-masking-1/#the-mask-image",
                     "syntax": "<mask-reference>#"
-                },
-                "name-repeat": {
-                    "comment": "missed, and looks like obsolete, keep it as is since other property syntaxes should be changed too; https://www.w3.org/TR/2015/WD-css-grid-1-20150917/#typedef-name-repeat",
-                    "syntax": "repeat( [ <positive-integer> | auto-fill ], <line-names>+)"
                 },
                 "named-color": {
                     "comment": "added non standard color names",
@@ -1698,8 +1687,12 @@
                     "syntax": "none | <color> | <url> [ none | <color> ]? | context-fill | context-stroke"
                 },
                 "ratio": {
-                    "comment": "missed, https://drafts.csswg.org/mediaqueries-4/#typedef-ratio",
-                    "syntax": "<integer> / <integer>"
+                    "comment": "missed, https://drafts.csswg.org/css-values-4/#ratio-value",
+                    "syntax": "<number [0,∞]> [ / <number [0,∞]> ]?"
+                },
+                "reversed-counter-name": {
+                    "comment": "missed; https://drafts.csswg.org/css-lists/#typedef-reversed-counter-name",
+                    "syntax": "reversed( <counter-name> )"
                 },
                 "right": {
                     "comment": "missed; not sure we should add it, but no others except `shape` is using it so it's ok for now; https://drafts.fxtf.org/css-masking-1/#funcdef-clip-rect",
@@ -1779,7 +1772,7 @@
             }
         },
         "mdn": {
-            "version": "2.0.23",
+            "version": "2.0.28",
             "atRules": {
                 "@charset": {
                     "syntax": "@charset \"<charset>\";",
@@ -2055,8 +2048,9 @@
                     "mdn_url": "https://developer.mozilla.org/docs/Web/CSS/@font-feature-values"
                 },
                 "@import": {
-                    "syntax": "@import [ <string> | <url> ] [ <media-query-list> ]?;",
+                    "syntax": "@import [ <string> | <url> ]\n        [ layer | layer(<layer-name>) ]?\n        [ supports( [ <supports-condition> | <declaration> ] ) ]?\n        <media-query-list>? ;",
                     "groups": [
+                        "CSS Conditional Rules",
                         "Media Queries"
                     ],
                     "status": "standard",
@@ -2073,6 +2067,18 @@
                     ],
                     "status": "standard",
                     "mdn_url": "https://developer.mozilla.org/docs/Web/CSS/@keyframes"
+                },
+                "@layer": {
+                    "syntax": "@layer [ <layer-name># | <layer-name>?  {\n  <stylesheet>\n} ]",
+                    "interfaces": [
+                        "CSSLayerBlockRule",
+                        "CSSLayerStatementRule"
+                    ],
+                    "groups": [
+                        "CSS Cascading and Inheritance"
+                    ],
+                    "status": "standard",
+                    "mdn_url": "https://developer.mozilla.org/docs/Web/CSS/@layer"
                 },
                 "@media": {
                     "syntax": "@media <media-query-list> {\n  <group-rule-body>\n}",
@@ -2186,6 +2192,17 @@
                     },
                     "status": "experimental",
                     "mdn_url": "https://developer.mozilla.org/docs/Web/CSS/@property"
+                },
+                "@scroll-timeline": {
+                    "syntax": "@scroll-timeline <timeline-name> { <declaration-list> }",
+                    "interfaces": [
+                        "ScrollTimeline"
+                    ],
+                    "groups": [
+                        "CSS Animations"
+                    ],
+                    "status": "standard",
+                    "mdn_url": "https://developer.mozilla.org/docs/Web/CSS/@scroll-timeline"
                 },
                 "@supports": {
                     "syntax": "@supports <supports-condition> {\n  <group-rule-body>\n}",
@@ -2666,7 +2683,7 @@
                     "mdn_url": "https://developer.mozilla.org/docs/Web/CSS/:focus-within"
                 },
                 ":has": {
-                    "syntax": ":has( <relative-selector-list> )",
+                    "syntax": ":has( <forgiving-relative-selector-list> )",
                     "groups": [
                         "Pseudo-classes",
                         "Selectors"
@@ -2729,7 +2746,7 @@
                     "mdn_url": "https://developer.mozilla.org/docs/Web/CSS/:invalid"
                 },
                 ":is": {
-                    "syntax": ":is( <complex-selector-list> )",
+                    "syntax": ":is( <forgiving-selector-list> )",
                     "groups": [
                         "Pseudo-classes",
                         "Selectors"
@@ -2919,7 +2936,7 @@
                     "mdn_url": "https://developer.mozilla.org/docs/Web/CSS/:placeholder-shown"
                 },
                 ":playing": {
-                    "syntax": ":checked",
+                    "syntax": ":playing",
                     "groups": [
                         "Pseudo-classes",
                         "Selectors"
@@ -3126,7 +3143,7 @@
                     "mdn_url": "https://developer.mozilla.org/docs/Web/CSS/::-ms-clear"
                 },
                 "::-ms-expand": {
-                    "syntax": "::-ms-clear",
+                    "syntax": "::-ms-expand",
                     "groups": [
                         "Pseudo-elements",
                         "Selectors",
@@ -5257,7 +5274,7 @@
                 "-webkit-tap-highlight-color": {
                     "syntax": "<color>",
                     "media": "visual",
-                    "inherited": false,
+                    "inherited": true,
                     "animationType": "discrete",
                     "percentages": "no",
                     "groups": [
@@ -5455,7 +5472,7 @@
                     "mdn_url": "https://developer.mozilla.org/docs/Web/CSS/align-tracks"
                 },
                 "all": {
-                    "syntax": "initial | inherit | unset | revert",
+                    "syntax": "initial | inherit | unset | revert | revert-layer",
                     "media": "noPracticalMedia",
                     "inherited": false,
                     "animationType": "eachOfShorthandPropertiesExceptUnicodeBiDiAndDirection",
@@ -5474,7 +5491,7 @@
                     "syntax": "<single-animation>#",
                     "media": "visual",
                     "inherited": false,
-                    "animationType": "discrete",
+                    "animationType": "notAnimatable",
                     "percentages": "no",
                     "groups": [
                         "CSS Animations"
@@ -5487,7 +5504,8 @@
                         "animation-iteration-count",
                         "animation-direction",
                         "animation-fill-mode",
-                        "animation-play-state"
+                        "animation-play-state",
+                        "animation-timeline"
                     ],
                     "appliesto": "allElementsAndPseudos",
                     "computed": [
@@ -5498,7 +5516,8 @@
                         "animation-direction",
                         "animation-iteration-count",
                         "animation-fill-mode",
-                        "animation-play-state"
+                        "animation-play-state",
+                        "animation-timeline"
                     ],
                     "order": "orderOfAppearance",
                     "status": "standard",
@@ -5508,7 +5527,7 @@
                     "syntax": "<time>#",
                     "media": "visual",
                     "inherited": false,
-                    "animationType": "discrete",
+                    "animationType": "notAnimatable",
                     "percentages": "no",
                     "groups": [
                         "CSS Animations"
@@ -5524,7 +5543,7 @@
                     "syntax": "<single-animation-direction>#",
                     "media": "visual",
                     "inherited": false,
-                    "animationType": "discrete",
+                    "animationType": "notAnimatable",
                     "percentages": "no",
                     "groups": [
                         "CSS Animations"
@@ -5540,7 +5559,7 @@
                     "syntax": "<time>#",
                     "media": "visual",
                     "inherited": false,
-                    "animationType": "discrete",
+                    "animationType": "notAnimatable",
                     "percentages": "no",
                     "groups": [
                         "CSS Animations"
@@ -5556,7 +5575,7 @@
                     "syntax": "<single-animation-fill-mode>#",
                     "media": "visual",
                     "inherited": false,
-                    "animationType": "discrete",
+                    "animationType": "notAnimatable",
                     "percentages": "no",
                     "groups": [
                         "CSS Animations"
@@ -5572,7 +5591,7 @@
                     "syntax": "<single-animation-iteration-count>#",
                     "media": "visual",
                     "inherited": false,
-                    "animationType": "discrete",
+                    "animationType": "notAnimatable",
                     "percentages": "no",
                     "groups": [
                         "CSS Animations"
@@ -5588,7 +5607,7 @@
                     "syntax": "[ none | <keyframes-name> ]#",
                     "media": "visual",
                     "inherited": false,
-                    "animationType": "discrete",
+                    "animationType": "notAnimatable",
                     "percentages": "no",
                     "groups": [
                         "CSS Animations"
@@ -5604,7 +5623,7 @@
                     "syntax": "<single-animation-play-state>#",
                     "media": "visual",
                     "inherited": false,
-                    "animationType": "discrete",
+                    "animationType": "notAnimatable",
                     "percentages": "no",
                     "groups": [
                         "CSS Animations"
@@ -5620,7 +5639,7 @@
                     "syntax": "<easing-function>#",
                     "media": "visual",
                     "inherited": false,
-                    "animationType": "discrete",
+                    "animationType": "notAnimatable",
                     "percentages": "no",
                     "groups": [
                         "CSS Animations"
@@ -5632,6 +5651,22 @@
                     "status": "standard",
                     "mdn_url": "https://developer.mozilla.org/docs/Web/CSS/animation-timing-function"
                 },
+                "animation-timeline": {
+                    "syntax": "<single-animation-timeline>#",
+                    "media": "visual",
+                    "inherited": false,
+                    "animationType": "notAnimatable",
+                    "percentages": "no",
+                    "groups": [
+                        "CSS Animations"
+                    ],
+                    "initial": "auto",
+                    "appliesto": "allElements",
+                    "computed": "listEachItemIdentifyerOrNoneAuto",
+                    "order": "uniqueOrder",
+                    "status": "standard",
+                    "mdn_url": "https://developer.mozilla.org/docs/Web/CSS/animation-timeline"
+                },
                 "appearance": {
                     "syntax": "none | auto | textfield | menulist-button | <compat-auto>",
                     "media": "all",
@@ -5641,7 +5676,7 @@
                     "groups": [
                         "CSS Basic User Interface"
                     ],
-                    "initial": "auto",
+                    "initial": "none",
                     "appliesto": "allElements",
                     "computed": "asSpecified",
                     "order": "perGrammar",
@@ -5921,7 +5956,7 @@
                     "groups": [
                         "CSS Backgrounds and Borders"
                     ],
-                    "initial": "left",
+                    "initial": "0%",
                     "appliesto": "allElements",
                     "computed": "listEachItemConsistingOfAbsoluteLengthPercentageAndOrigin",
                     "order": "uniqueOrder",
@@ -5937,7 +5972,7 @@
                     "groups": [
                         "CSS Backgrounds and Borders"
                     ],
-                    "initial": "top",
+                    "initial": "0%",
                     "appliesto": "allElements",
                     "computed": "listEachItemConsistingOfAbsoluteLengthPercentageAndOrigin",
                     "order": "uniqueOrder",
@@ -7627,15 +7662,15 @@
                     "syntax": "<color>",
                     "media": "visual",
                     "inherited": true,
-                    "animationType": "color",
+                    "animationType": "byComputedValueType",
                     "percentages": "no",
                     "groups": [
                         "CSS Color"
                     ],
-                    "initial": "variesFromBrowserToBrowser",
-                    "appliesto": "allElements",
-                    "computed": "translucentValuesRGBAOtherwiseRGB",
-                    "order": "uniqueOrder",
+                    "initial": "canvastext",
+                    "appliesto": "allElementsAndText",
+                    "computed": "computedColor",
+                    "order": "perGrammar",
                     "alsoAppliesTo": [
                         "::first-letter",
                         "::first-line",
@@ -7644,7 +7679,7 @@
                     "status": "standard",
                     "mdn_url": "https://developer.mozilla.org/docs/Web/CSS/color"
                 },
-                "color-adjust": {
+                "print-color-adjust": {
                     "syntax": "economy | exact",
                     "media": "visual",
                     "inherited": true,
@@ -7658,10 +7693,10 @@
                     "computed": "asSpecified",
                     "order": "perGrammar",
                     "status": "standard",
-                    "mdn_url": "https://developer.mozilla.org/docs/Web/CSS/color-adjust"
+                    "mdn_url": "https://developer.mozilla.org/docs/Web/CSS/print-color-adjust"
                 },
                 "color-scheme": {
-                    "syntax": "normal | [ light | dark | <custom-ident> ]+",
+                    "syntax": "normal | [ light | dark | <custom-ident> ]+ && only?",
                     "media": "visual",
                     "inherited": true,
                     "animationType": "discrete",
@@ -7874,7 +7909,7 @@
                     "mdn_url": "https://developer.mozilla.org/docs/Web/CSS/contain"
                 },
                 "content": {
-                    "syntax": "normal | none | [ <content-replacement> | <content-list> ] [/ <string> ]?",
+                    "syntax": "normal | none | [ <content-replacement> | <content-list> ] [/ [ <string> | <counter> ]+ ]?",
                     "media": "all",
                     "inherited": false,
                     "animationType": "discrete",
@@ -7906,7 +7941,7 @@
                     "mdn_url": "https://developer.mozilla.org/docs/Web/CSS/content-visibility"
                 },
                 "counter-increment": {
-                    "syntax": "[ <custom-ident> <integer>? ]+ | none",
+                    "syntax": "[ <counter-name> <integer>? ]+ | none",
                     "media": "all",
                     "inherited": false,
                     "animationType": "discrete",
@@ -7922,7 +7957,7 @@
                     "mdn_url": "https://developer.mozilla.org/docs/Web/CSS/counter-increment"
                 },
                 "counter-reset": {
-                    "syntax": "[ <custom-ident> <integer>? ]+ | none",
+                    "syntax": "[ <counter-name> <integer>? | <reversed-counter-name> <integer>? ]+ | none",
                     "media": "all",
                     "inherited": false,
                     "animationType": "discrete",
@@ -7938,7 +7973,7 @@
                     "mdn_url": "https://developer.mozilla.org/docs/Web/CSS/counter-reset"
                 },
                 "counter-set": {
-                    "syntax": "[ <custom-ident> <integer>? ]+ | none",
+                    "syntax": "[ <counter-name> <integer>? ]+ | none",
                     "media": "all",
                     "inherited": false,
                     "animationType": "discrete",
@@ -9075,6 +9110,22 @@
                     "status": "standard",
                     "mdn_url": "https://developer.mozilla.org/docs/Web/CSS/height"
                 },
+                "hyphenate-character": {
+                    "syntax": "auto | <string>",
+                    "media": "visual",
+                    "inherited": true,
+                    "animationType": "discrete",
+                    "percentages": "no",
+                    "groups": [
+                        "CSS Text"
+                    ],
+                    "initial": "auto",
+                    "appliesto": "allElements",
+                    "computed": "asSpecified",
+                    "order": "perGrammar",
+                    "status": "standard",
+                    "mdn_url": "https://developer.mozilla.org/docs/Web/CSS/hyphenate-character"
+                },
                 "hyphens": {
                     "syntax": "none | manual | auto",
                     "media": "visual",
@@ -9201,6 +9252,21 @@
                     "order": "uniqueOrder",
                     "status": "standard",
                     "mdn_url": "https://developer.mozilla.org/docs/Web/CSS/inline-size"
+                },
+                "input-security": {
+                    "syntax": "auto | none",
+                    "media": "interactive",
+                    "inherited": false,
+                    "animationType": "byComputedValueType",
+                    "percentages": "no",
+                    "groups": [
+                        "CSS Basic User Interface"
+                    ],
+                    "initial": "auto",
+                    "appliesto": "sensitiveTextInputs",
+                    "computed": "asSpecified",
+                    "order": "perGrammar",
+                    "status": "standard"
                 },
                 "inset": {
                     "syntax": "<'top'>{1,4}",
@@ -10164,7 +10230,7 @@
                     "groups": [
                         "CSS Logical Properties"
                     ],
-                    "initial": "0",
+                    "initial": "none",
                     "appliesto": "sameAsWidthAndHeight",
                     "computed": "sameAsMaxWidthAndMaxHeight",
                     "order": "uniqueOrder",
@@ -10196,7 +10262,7 @@
                     "groups": [
                         "CSS Logical Properties"
                     ],
-                    "initial": "0",
+                    "initial": "none",
                     "appliesto": "sameAsWidthAndHeight",
                     "computed": "sameAsMaxWidthAndMaxHeight",
                     "order": "uniqueOrder",
@@ -10299,7 +10365,7 @@
                     "mdn_url": "https://developer.mozilla.org/docs/Web/CSS/min-width"
                 },
                 "mix-blend-mode": {
-                    "syntax": "<blend-mode>",
+                    "syntax": "<blend-mode> | plus-lighter",
                     "media": "visual",
                     "inherited": false,
                     "animationType": "discrete",
@@ -10469,15 +10535,15 @@
                     "syntax": "<alpha-value>",
                     "media": "visual",
                     "inherited": false,
-                    "animationType": "number",
-                    "percentages": "no",
+                    "animationType": "byComputedValueType",
+                    "percentages": "mapToRange0To1",
                     "groups": [
                         "CSS Color"
                     ],
-                    "initial": "1.0",
+                    "initial": "1",
                     "appliesto": "allElements",
-                    "computed": "specifiedValueClipped0To1",
-                    "order": "uniqueOrder",
+                    "computed": "specifiedValueNumberClipped0To1",
+                    "order": "perGrammar",
                     "alsoAppliesTo": [
                         "::placeholder"
                     ],
@@ -13037,7 +13103,7 @@
                     "syntax": "<url>"
                 },
                 "color": {
-                    "syntax": "<rgb()> | <rgba()> | <hsl()> | <hsla()> | <hex-color> | <named-color> | currentcolor | <deprecated-system-color>"
+                    "syntax": "<rgb()> | <rgba()> | <hsl()> | <hsla()> | <hwb()> | <lab()> | <lch()> | <hex-color> | <named-color> | currentcolor | <deprecated-system-color>"
                 },
                 "color-stop": {
                     "syntax": "<color-stop-length> | <color-stop-angle>"
@@ -13088,7 +13154,7 @@
                     "syntax": "space-between | space-around | space-evenly | stretch"
                 },
                 "content-list": {
-                    "syntax": "[ <string> | contents | <image> | <quote> | <target> | <leader()> ]+"
+                    "syntax": "[ <string> | contents | <image> | <counter> | <quote> | <target> | <leader()> ]+"
                 },
                 "content-position": {
                     "syntax": "center | start | end | flex-start | flex-end"
@@ -13099,8 +13165,14 @@
                 "contrast()": {
                     "syntax": "contrast( [ <number-percentage> ] )"
                 },
+                "counter": {
+                    "syntax": "<counter()> | <counters()>"
+                },
                 "counter()": {
-                    "syntax": "counter( <custom-ident>, <counter-style>? )"
+                    "syntax": "counter( <counter-name>, <counter-style>? )"
+                },
+                "counter-name": {
+                    "syntax": "<custom-ident>"
                 },
                 "counter-style": {
                     "syntax": "<counter-style-name> | symbols()"
@@ -13109,7 +13181,7 @@
                     "syntax": "<custom-ident>"
                 },
                 "counters()": {
-                    "syntax": "counters( <custom-ident>, <string>, <counter-style>? )"
+                    "syntax": "counters( <counter-name>, <string>, <counter-style>? )"
                 },
                 "cross-fade()": {
                     "syntax": "cross-fade( <cf-mixing-image> , <cf-final-image>? )"
@@ -13238,7 +13310,7 @@
                     "syntax": "<shape-box> | fill-box | stroke-box | view-box"
                 },
                 "gradient": {
-                    "syntax": "<linear-gradient()> | <repeating-linear-gradient()> | <radial-gradient()> | <repeating-radial-gradient()> | <conic-gradient()>"
+                    "syntax": "<linear-gradient()> | <repeating-linear-gradient()> | <radial-gradient()> | <repeating-radial-gradient()> | <conic-gradient()> | <repeating-conic-gradient()>"
                 },
                 "grayscale()": {
                     "syntax": "grayscale( <number-percentage> )"
@@ -13260,6 +13332,9 @@
                 },
                 "hue-rotate()": {
                     "syntax": "hue-rotate( <angle> )"
+                },
+                "hwb()": {
+                    "syntax": "hwb( [<hue> | none] [<percentage> | none] [<percentage> | none] [ / [<alpha-value> | none] ]? )"
                 },
                 "id-selector": {
                     "syntax": "<hash-token>"
@@ -13302,6 +13377,12 @@
                 },
                 "keyframe-selector": {
                     "syntax": "from | to | <percentage>"
+                },
+                "layer()": {
+                    "syntax": "layer( <layer-name> )"
+                },
+                "layer-name": {
+                    "syntax": "<ident> [ '.' <ident> ]*"
                 },
                 "leader()": {
                     "syntax": "leader( <leader-type> )"
@@ -13408,6 +13489,9 @@
                 "minmax()": {
                     "syntax": "minmax( [ <length> | <percentage> | min-content | max-content | auto ] , [ <length> | <percentage> | <flex> | min-content | max-content | auto ] )"
                 },
+                "name-repeat": {
+                    "syntax": "repeat( [ <integer [1,∞]> | auto-fill ], <line-names>+ )"
+                },
                 "named-color": {
                     "syntax": "transparent | aliceblue | antiquewhite | aqua | aquamarine | azure | beige | bisque | black | blanchedalmond | blue | blueviolet | brown | burlywood | cadetblue | chartreuse | chocolate | coral | cornflowerblue | cornsilk | crimson | cyan | darkblue | darkcyan | darkgoldenrod | darkgray | darkgreen | darkgrey | darkkhaki | darkmagenta | darkolivegreen | darkorange | darkorchid | darkred | darksalmon | darkseagreen | darkslateblue | darkslategray | darkslategrey | darkturquoise | darkviolet | deeppink | deepskyblue | dimgray | dimgrey | dodgerblue | firebrick | floralwhite | forestgreen | fuchsia | gainsboro | ghostwhite | gold | goldenrod | gray | green | greenyellow | grey | honeydew | hotpink | indianred | indigo | ivory | khaki | lavender | lavenderblush | lawngreen | lemonchiffon | lightblue | lightcoral | lightcyan | lightgoldenrodyellow | lightgray | lightgreen | lightgrey | lightpink | lightsalmon | lightseagreen | lightskyblue | lightslategray | lightslategrey | lightsteelblue | lightyellow | lime | limegreen | linen | magenta | maroon | mediumaquamarine | mediumblue | mediumorchid | mediumpurple | mediumseagreen | mediumslateblue | mediumspringgreen | mediumturquoise | mediumvioletred | midnightblue | mintcream | mistyrose | moccasin | navajowhite | navy | oldlace | olive | olivedrab | orange | orangered | orchid | palegoldenrod | palegreen | paleturquoise | palevioletred | papayawhip | peachpuff | peru | pink | plum | powderblue | purple | rebeccapurple | red | rosybrown | royalblue | saddlebrown | salmon | sandybrown | seagreen | seashell | sienna | silver | skyblue | slateblue | slategray | slategrey | snow | springgreen | steelblue | tan | teal | thistle | tomato | turquoise | violet | wheat | white | whitesmoke | yellow | yellowgreen"
                 },
@@ -13500,6 +13584,9 @@
                 },
                 "repeat-style": {
                     "syntax": "repeat-x | repeat-y | [ repeat | space | round | no-repeat ]{1,2}"
+                },
+                "repeating-conic-gradient()": {
+                    "syntax": "repeating-conic-gradient( [ from <angle> ]? [ at <position> ]?, <angular-color-stop-list> )"
                 },
                 "repeating-linear-gradient()": {
                     "syntax": "repeating-linear-gradient( [ <angle> | to <side-or-corner> ]? , <color-stop-list> )"
@@ -13594,6 +13681,9 @@
                 "single-animation-play-state": {
                     "syntax": "running | paused"
                 },
+                "single-animation-timeline": {
+                    "syntax": "auto | none | <timeline-name>"
+                },
                 "single-transition": {
                     "syntax": "[ none | <single-transition-property> ] || <time> || <easing-function> || <time>"
                 },
@@ -13644,6 +13734,9 @@
                 },
                 "time-percentage": {
                     "syntax": "<time> | <percentage>"
+                },
+                "timeline-name": {
+                    "syntax": "<custom-ident> | <string>"
                 },
                 "easing-function": {
                     "syntax": "linear | <cubic-bezier-timing-function> | <step-timing-function>"
@@ -13701,6 +13794,13 @@
                 }
             },
             "units": {
+                "cap": {
+                    "groups": [
+                        "CSS Units",
+                        "CSS Lengths"
+                    ],
+                    "status": "standard"
+                },
                 "ch": {
                     "groups": [
                         "CSS Units",
@@ -13776,6 +13876,13 @@
                     "groups": [
                         "CSS Units",
                         "CSS Frequencies"
+                    ],
+                    "status": "standard"
+                },
+                "ic": {
+                    "groups": [
+                        "CSS Units",
+                        "CSS Lengths"
                     ],
                     "status": "standard"
                 },
