@@ -1,9 +1,8 @@
 const fs = require('fs');
 const path = require('path');
 const exec = require('child_process').execSync;
-const resolve = require('resolve');
 
-const CSSTREE_DIR = path.dirname(resolve.sync('css-tree/package.json'));
+const CSSTREE_DIR = path.dirname(require.resolve('css-tree/package.json'));
 const CSSTREE_DIST = path.join(CSSTREE_DIR, 'dist/csstree.js');
 const DEST_DIR = path.join(__dirname, '../docs');
 const CSSTREE_DEST = path.join(DEST_DIR, 'csstree.js');
