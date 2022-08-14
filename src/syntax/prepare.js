@@ -281,7 +281,7 @@ module.exports = function(data, { defineObjectMarker, addQueryHelpers, query }) 
         patch(current) {
             if (current) {
                 if (current.type === 'Property' || current.type === 'Type') {
-                    return data.patch[current.type === 'Property' ? 'properties' : 'syntaxes'][current.name] || null;
+                    return data.patch[current.type === 'Property' ? 'properties' : 'types'][current.name] || null;
                 }
             }
             return null;

@@ -12,7 +12,14 @@ discovery.view.define('syntax-tree', {
         when: 'size()',
         limit: false,
         item: [
-            'auto-link',
+            {
+                view: 'auto-link',
+                postRender(el, _, data) {
+                    if (!data.match) {
+                        el.firstChild.classList.add('error');
+                    }
+                }
+            },
             'text:" = "',
             {
                 view: 'switch',
