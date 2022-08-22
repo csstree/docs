@@ -9,12 +9,12 @@ discovery.view.define('used-by', {
         $explicit
             ..($t:$;$t + $dict.[refs.[resolved=$t]])
             .[$ != @]
-            .group(<type>)
+            .group(=>type)
             .({
                 type: key,
-                refs: value.sort(<name>).({ ..., implicit: $ not in $explicit })
+                refs: value.sort(name asc).({ ..., implicit: $ not in $explicit })
             })
-            .sort(<type.typeSorting()>)
+            .sort(type.typeSorting() asc)
     `,
     emptyText: 'No syntaxes',
     column: [
