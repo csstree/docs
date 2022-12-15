@@ -4,11 +4,11 @@
     "dependencies": {},
     "devDependencies": {
         "highcharts": "^9.0.0",
-        "@discoveryjs/discovery": "1.0.0-beta.67",
-        "@discoveryjs/cli": "^2.2.0",
+        "@discoveryjs/discovery": "1.0.0-beta.70",
+        "@discoveryjs/cli": "^2.2.1",
         "css-tree": "^2.3.1",
         "diff": "^4.0.1",
-        "eslint": "^7.0.0"
+        "eslint": "^8.29.0"
     },
     "scripts": {
         "build": "node scripts/build.js && npm run discovery:build",
