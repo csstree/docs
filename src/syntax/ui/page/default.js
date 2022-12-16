@@ -18,6 +18,7 @@ discovery.page.define('default', [
     {
         view: 'context',
         data: [
+            { title: 'Atrules', query: 'dict.[type="Atrule"]' },
             { title: 'Properties', query: 'dict.[type="Property"]' },
             { title: 'Types', query: 'dict.[type="Type"]' },
             { title: 'Functions', query: 'dict.[type="Function"]' },
