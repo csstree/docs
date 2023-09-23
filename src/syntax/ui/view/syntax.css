@@ -13,6 +13,10 @@
 .view-syntax .error {
     color: #d00 !important;
 }
+.discovery-root-darkmode .view-syntax .error {
+    color: #cb6969 !important;
+    text-decoration-color: #985858;
+}
 .view-syntax .match {
     background: #ffdd1136;
     box-shadow: 0 0 0 2px #ffdd1136;

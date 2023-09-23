@@ -11,3 +11,8 @@
 .page-problems .error {
     color: #d00;
 }
+.discovery-root-darkmode .page-problems .missed .view-link,
+.discovery-root-darkmode .page-problems .error {
+    color: #cb6969;
+    text-decoration-color: #985858;
+}

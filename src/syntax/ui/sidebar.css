@@ -31,6 +31,9 @@
     background-color: #ff4444;
     text-shadow: none;
 }
+.discovery-root-darkmode .discovery-sidebar .danger-badge {
+    background-color: #ba3636c2;
+}
 .discovery-sidebar .view-list-item > .danger-badge {
     font-size: 10px;
     vertical-align: text-bottom;

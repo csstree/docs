@@ -22,3 +22,7 @@
     display: inline;
     color: #d00;
 }
+.discovery-root-darkmode .view-syntax-tree .error {
+    color: #cb6969;
+    text-decoration-color: #985858;
+}
