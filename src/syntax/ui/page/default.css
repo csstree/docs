@@ -4,6 +4,9 @@
     margin: 0 4px 0 0;
     background: rgba(130, 195, 11, 0.32);
 }
+.discovery-root-darkmode .page-default .versions .view-badge {
+    background-color: #446130
+}
 
 .page-default .versions .view-badge .prefix {
     padding: 5px 8px 6px;

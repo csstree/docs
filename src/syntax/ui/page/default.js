@@ -4,7 +4,7 @@ discovery.page.define('default', [
     {
         view: 'page-header',
         content: [
-            'h1:#.name',
+            'h1:#.model.name',
             {
                 view: 'block',
                 className: 'versions',
@@ -45,7 +45,7 @@ discovery.page.define('default', [
             {
                 title: 'Syntax stat',
                 query: '[\n    { header: \'Types\', data: dict.group(=>type).({ type: key, count: value.size() }) },\n    { header: \'Origin\', data: dict.({ type, name, mdn: mdn().syntax, csstree: syntax(), patch: patch() })\n        .[type!="Function"]\n        .group(=>\n            csstree="(generic)" ? "Generic" :\n            no mdn ? \'Added (missed in MDN data)\' :\n            patch ? \'Patched MDN data\'\n                : \'As is from MDN data\'\n        )\n        .({ type: key, count: value.size() })\n    }\n]',
-                view: '{\n    view: \'list\',\n    item: [\n        \'h2:header\',\n        {\n            view: \'hstack\',\n            data: \'data\',\n            content: [\n                \'table\',\n                \'chart:.({ y: count, name: type })\'\n            ]\n        }\n    ]\n}'
+                view: '{\n    view: \'list\',\n    item: [\n        \'h2:header\',\n        \'bar-chart{ vertical: true, data: data.({ x: type, y: count }) }\'\n    ]\n}'
             },
             // {
             //     title: 'csstree & mdn-data parity',

@@ -3,10 +3,12 @@
     white-space: pre-wrap;
 }
 .view-diff .added {
+    padding: 3px 0;
     background: rgb(146, 218, 146, .7);
     color: rgba(0, 0, 0, .75);
 }
 .view-diff .removed {
+    padding: 3px 0;
     background: rgb(222, 102, 102, .6);
     color: rgba(0, 0, 0, .75);
 }

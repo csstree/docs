@@ -10,6 +10,10 @@
     color: #333;
     text-decoration-color: #b8b8b8;
 }
+.discovery-root-darkmode .view-syntax-tree .view-syntax a {
+    color: #a8a8a8;
+    text-decoration-color: #666;
+}
 .view-syntax-tree .view-syntax a:hover {
     color: var(--discovery-color);
     text-decoration-color: currentColor;

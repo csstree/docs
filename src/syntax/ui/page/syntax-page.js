@@ -6,7 +6,7 @@ const page = {
     content: [
         {
             view: 'page-header',
-            prelude: 'badge:{ text: type, color: "rgba(237, 177, 9, 0.35)" }',
+            prelude: 'badge:{ text: type, color: "#ffdc7959" }',
             content: 'h1:formatName()'
         },
         {

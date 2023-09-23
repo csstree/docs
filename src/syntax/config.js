@@ -1,15 +1,14 @@
 module.exports = {
     name: 'CSS syntax reference (mdn/data & CSSTree)',
     basedir: __dirname,
-    darkmode: 'disabled',
     data: './data',
     prepare: './prepare',
     view: {
         assets: [
             'ui/sidebar.css',
             'ui/sidebar.js',
-            'ui/view/chart.css',
-            'ui/view/chart.js',
+            'ui/view/bar-chart.css',
+            'ui/view/bar-chart.js',
             'ui/page/default.css',
             'ui/page/default.js',
             'ui/page/problems.css',
