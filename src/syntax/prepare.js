@@ -323,7 +323,7 @@ module.exports = function(data, { defineObjectMarker, addQueryHelpers, query }) 
 
             return children;
         },
-        match(current, value) { // FIXME: change argument order: current, syntax
+        lexerMatch(current, value) { // FIXME: change argument order: current, syntax
             const { type, name } = current || {};
 
             let matchValue = type === 'Function' ? name + '(' + value + ')' : value;

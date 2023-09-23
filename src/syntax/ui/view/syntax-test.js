@@ -15,7 +15,7 @@ discovery.view.define('syntax-test', {
             view: 'section',
             className: 'match-result',
             when: '#.value ~= /\\S/',
-            data: 'match(#.value)',
+            data: 'lexerMatch(#.value)',
             header: [
                 'text:"Match result "',
                 {
