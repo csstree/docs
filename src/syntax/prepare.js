@@ -1,6 +1,6 @@
 /* eslint-env browser */
 /* global ga */
-const csstree = require('css-tree');
+import * as csstree from 'css-tree';
 const { definitionSyntax } = csstree;
 const functionSyntaxes = new WeakMap();
 
@@ -215,7 +215,8 @@ module.exports = function(data, { defineObjectMarker, addQueryHelpers, query }) 
             Object.entries(atrules).reduce(
                 (res, [key, { descriptors }]) =>
                     descriptors
-                        ? res.concat(Object.entries(descriptors).map(([name, value]) => [key + '/' + name, value]))
+                        ? res.concat(Object.entries(descriptors)
+                            .map(([name, value]) => [value.id = key + '/' + name, value]))
                         : res,
                 []
             )
@@ -227,9 +228,9 @@ module.exports = function(data, { defineObjectMarker, addQueryHelpers, query }) 
     const markers = Object.fromEntries(Object.keys(typeDict).map(type => [
         type,
         defineObjectMarker(type, {
-            refs: [value => `${value.type}:${value.name}`],
-            lookupRefs: [value => `${value.type}:${value.name}`],
-            ref: 'name',
+            refs: [value => `${value.type}:${value.id || value.name}`],
+            lookupRefs: [value => `${value.type}:${value.id || value.name}`],
+            ref: value => value.id || value.name,
             title: obj => syntaxName(obj),
             page: type
         })

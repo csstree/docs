@@ -2,7 +2,7 @@
 
 const page = {
     view: 'context',
-    data: 'dict[=>type=#.page and name=#.id]',
+    data: 'dict[=>type=#.page and (id=#.id or name=#.id)]',
     content: [
         {
             view: 'page-header',
@@ -45,7 +45,7 @@ const page = {
                             afterTabs: {
                                 view: 'badge',
                                 when: 'patch() and mdn()',
-                                data: '{ prefix: "Patched", color: "#f1eccb", text: patch().comment }'
+                                data: '{ prefix: "Patched", color: "#f1eccb", darkColor: "#5c5737", text: patch().comment or "no notes" }'
                             },
                             content: {
                                 view: 'switch',
@@ -60,7 +60,7 @@ const page = {
                                     ] },
                                     { content: {
                                         view: 'block',
-                                        className: 'syntax-diff',
+                                        className: 'definition-syntax-diff',
                                         content: 'diff-syntax:{ before: mdn().syntax, after: syntax() }'
                                     } }
                                 ]

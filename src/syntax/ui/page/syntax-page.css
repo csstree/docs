@@ -25,15 +25,22 @@
 .syntax-section > .view-syntax-tree,
 .syntax-section .view-tabs-content > .view-syntax,
 .syntax-section .view-tabs-content > .view-syntax-tree,
-.syntax-section .syntax-diff {
+.syntax-section .definition-syntax-diff {
     background: rgba(185, 185, 185, 0.1);
     padding: 10px;
     margin: 0 0 8px;
     font-size: 13px;
     font-family: Consolas, Menlo, Courier New, monospace;
 }
-.syntax-section .syntax-diff {
+.syntax-section .definition-syntax-diff {
     padding: 4px;
+}
+.syntax-section .definition-syntax-diff .syntax-diff {
+    background: none;
+    border-color: transparent;
+}
+.syntax-section .definition-syntax-diff .view-key-value-item > * {
+    background: none;
 }
 .syntax-section > .view-syntax,
 .syntax-section .view-tabs-content > .view-syntax {
@@ -65,10 +72,18 @@
     white-space: nowrap;
 }
 .syntax-section .view-tabs-buttons-before {
-    margin: -3px 3ex 0 -5px;
+    margin: -3px 0 0 0;
+    padding-right: 3ex;
 }
 .syntax-section .view-tabs-buttons-before .view-header {
-    margin: 0;
+    margin: 0 0 0 -10px;
+}
+.syntax-section .view-tabs-buttons-after .view-badge {
+    display: inline-block;
+}
+.syntax-section .view-tabs-buttons-after .view-badge .prefix {
+    display: inline-block;
+    padding-top: 3px;
 }
 .syntax-section .view-tab {
     margin-top: -2px;
