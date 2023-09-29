@@ -5,7 +5,7 @@ const dataByEl = new WeakMap();
 
 new discovery.view.Popup({
     className: 'chart-tooltip',
-    hoverTriggers: '.view-chart .bar',
+    hoverTriggers: '.view-bar-chart .bar',
     position: 'pointer',
     render(el, triggerEl) {
         const { data, context } = dataByEl.get(triggerEl);
