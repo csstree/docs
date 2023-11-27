@@ -280,7 +280,7 @@
                             '\n   value: ' + csstree.generate(node) + '\n  ^';
                     } else if (error.name !== 'SyntaxMatchError') {
                         // ignore non-match errors
-                        return;
+                        continue;
                     }
 
                     errors[type] = (errors[type] || 0) + 1;
