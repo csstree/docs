@@ -3,9 +3,9 @@
     "repository": "csstree/docs",
     "dependencies": {},
     "devDependencies": {
-        "@discoveryjs/discovery": "1.0.0-beta.78",
-        "@discoveryjs/cli": "^2.6.0",
-        "css-tree": "^2.3.1",
+        "@discoveryjs/discovery": "1.0.0-beta.84",
+        "@discoveryjs/cli": "^2.9.1",
+        "css-tree": "^3.0.0",
         "diff": "^4.0.1",
         "eslint": "^8.50.0"
     },

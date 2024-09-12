@@ -30,7 +30,7 @@ discovery.page.define('default', [
             data: `.({
                 label: title,
                 value: query.query(#.data, #).size(),
-                href: href or pageLink('report', { query, title })
+                href: href or pageLink('discovery', { query, title })
             })`
         }
     },
@@ -39,7 +39,7 @@ discovery.page.define('default', [
         header: 'text:"Reports"',
         content: {
             view: 'ul',
-            item: 'link:{ text: title, href: pageLink("report", { ..., noedit: true }) }'
+            item: 'link:{ text: title, href: pageLink("discovery", { ..., noedit: true }) }'
         },
         data: [
             {

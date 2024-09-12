@@ -1,12 +1,6 @@
 /* global discovery */
-const csstree = require('css-tree');
-
-function escapeHtml(str) {
-    return str
-        .replace(/&/g, '&amp;')
-        .replace(/</g, '&lt;')
-        .replace(/>/g, '&gt;');
-}
+import * as csstree from 'css-tree';
+import { utils } from '@discoveryjs/discovery';
 
 function markupSyntax(syntax, match) {
     return csstree.definitionSyntax.generate(syntax, function(str, node) {
@@ -14,7 +8,7 @@ function markupSyntax(syntax, match) {
             const entityDescriptor = discovery.objectMarkers.lookup(node);
             const error = !entityDescriptor || !entityDescriptor.object.match;
 
-            str = `<a href="#${node.type}:${node.name}"${error ? ' class="error"' : ''}>${escapeHtml(str)}</a>`;
+            str = `<a href="#${node.type}:${node.name}"${error ? ' class="error"' : ''}>${utils.escapeHtml(str)}</a>`;
         }
 
         if (match && match.type === node.type && match.name === node.name) {

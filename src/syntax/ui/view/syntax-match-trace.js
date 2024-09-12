@@ -1,12 +1,6 @@
 /* global discovery */
-const csstree = require('css-tree');
-
-function escapeHtml(str) {
-    return str
-        .replace(/&/g, '&amp;')
-        .replace(/</g, '&lt;')
-        .replace(/>/g, '&gt;');
-}
+import * as csstree from 'css-tree';
+import { utils } from '@discoveryjs/discovery';
 
 function buildMatchTrace(trace) {
     let childrenSyntaxes = [];
@@ -44,7 +38,7 @@ function buildMatchTrace(trace) {
 
         const syntaxStr = csstree.definitionSyntax.generate(syntax, function(str, node) {
             if (node.type === 'Type' || node.type === 'Property') {
-                str = escapeHtml(str);
+                str = utils.escapeHtml(str);
             }
 
             if (node.type === 'Type' || node.type === 'Property' ||

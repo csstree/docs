@@ -1,7 +1,7 @@
 module.exports = {
     name: 'CSS syntax reference (mdn/data & CSSTree)',
     basedir: __dirname,
-    data: './data',
+    data: './data/index.mjs',
     prepare: './prepare',
     view: {
         assets: [

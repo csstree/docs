@@ -37,7 +37,7 @@ discovery.view.define('sidebar', {
             view: 'toc-section',
             header: [
                 'text:type',
-                'pill-badge:{ text: items.size(), href: pageLink("report", "dict.[type=\\"" + type + "\\"]") }',
+                'pill-badge:{ text: items.size(), href: pageLink("discovery", "dict.[type=\\"" + type + "\\"]") }',
                 {
                     view: 'pill-badge',
                     when: 'badSyntaxes',

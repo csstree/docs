@@ -108,6 +108,7 @@ const page = {
                         {
                             view: 'table',
                             className: 'descriptor-table',
+                            limit: false,
                             data: 'descriptors.values()',
                             cols: [
                                 { header: 'Name', content: ['auto-link{ content: "text:entity.name" }'] },
