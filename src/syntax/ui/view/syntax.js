@@ -9,6 +9,11 @@ function markupSyntax(syntax, match) {
             const error = !entityDescriptor || !entityDescriptor.object.match;
 
             str = `<a href="#${node.type}:${node.name}"${error ? ' class="error"' : ''}>${utils.escapeHtml(str)}</a>`;
+        } else if (node.type === 'Boolean') {
+            str = str
+                .replace('<', '&lt;')
+                .replace('[', '[ ')
+                .replace(/\]>$/, ' ]>');
         }
 
         if (match && match.type === node.type && match.name === node.name) {
