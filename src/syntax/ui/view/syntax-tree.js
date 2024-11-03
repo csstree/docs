@@ -3,9 +3,10 @@
 discovery.view.define('syntax-tree', {
     view: 'context',
     data: `
+        $syntax;
         ..(refs().resolved)
             .[type != "Function" and (syntax or no match)]
-            .({ ..., matchType: @.matchType, matchName: @.matchName })
+            .({ $syntax, ..., matchType: @.matchType, matchName: @.matchName })
     `,
     content: {
         view: 'list',
@@ -14,11 +15,8 @@ discovery.view.define('syntax-tree', {
         item: [
             {
                 view: 'auto-link',
-                postRender(el, _, data) {
-                    if (!data.match) {
-                        el.firstChild.classList.add('error');
-                    }
-                }
+                fallback: 'text:syntax',
+                className: (data) => !data.match ? 'error' : ''
             },
             'text:" = "',
             {
