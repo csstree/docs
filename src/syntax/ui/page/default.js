@@ -9,8 +9,8 @@ discovery.page.define('default', [
                 view: 'block',
                 className: 'versions',
                 content: [
-                    'badge:{ prefix: "css-tree", text: csstree.version }',
-                    'badge:{ prefix: "mdn-data", text: mdn.version }'
+                    'badge:{ prefix: "css-tree", text: csstree.version, external: true, href: "https://github.com/csstree/csstree" }',
+                    'badge:{ prefix: "mdn-data", text: mdn.version, external: true, href: "https://github.com/mdn/data" }'
                 ]
             }
         ]
