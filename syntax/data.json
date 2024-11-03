@@ -1,6 +1,6 @@
 {
     "csstree": {
-        "version": "3.0.0",
+        "version": "3.0.1",
         "default": {
             "types": {
                 "abs()": "abs( <calc-sum> )",
@@ -24,7 +24,7 @@
                 "auto-track-list": "[ <line-names>? [ <fixed-size> | <fixed-repeat> ] ]* <line-names>? <auto-repeat>\n[ <line-names>? [ <fixed-size> | <fixed-repeat> ] ]* <line-names>?",
                 "axis": "block | inline | vertical | horizontal",
                 "baseline-position": "[ first | last ]? baseline",
-                "basic-shape": "<inset()> | <circle()> | <ellipse()> | <polygon()> | <path()>",
+                "basic-shape": "<inset()> | <xywh()> | <rect()> | <circle()> | <ellipse()> | <polygon()> | <path()>",
                 "bg-image": "none | <image>",
                 "bg-layer": "<bg-image> || <bg-position> [ / <bg-size> ]? || <repeat-style> || <attachment> || <box> || <box>",
                 "bg-position": "[ [ left | center | right | top | bottom | <length-percentage> ] | [ left | center | right | <length-percentage> ] [ top | center | bottom | <length-percentage> ] | [ center | [ left | right ] <length-percentage>? ] && [ center | [ top | bottom ] <length-percentage>? ] ]",
@@ -49,6 +49,7 @@
                 "color-stop-angle": "<angle-percentage>{1,2}",
                 "color-stop-length": "<length-percentage>{1,2}",
                 "color-stop-list": "[ <linear-color-stop> [, <linear-color-hint>]? ]# , <linear-color-stop>",
+                "color-interpolation-method": "in [ <rectangular-color-space> | <polar-color-space> <hue-interpolation-method>? | <custom-color-space> ]",
                 "combinator": "'>' | '+' | '~' | [ '|' '|' ]",
                 "common-lig-values": "[ common-ligatures | no-common-ligatures ]",
                 "compat-auto": "searchfield | textarea | push-button | slider-horizontal | checkbox | radio | square-button | menulist | listbox | meter | progress-bar | button",
@@ -122,6 +123,7 @@
                 "hsla()": "hsla( <hue> <percentage> <percentage> [ / <alpha-value> ]? ) | hsla( <hue>, <percentage>, <percentage>, <alpha-value>? )",
                 "hue": "<number> | <angle>",
                 "hue-rotate()": "hue-rotate( <angle> )",
+                "hue-interpolation-method": "[ shorter | longer | increasing | decreasing ] hue",
                 "hwb()": "hwb( [<hue> | none] [<percentage> | none] [<percentage> | none] [ / [<alpha-value> | none] ]? )",
                 "hypot()": "hypot( <calc-sum># )",
                 "id-selector": "<hash-token>",
@@ -152,7 +154,7 @@
                 "line-width": "<length> | thin | medium | thick",
                 "linear-color-hint": "<length-percentage>",
                 "linear-color-stop": "<color> <color-stop-length>?",
-                "linear-gradient()": "linear-gradient( [ <angle> | to <side-or-corner> ]? , <color-stop-list> )",
+                "linear-gradient()": "linear-gradient( [ [ <angle> | to <side-or-corner> ] || <color-interpolation-method> ]? , <color-stop-list> )",
                 "log()": "log( <calc-sum>, <calc-sum>? )",
                 "mask-layer": "<mask-reference> || <position> [ / <bg-size> ]? || <repeat-style> || <geometry-box> || [ <geometry-box> | no-clip ] || <compositing-operator> || <masking-mode>",
                 "mask-position": "[ <length-percentage> | left | center | right ] [ <length-percentage> | top | center | bottom ]?",
@@ -202,6 +204,7 @@
                 "paint()": "paint( <ident>, <declaration-value>? )",
                 "perspective()": "perspective( [ <length [0,∞]> | none ] )",
                 "polygon()": "polygon( <fill-rule>? , [ <length-percentage> <length-percentage> ]# )",
+                "polar-color-space": "hsl | hwb | lch | oklch",
                 "position": "[ [ left | center | right ] || [ top | center | bottom ] | [ left | center | right | <length-percentage> ] [ top | center | bottom | <length-percentage> ]? | [ [ left | right ] <length-percentage> ] && [ [ top | bottom ] <length-percentage> ] ]",
                 "pow()": "pow( <calc-sum>, <calc-sum> )",
                 "pseudo-class-selector": "':' <ident-token> | ':' <function-token> <any-value> ')'",
@@ -212,6 +215,7 @@
                 "ratio": "<number [0,∞]> [ / <number [0,∞]> ]?",
                 "ray()": "ray( <angle> && <ray-size>? && contain? && [at <position>]? )",
                 "ray-size": "closest-side | closest-corner | farthest-side | farthest-corner | sides",
+                "rectangular-color-space": "srgb | srgb-linear | display-p3 | a98-rgb | prophoto-rgb | rec2020 | lab | oklab | xyz | xyz-d50 | xyz-d65",
                 "relative-selector": "<combinator>? <complex-selector>",
                 "relative-selector-list": "<relative-selector>#",
                 "relative-size": "larger | smaller",
@@ -322,8 +326,9 @@
                 "-ms-filter-function-progid": "'progid:' [ <ident-token> '.' ]* [ <ident-token> | <function-token> <any-value>? ) ]",
                 "-ms-filter-function-legacy": "<ident-token> | <function-token> <any-value>? )",
                 "absolute-color-base": "<hex-color> | <absolute-color-function> | <named-color> | transparent",
-                "absolute-color-function": "rgb()> | <rgba()> | <hsl()> | <hsla()> | <hwb()> | <lab()> | <lch()> | <oklab()> | <oklch()> | <color()>",
+                "absolute-color-function": "<rgb()> | <rgba()> | <hsl()> | <hsla()> | <hwb()> | <lab()> | <lch()> | <oklab()> | <oklch()> | <color()>",
                 "age": "child | young | old",
+                "anchor-name": "<dashed-ident>",
                 "attr-name": "<wq-name>",
                 "attr-fallback": "<any-value>",
                 "bg-clip": "<box> | border | text",
@@ -346,12 +351,8 @@
                 "modern-device-cmyk-syntax": "device-cmyk( <cmyk-component>{4} [ / [ <alpha-value> | none ] ]? )",
                 "cmyk-component": "<number> | <percentage> | none",
                 "color-mix()": "color-mix( <color-interpolation-method> , [ <color> && <percentage [0,100]>? ]#{2} )",
-                "color-interpolation-method": "in [ <rectangular-color-space> | <polar-color-space> <hue-interpolation-method>? | <custom-color-space> ]",
                 "color-space": "<rectangular-color-space> | <polar-color-space> | <custom-color-space>",
-                "rectangular-color-space": "srgb | srgb-linear | display-p3 | a98-rgb | prophoto-rgb | rec2020 | lab | oklab | xyz | xyz-d50 | xyz-d65",
-                "polar-color-space": "hsl | hwb | lch | oklch",
                 "custom-color-space": "<dashed-ident>",
-                "hue-interpolation-method": "[ shorter | longer | increasing | decreasing ] hue",
                 "paint": "none | <color> | <url> [ none | <color> ]? | context-fill | context-stroke",
                 "palette-identifier": "<dashed-ident>",
                 "right": "<length> | auto",
@@ -390,6 +391,8 @@
                 "oklab()": "oklab( [ <percentage> | <number> | none] [ <percentage> | <number> | none] [ <percentage> | <number> | none] [ / [<alpha-value> | none] ]? )",
                 "oklch()": "oklch( [ <percentage> | <number> | none] [ <percentage> | <number> | none] [ <hue> | none] [ / [<alpha-value> | none] ]? )",
                 "offset-path": "<ray()> | <url> | <basic-shape>",
+                "rect()": "rect( [ <length-percentage> | auto ]{4} [ round <'border-radius'> ]? )",
+                "xywh()": "xywh( <length-percentage>{2} <length-percentage [0,∞]>{2} [ round <'border-radius'> ]? )",
                 "query-in-parens": "( <container-condition> ) | ( <size-feature> ) | style( <style-query> ) | <general-enclosed>",
                 "size-feature": "<mf-plain> | <mf-boolean> | <mf-range>",
                 "style-feature": "<declaration>",
@@ -687,7 +690,7 @@
                 "animation-timing-function": "<easing-function>#",
                 "animation-timeline": "<single-animation-timeline>#",
                 "appearance": "none | auto | textfield | menulist-button | <compat-auto>",
-                "aspect-ratio": "auto | <ratio>",
+                "aspect-ratio": "auto || <ratio>",
                 "azimuth": "<angle> | [ [ left-side | far-left | left | center-left | center | center-right | right | far-right | right-side ] || behind ] | leftwards | rightwards",
                 "backdrop-filter": "none | <filter-function-list>",
                 "backface-visibility": "visible | hidden",
@@ -792,7 +795,7 @@
                 "color-interpolation-filters": "auto | sRGB | linearRGB",
                 "color-scheme": "normal | [ light | dark | <custom-ident> ]+ && only?",
                 "column-count": "<integer> | auto",
-                "column-fill": "auto | balance | balance-all",
+                "column-fill": "auto | balance",
                 "column-gap": "normal | <length-percentage>",
                 "column-rule": "<'column-rule-width'> || <'column-rule-style'> || <'column-rule-color'>",
                 "column-rule-color": "<color>",
@@ -897,13 +900,13 @@
                 "inline-size": "<'width'>",
                 "input-security": "auto | none",
                 "inset": "<'top'>{1,4}",
-                "inset-area": "none | <inset-area>",
                 "inset-block": "<'top'>{1,2}",
                 "inset-block-end": "<'top'>",
                 "inset-block-start": "<'top'>",
                 "inset-inline": "<'top'>{1,2}",
                 "inset-inline-end": "<'top'>",
                 "inset-inline-start": "<'top'>",
+                "interpolate-size": "numeric-only | allow-keywords",
                 "isolation": "auto | isolate",
                 "justify-content": "normal | <content-distribution> | <overflow-position>? [ <content-position> | left | right ]",
                 "justify-items": "normal | stretch | <baseline-position> | <overflow-position>? [ <self-position> | left | right ] | legacy | legacy && [ left | right | center ]",
@@ -1020,7 +1023,8 @@
                 "place-self": "<'align-self'> <'justify-self'>?",
                 "pointer-events": "auto | none | visiblePainted | visibleFill | visibleStroke | visible | painted | fill | stroke | all | inherit",
                 "position": "static | relative | absolute | sticky | fixed | -webkit-sticky",
-                "position-anchor": "<anchor-element>",
+                "position-anchor": "auto | <anchor-name>",
+                "position-area": "none | <position-area>",
                 "position-try": "<'position-try-order'>? <'position-try-fallbacks'>",
                 "position-try-fallbacks": "none | [ [<dashed-ident> || <try-tactic>] | <'position-area'> ]#",
                 "position-try-order": "normal | <try-size>",
@@ -1080,6 +1084,14 @@
                 "shape-margin": "<length-percentage>",
                 "shape-outside": "none | [ <shape-box> || <basic-shape> ] | <image>",
                 "shape-rendering": "auto | optimizeSpeed | crispEdges | geometricPrecision",
+                "stroke": "<paint>",
+                "stroke-dasharray": "none | [ <svg-length>+ ]#",
+                "stroke-dashoffset": "<svg-length>",
+                "stroke-linecap": "butt | round | square",
+                "stroke-linejoin": "miter | round | bevel",
+                "stroke-miterlimit": "<number-one-or-greater>",
+                "stroke-opacity": "<'opacity'>",
+                "stroke-width": "<svg-length>",
                 "tab-size": "<integer> | <length>",
                 "table-layout": "auto | fixed",
                 "text-align": "start | end | left | right | center | justify | match-parent",
@@ -1095,7 +1107,7 @@
                 "text-decoration-thickness": "auto | from-font | <length> | <percentage> ",
                 "text-emphasis": "<'text-emphasis-style'> || <'text-emphasis-color'>",
                 "text-emphasis-color": "<color>",
-                "text-emphasis-position": "[ over | under ] && [ right | left ]",
+                "text-emphasis-position": "auto | [ over | under ] && [ right | left ]?",
                 "text-emphasis-style": "none | [ [ filled | open ] || [ dot | circle | double-circle | triangle | sesame ] ] | <string>",
                 "text-indent": "<length-percentage> && hanging? && each-line?",
                 "text-justify": "auto | inter-character | inter-word | none",
@@ -1108,7 +1120,7 @@
                 "text-transform": "none | capitalize | uppercase | lowercase | full-width | full-size-kana",
                 "text-underline-offset": "auto | <length> | <percentage> ",
                 "text-underline-position": "auto | from-font | [ under || [ left | right ] ]",
-                "text-wrap": "wrap | nowrap | balance | stable | pretty",
+                "text-wrap": "<'text-wrap-mode'> || <'text-wrap-style'>",
                 "text-wrap-mode": "auto | wrap | nowrap",
                 "text-wrap-style": "auto | balance | stable | pretty",
                 "timeline-scope": "none | <dashed-ident>#",
@@ -1196,14 +1208,6 @@
                 "src": "[ <url> [ format( <string># ) ]? | local( <family-name> ) ]#",
                 "speak": "auto | never | always",
                 "speak-as": "normal | spell-out || digits || [ literal-punctuation | no-punctuation ]",
-                "stroke": "<paint>",
-                "stroke-dasharray": "none | [ <svg-length>+ ]#",
-                "stroke-dashoffset": "<svg-length>",
-                "stroke-linecap": "butt | round | square",
-                "stroke-linejoin": "miter | round | bevel",
-                "stroke-miterlimit": "<number-one-or-greater>",
-                "stroke-opacity": "<number-zero-one>",
-                "stroke-width": "<svg-length>",
                 "unicode-range": "<urange>#",
                 "voice-balance": "<number> | left | center | right | leftwards | rightwards",
                 "voice-duration": "auto | <time>",
@@ -1213,8 +1217,7 @@
                 "voice-rate": "[ normal | x-slow | slow | medium | fast | x-fast ] || <percentage>",
                 "voice-stress": "normal | strong | moderate | none | reduced",
                 "voice-volume": "silent | [ [ x-soft | soft | medium | loud | x-loud ] || <decibel> ]",
-                "white-space-trim": "none | discard-before || discard-after || discard-inner",
-                "position-area": "none | <position-area>"
+                "white-space-trim": "none | discard-before || discard-after || discard-inner"
             }
         }
     },
@@ -1639,13 +1642,6 @@
                 ],
                 "syntax": "<svg-length>"
             },
-            "stroke-linecap": {
-                "comment": "added SVG property",
-                "references": [
-                    "https://www.w3.org/TR/SVG/painting.html#StrokeProperties"
-                ],
-                "syntax": "butt | round | square"
-            },
             "stroke-linejoin": {
                 "comment": "added SVG property",
                 "references": [
@@ -1665,7 +1661,7 @@
                 "references": [
                     "https://www.w3.org/TR/SVG/painting.html#StrokeProperties"
                 ],
-                "syntax": "<number-zero-one>"
+                "syntax": "<'opacity'>"
             },
             "stroke-width": {
                 "comment": "added SVG property",
@@ -1673,6 +1669,10 @@
                     "https://www.w3.org/TR/SVG/painting.html#StrokeProperties"
                 ],
                 "syntax": "<svg-length>"
+            },
+            "text-wrap": {
+                "comment": "broken in mdn/data",
+                "syntax": "<'text-wrap-mode'> || <'text-wrap-style'>"
             },
             "unicode-bidi": {
                 "comment": "added prefixed keywords https://developer.mozilla.org/en-US/docs/Web/CSS/unicode-bidi",
@@ -1721,14 +1721,6 @@
             "white-space-trim": {
                 "syntax": "none | discard-before || discard-after || discard-inner",
                 "comment": "missed, https://www.w3.org/TR/css-text-4/#white-space-trim"
-            },
-            "position-area": {
-                "syntax": "none | <position-area>",
-                "comment": "replaced <'inset-area'>, https://drafts.csswg.org/css-anchor-position-1/#position-area"
-            },
-            "position-try-fallbacks": {
-                "syntax": "none | [ [<dashed-ident> || <try-tactic>] | <'position-area'> ]#",
-                "comment": "replaced <'position-try-options'>, https://drafts.csswg.org/css-anchor-position-1/#position-try-fallbacks"
             },
             "word-break": {
                 "syntax": "normal | break-all | keep-all | break-word | auto-phrase",
@@ -1848,11 +1840,15 @@
             },
             "absolute-color-function": {
                 "comment": "https://www.w3.org/TR/css-color-4/#color-syntax",
-                "syntax": "rgb()> | <rgba()> | <hsl()> | <hsla()> | <hwb()> | <lab()> | <lch()> | <oklab()> | <oklch()> | <color()>"
+                "syntax": "<rgb()> | <rgba()> | <hsl()> | <hsla()> | <hwb()> | <lab()> | <lch()> | <oklab()> | <oklch()> | <color()>"
             },
             "age": {
                 "comment": "https://www.w3.org/TR/css3-speech/#voice-family",
                 "syntax": "child | young | old"
+            },
+            "anchor-name": {
+                "comment": "missed in mdn/data",
+                "syntax": "<dashed-ident>"
             },
             "attr-name": {
                 "syntax": "<wq-name>"
@@ -1961,17 +1957,8 @@
             "color-space": {
                 "syntax": "<rectangular-color-space> | <polar-color-space> | <custom-color-space>"
             },
-            "rectangular-color-space": {
-                "syntax": "srgb | srgb-linear | display-p3 | a98-rgb | prophoto-rgb | rec2020 | lab | oklab | xyz | xyz-d50 | xyz-d65"
-            },
-            "polar-color-space": {
-                "syntax": "hsl | hwb | lch | oklch"
-            },
             "custom-color-space": {
                 "syntax": "<dashed-ident>"
-            },
-            "hue-interpolation-method": {
-                "syntax": "[ shorter | longer | increasing | decreasing ] hue"
             },
             "paint": {
                 "comment": "used by SVG https://www.w3.org/TR/SVG/painting.html#SpecifyingPaint",
@@ -2128,6 +2115,17 @@
             "offset-path": {
                 "syntax": "<ray()> | <url> | <basic-shape>"
             },
+            "basic-shape": {
+                "syntax": "<inset()> | <xywh()> | <rect()> | <circle()> | <ellipse()> | <polygon()> | <path()>"
+            },
+            "rect()": {
+                "comment": "missed, https://drafts.csswg.org/css-shapes/#supported-basic-shapes",
+                "syntax": "rect( [ <length-percentage> | auto ]{4} [ round <'border-radius'> ]? )"
+            },
+            "xywh()": {
+                "comment": "missed, https://drafts.csswg.org/css-shapes/#supported-basic-shapes",
+                "syntax": "xywh( <length-percentage>{2} <length-percentage [0,∞]>{2} [ round <'border-radius'> ]? )"
+            },
             "query-in-parens": {
                 "comment": "missed, https://drafts.csswg.org/css-contain-3/#container-rule",
                 "syntax": "( <container-condition> ) | ( <size-feature> ) | style( <style-query> ) | <general-enclosed>"
@@ -2216,7 +2214,7 @@
         }
     },
     "mdn": {
-        "version": "2.10.0",
+        "version": "2.12.1",
         "atRules": {
             "@charset": {
                 "syntax": "@charset \"<charset>\";",
@@ -2723,7 +2721,7 @@
         },
         "functions": {
             "anchor()": {
-                "syntax": "anchor( <anchor-element>? <anchor-side>, <length-percentage>? )",
+                "syntax": "anchor( <anchor-name>? && <anchor-side>, <length-percentage>? )",
                 "groups": [
                     "CSS Positioning"
                 ],
@@ -2731,7 +2729,7 @@
                 "mdn_url": "https://developer.mozilla.org/docs/Web/CSS/anchor"
             },
             "anchor-size()": {
-                "syntax": "anchor-size( <anchor-element>? <anchor-size>, <length-percentage>? )",
+                "syntax": "anchor-size( [ <anchor-name> || <anchor-size> ]? , <length-percentage>? )",
                 "groups": [
                     "CSS Positioning"
                 ],
@@ -6759,7 +6757,7 @@
                 "mdn_url": "https://developer.mozilla.org/docs/Web/CSS/appearance"
             },
             "aspect-ratio": {
-                "syntax": "auto | <ratio>",
+                "syntax": "auto || <ratio>",
                 "media": "all",
                 "inherited": false,
                 "animationType": "byComputedValueType",
@@ -8867,7 +8865,7 @@
                 "mdn_url": "https://developer.mozilla.org/docs/Web/CSS/column-count"
             },
             "column-fill": {
-                "syntax": "auto | balance | balance-all",
+                "syntax": "auto | balance",
                 "media": "visualInContinuousMediaNoEffectInOverflowColumns",
                 "inherited": false,
                 "animationType": "discrete",
@@ -10868,22 +10866,6 @@
                 "status": "standard",
                 "mdn_url": "https://developer.mozilla.org/docs/Web/CSS/inset"
             },
-            "inset-area": {
-                "syntax": "none | <inset-area>",
-                "media": "visual",
-                "inherited": false,
-                "animationType": "discrete",
-                "percentages": "no",
-                "groups": [
-                    "CSS Positioning"
-                ],
-                "initial": "none",
-                "appliesto": "positionedElementsWithADefaultAnchorElement",
-                "computed": "asSpecified",
-                "order": "perGrammar",
-                "status": "experimental",
-                "mdn_url": "https://developer.mozilla.org/docs/Web/CSS/inset-area"
-            },
             "inset-block": {
                 "syntax": "<'top'>{1,2}",
                 "media": "visual",
@@ -10991,6 +10973,22 @@
                 "order": "uniqueOrder",
                 "status": "standard",
                 "mdn_url": "https://developer.mozilla.org/docs/Web/CSS/inset-inline-start"
+            },
+            "interpolate-size": {
+                "syntax": "numeric-only | allow-keywords",
+                "media": "none",
+                "inherited": true,
+                "animationType": "notAnimatable",
+                "percentages": "no",
+                "groups": [
+                    "CSS Units"
+                ],
+                "initial": "numeric-only",
+                "appliesto": "allElements",
+                "computed": "asSpecified",
+                "order": "perGrammar",
+                "status": "standard",
+                "mdn_url": "https://developer.mozilla.org/docs/Web/CSS/interpolate-size"
             },
             "isolation": {
                 "syntax": "auto | isolate",
@@ -12187,7 +12185,8 @@
                 "appliesto": "transformableElements",
                 "computed": "forLengthAbsoluteValueOtherwisePercentage",
                 "order": "perGrammar",
-                "status": "standard"
+                "status": "standard",
+                "mdn_url": "https://developer.mozilla.org/docs/Web/CSS/offset-anchor"
             },
             "offset-distance": {
                 "syntax": "<length-percentage>",
@@ -13093,7 +13092,7 @@
                 "mdn_url": "https://developer.mozilla.org/docs/Web/CSS/position"
             },
             "position-anchor": {
-                "syntax": "<anchor-element>",
+                "syntax": "auto | <anchor-name>",
                 "media": "visual",
                 "inherited": false,
                 "animationType": "discrete",
@@ -13101,12 +13100,28 @@
                 "groups": [
                     "CSS Positioning"
                 ],
-                "initial": "implicit",
+                "initial": "auto",
                 "appliesto": "absolutelyPositionedElements",
                 "computed": "asSpecified",
                 "order": "perGrammar",
                 "status": "experimental",
                 "mdn_url": "https://developer.mozilla.org/docs/Web/CSS/position-anchor"
+            },
+            "position-area": {
+                "syntax": "none | <position-area>",
+                "media": "visual",
+                "inherited": false,
+                "animationType": "discrete",
+                "percentages": "no",
+                "groups": [
+                    "CSS Positioning"
+                ],
+                "initial": "none",
+                "appliesto": "positionedElementsWithADefaultAnchorElement",
+                "computed": "asSpecified",
+                "order": "perGrammar",
+                "status": "experimental",
+                "mdn_url": "https://developer.mozilla.org/docs/Web/CSS/position-area"
             },
             "position-try": {
                 "syntax": "<'position-try-order'>? <'position-try-fallbacks'>",
@@ -13116,7 +13131,10 @@
                     "position-try-fallbacks",
                     "position-try-order"
                 ],
-                "percentages": "no",
+                "percentages": [
+                    "position-try-fallbacks",
+                    "position-try-order"
+                ],
                 "groups": [
                     "CSS Positioning"
                 ],
@@ -13134,7 +13152,7 @@
                 "mdn_url": "https://developer.mozilla.org/docs/Web/CSS/position-try"
             },
             "position-try-fallbacks": {
-                "syntax": "none | [ [<dashed-ident> || <try-tactic>] | inset-area( <'inset-area'> ) ]#",
+                "syntax": "none | [ [<dashed-ident> || <try-tactic>] | <'position-area'> ]#",
                 "media": "visual",
                 "inherited": false,
                 "animationType": "discrete",
@@ -14115,6 +14133,150 @@
                 "status": "standard",
                 "mdn_url": "https://developer.mozilla.org/docs/Web/CSS/shape-rendering"
             },
+            "stroke": {
+                "syntax": "",
+                "media": "visual",
+                "inherited": true,
+                "animationType": [
+                    "stroke-dasharray",
+                    "stroke-dashoffset",
+                    "stroke-linecap",
+                    "stroke-linejoin",
+                    "stroke-miterlimit",
+                    "stroke-opacity",
+                    "stroke-width"
+                ],
+                "percentages": "no",
+                "groups": [
+                    "Scalable Vector Graphics"
+                ],
+                "initial": [
+                    "stroke-dasharray",
+                    "stroke-dashoffset",
+                    "stroke-linecap",
+                    "stroke-linejoin",
+                    "stroke-miterlimit",
+                    "stroke-opacity",
+                    "stroke-width"
+                ],
+                "appliesto": "asLonghands",
+                "computed": "asLonghands",
+                "order": "perGrammar",
+                "status": "standard",
+                "mdn_url": "https://developer.mozilla.org/docs/Web/CSS/stroke"
+            },
+            "stroke-dasharray": {
+                "syntax": "none | <dasharray>",
+                "media": "visual",
+                "inherited": true,
+                "animationType": "repeatableList",
+                "percentages": "referToSVGViewportDiagonal",
+                "groups": [
+                    "Scalable Vector Graphics"
+                ],
+                "initial": "none",
+                "appliesto": "limitedSVGElementsShapes",
+                "computed": "listEachItemConsistingOfAbsoluteLengthPercentageOrKeyword",
+                "order": "uniqueOrder",
+                "status": "standard",
+                "mdn_url": "https://developer.mozilla.org/docs/Web/CSS/stroke-dasharray"
+            },
+            "stroke-dashoffset": {
+                "syntax": "<length-percentage> | <number>",
+                "media": "visual",
+                "inherited": true,
+                "animationType": "byComputedValueType",
+                "percentages": "referToSVGViewportDiagonal",
+                "groups": [
+                    "Scalable Vector Graphics"
+                ],
+                "initial": "0",
+                "appliesto": "limitedSVGElementsShapes",
+                "computed": "absoluteLengthOrPercentageNumbersConverted",
+                "order": "uniqueOrder",
+                "status": "standard",
+                "mdn_url": "https://developer.mozilla.org/docs/Web/CSS/stroke-dashoffset"
+            },
+            "stroke-linecap": {
+                "syntax": "butt | round | square",
+                "media": "visual",
+                "inherited": true,
+                "animationType": "discrete",
+                "percentages": "no",
+                "groups": [
+                    "Scalable Vector Graphics"
+                ],
+                "initial": "butt",
+                "appliesto": "limitedSVGElementsShapes",
+                "computed": "asSpecified",
+                "order": "uniqueOrder",
+                "status": "standard",
+                "mdn_url": "https://developer.mozilla.org/docs/Web/CSS/stroke-linecap"
+            },
+            "stroke-linejoin": {
+                "syntax": "miter | miter-clip | round | bevel | arcs",
+                "media": "visual",
+                "inherited": true,
+                "animationType": "discrete",
+                "percentages": "no",
+                "groups": [
+                    "Scalable Vector Graphics"
+                ],
+                "initial": "miter",
+                "appliesto": "limitedSVGElementsShapes",
+                "computed": "asSpecified",
+                "order": "uniqueOrder",
+                "status": "standard",
+                "mdn_url": "https://developer.mozilla.org/docs/Web/CSS/stroke-linejoin"
+            },
+            "stroke-miterlimit": {
+                "syntax": "<number>",
+                "media": "visual",
+                "inherited": true,
+                "animationType": "byComputedValueType",
+                "percentages": "no",
+                "groups": [
+                    "Scalable Vector Graphics"
+                ],
+                "initial": "4",
+                "appliesto": "limitedSVGElementsShapes",
+                "computed": "asSpecified",
+                "order": "uniqueOrder",
+                "status": "standard",
+                "mdn_url": "https://developer.mozilla.org/docs/Web/CSS/stroke-miterlimit"
+            },
+            "stroke-opacity": {
+                "syntax": "<opacity>",
+                "media": "visual",
+                "inherited": true,
+                "animationType": "byComputedValueType",
+                "percentages": "no",
+                "groups": [
+                    "Scalable Vector Graphics"
+                ],
+                "initial": "1",
+                "appliesto": "limitedSVGElementsShapes",
+                "computed": "specifiedValueClipped0To1",
+                "order": "uniqueOrder",
+                "status": "standard",
+                "mdn_url": "https://developer.mozilla.org/docs/Web/CSS/stroke-opacity"
+            },
+            "stroke-width": {
+                "syntax": "<length-percentage> | <number>",
+                "media": "visual",
+                "inherited": true,
+                "animationType": "byComputedValueType",
+                "percentages": "referToSVGViewportDiagonal",
+                "groups": [
+                    "Scalable Vector Graphics"
+                ],
+                "initial": "1px",
+                "appliesto": "limitedSVGElementsShapes",
+                "computed": "absoluteLengthOrPercentageNumbersConverted",
+                "order": "uniqueOrder",
+                "status": "standard",
+                "mdn_url": "https://developer.mozilla.org/docs/Web/CSS/stroke-width"
+            },
             "tab-size": {
                 "syntax": "<integer> | <length>",
                 "media": "visual",
@@ -14407,7 +14569,7 @@
                 "mdn_url": "https://developer.mozilla.org/docs/Web/CSS/text-emphasis-color"
             },
             "text-emphasis-position": {
-                "syntax": "[ over | under ] && [ right | left ]",
+                "syntax": "auto | [ over | under ] && [ right | left ]?",
                 "media": "visual",
                 "inherited": true,
                 "animationType": "discrete",
@@ -14415,7 +14577,7 @@
                 "groups": [
                     "CSS Text Decoration"
                 ],
-                "initial": "over right",
+                "initial": "auto",
                 "appliesto": "allElements",
                 "computed": "asSpecified",
                 "order": "uniqueOrder",
@@ -14633,17 +14795,23 @@
                 "mdn_url": "https://developer.mozilla.org/docs/Web/CSS/text-underline-position"
             },
             "text-wrap": {
-                "syntax": "wrap | nowrap | balance | stable | pretty",
+                "syntax": "<'text-wrap-mode> || <'text-wrap-style'>",
                 "media": "visual",
                 "inherited": true,
-                "animationType": "discrete",
+                "animationType": [
+                    "text-wrap-mode",
+                    "text-wrap-style"
+                ],
                 "percentages": "no",
                 "groups": [
                     "CSS Text"
                 ],
                 "initial": "wrap",
                 "appliesto": "textAndBlockContainers",
-                "computed": "asSpecified",
+                "computed": [
+                    "text-wrap-mode",
+                    "text-wrap-style"
+                ],
                 "order": "perGrammar",
                 "status": "standard",
                 "mdn_url": "https://developer.mozilla.org/docs/Web/CSS/text-wrap"
@@ -15295,7 +15463,7 @@
                 "syntax": "normal | reset | <number> | <percentage>",
                 "media": "visual",
                 "inherited": false,
-                "animationType": "integer",
+                "animationType": "notAnimatable",
                 "percentages": "no",
                 "groups": [
                     "Microsoft Extensions"
@@ -15446,6 +15614,9 @@
             },
             "color-stop-list": {
                 "syntax": "[ <linear-color-stop> [, <linear-color-hint>]? ]# , <linear-color-stop>"
+            },
+            "color-interpolation-method": {
+                "syntax": "in [ <rectangular-color-space> | <polar-color-space> <hue-interpolation-method>? ]"
             },
             "combinator": {
                 "syntax": "'>' | '+' | '~' | [ '||' ]"
@@ -15666,6 +15837,9 @@
             "hue-rotate()": {
                 "syntax": "hue-rotate( <angle> )"
             },
+            "hue-interpolation-method": {
+                "syntax": "[ shorter | longer | increasing | decreasing ] hue"
+            },
             "hwb()": {
                 "syntax": "hwb( [<hue> | none] [<percentage> | none] [<percentage> | none] [ / [<alpha-value> | none] ]? )"
             },
@@ -15757,7 +15931,7 @@
                 "syntax": "<color> <color-stop-length>?"
             },
             "linear-gradient()": {
-                "syntax": "linear-gradient( [ <angle> | to <side-or-corner> ]? , <color-stop-list> )"
+                "syntax": "linear-gradient( [ [ <angle> | to <side-or-corner> ] || <color-interpolation-method> ]? , <color-stop-list> )"
             },
             "log()": {
                 "syntax": "log( <calc-sum>, <calc-sum>? )"
@@ -15906,6 +16080,9 @@
             "polygon()": {
                 "syntax": "polygon( <fill-rule>? , [ <length-percentage> <length-percentage> ]# )"
             },
+            "polar-color-space": {
+                "syntax": "hsl | hwb | lch | oklch"
+            },
             "position": {
                 "syntax": "[ [ left | center | right ] || [ top | center | bottom ] | [ left | center | right | <length-percentage> ] [ top | center | bottom | <length-percentage> ]? | [ [ left | right ] <length-percentage> ] && [ [ top | bottom ] <length-percentage> ] ]"
             },
@@ -15935,6 +16112,9 @@
             },
             "ray-size": {
                 "syntax": "closest-side | closest-corner | farthest-side | farthest-corner | sides"
+            },
+            "rectangular-color-space": {
+                "syntax": "srgb | srgb-linear | display-p3 | a98-rgb | prophoto-rgb | rec2020 | lab | oklab | xyz | xyz-d50 | xyz-d65"
             },
             "relative-selector": {
                 "syntax": "<combinator>? <complex-selector>"
