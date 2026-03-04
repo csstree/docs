@@ -200,7 +200,7 @@ function syntaxRefs(syntax, typeDict, globalDict) {
     return refs;
 }
 
-module.exports = function(data, { defineObjectMarker, addQueryHelpers, query }) {
+module.exports = function(data, { defineObjectMarker, addQueryMethods, query }) {
     const { properties, types, atrules } = csstree.lexer;
     const functions = Object.create(null);
     const typeOrder = ['Atrule', 'AtrulePrelude', 'AtruleDescriptor', 'Property', 'Type', 'Function'];
@@ -248,7 +248,7 @@ module.exports = function(data, { defineObjectMarker, addQueryHelpers, query }) 
         markers[item.type](item);
     }
 
-    addQueryHelpers({
+    addQueryMethods({
         formatName: syntaxName,
         typeSorting(current) {
             const idx = typeOrder.indexOf(current);
@@ -288,11 +288,15 @@ module.exports = function(data, { defineObjectMarker, addQueryHelpers, query }) 
             return null;
         },
         syntaxAst(current) {
-            const syntax = current ? current.syntax || current : null;
+            if (Object.hasOwn(current, 'syntax')) {
+                return typeof current.syntax === 'string'
+                    ? definitionSyntax.parse(current.syntax)
+                    : current.syntax || null;
+            }
 
-            return typeof syntax === 'string'
-                ? definitionSyntax.parse(syntax)
-                : syntax || null;
+            return typeof current === 'string'
+                ? definitionSyntax.parse(current)
+                : null;
         },
         syntax(current) {
             if (current) {
