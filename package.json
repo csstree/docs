@@ -5,7 +5,7 @@
     "devDependencies": {
         "@discoveryjs/discovery": "1.0.0-beta.99",
         "@discoveryjs/cli": "^2.14.7",
-        "css-tree": "^3.2.0",
+        "css-tree": "^3.2.1",
         "diff": "^4.0.1",
         "eslint": "^8.50.0"
     },
