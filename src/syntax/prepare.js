@@ -144,7 +144,7 @@ function collectUsage(type, dict, defaultSyntax) {
         hostStack.push(host);
         if (type === 'Atrule') {
             processDescriptor(host.prelude);
-            for (let descriptor in host.discriptors) {
+            for (let descriptor in host.descriptors) {
                 processDescriptor(host.descriptors[descriptor]);
             }
         } else {
@@ -200,7 +200,7 @@ function syntaxRefs(syntax, typeDict, globalDict) {
     return refs;
 }
 
-module.exports = function(data, { defineObjectMarker, addQueryMethods, query }) {
+module.exports = function(data, { defineObjectMarker, addQueryMethods }) {
     const { properties, types, atrules } = csstree.lexer;
     const functions = Object.create(null);
     const typeOrder = ['Atrule', 'AtrulePrelude', 'AtruleDescriptor', 'Property', 'Type', 'Function'];
@@ -255,7 +255,7 @@ module.exports = function(data, { defineObjectMarker, addQueryMethods, query }) 
 
             return idx !== -1 ? idx : Infinity;
         },
-        isProblem: current => query('(no match and type != "Atrule") or refs.resolved.[no match]', current),
+        isProblem: '(no match and type != "Atrule") or refs.resolved.[no match]',
         mdn(current) {
             if (current) {
                 switch (current.type) {
